@@ -9,7 +9,7 @@
 <body>
   <div class="container-container">
     <div class="register-container">
-    <h2>Registro de usuario</h2> // CHAU
+    <h2>Registro de usuario</h2>
 
     <?php if(session()->getFlashdata('errors')): ?>
       <div class="alert alert-danger">
@@ -28,7 +28,6 @@
       <label class="form-label">Nombre</label>
       <input class="form-control" type="text" name="name" value="<?= old('name') ?>">
 
-<<<<<<< HEAD
       <div class="mb-3">
     <label class="form-label">Rol</label>
     <select id="roleSelect" name="role" class="form-select">
@@ -42,7 +41,6 @@
     <input class="form-control" type="password" name="admin_key">
     <div class="form-text">Solo si eliges administrador.</div>
 </div>
-=======
       <label class="form-label">Email</label>
       <input class="form-control" type="email" name="email" value="<?= old('email') ?>">
 
@@ -61,14 +59,12 @@
         <input class="form-control" type="password" name="vendor_key">
         <div class="form-text">Sólo si elegiste el rol vendedor.</div>
       </div>
->>>>>>> 463cda1a8b0e6b06fb4dd406dfd2326f85167b5e
 
       <button class="btn-submit" type="submit">Registrarse</button>
     </form>
   </div>
   </div>
 
-<<<<<<< HEAD
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const roleSelect = document.getElementById('roleSelect');
@@ -81,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function(){
   toggleAdmin();
 });
 </script>
-=======
+
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       const roleSelect = document.getElementById('roleSelect');
@@ -97,4 +93,3 @@ document.addEventListener('DOMContentLoaded', function(){
   </script>
 </body>
 </html>
->>>>>>> 463cda1a8b0e6b06fb4dd406dfd2326f85167b5e
