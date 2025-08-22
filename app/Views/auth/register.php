@@ -9,7 +9,7 @@
 <body>
   <div class="container-container">
     <div class="register-container">
-    <h2>Registro de usuario</h2>
+    <h2>Registro de usuario</h2> // hola 
 
     <?php if(session()->getFlashdata('errors')): ?>
       <div class="alert alert-danger">
