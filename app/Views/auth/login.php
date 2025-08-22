@@ -22,18 +22,17 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Selecciona rol</label>
-        <select id="loginRole" name="role" class="form-select">
-          <option value="comprador">Comprador</option>
-          <option value="vendedor">Vendedor</option>
-          <option value="administrador">Administrador</option>
-        </select>
-      </div>
+    <label class="form-label">Selecciona rol</label>
+    <select id="loginRole" name="role" class="form-select">
+        <option value="comprador">Comprador</option>
+        <option value="administrador">Administrador</option>
+    </select>
+</div>
 
-      <div id="loginVendorDiv" class="mb-3" style="display:none;">
-        <label class="form-label">Clave de vendedor (si eliges vendedor)</label>
-        <input class="form-control" type="password" name="vendor_key">
-      </div>
+<div id="loginAdminDiv" class="mb-3" style="display:none;">
+    <label class="form-label">Clave de administrador</label>
+    <input class="form-control" type="password" name="admin_key">
+</div>
 
       <button class="btn btn-primary" type="submit">Ingresar</button>
     </form>
@@ -43,12 +42,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const loginRole = document.getElementById('loginRole');
-  const loginVendorDiv = document.getElementById('loginVendorDiv');
+  const loginAdminDiv = document.getElementById('loginAdminDiv');
 
-  function toggleVendorLogin() {
-    loginVendorDiv.style.display = (loginRole.value === 'vendedor') ? 'block' : 'none';
+  function toggleAdminLogin() {
+    loginAdminDiv.style.display = (loginRole.value === 'administrador') ? 'block' : 'none';
   }
-  loginRole.addEventListener('change', toggleVendorLogin);
-  toggleVendorLogin();
+  loginRole.addEventListener('change', toggleAdminLogin);
+  toggleAdminLogin();
 });
 </script>

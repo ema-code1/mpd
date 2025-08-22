@@ -30,19 +30,18 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Rol</label>
-        <select id="roleSelect" name="role" class="form-select">
-          <option value="comprador" <?= old('role')=='comprador' ? 'selected':'' ?>>Comprador</option>
-          <option value="vendedor" <?= old('role')=='vendedor' ? 'selected':'' ?>>Vendedor</option>
-          <option value="administrador" <?= old('role')=='administrador' ? 'selected':'' ?>>Administrador</option>
-        </select>
-      </div>
+    <label class="form-label">Rol</label>
+    <select id="roleSelect" name="role" class="form-select">
+        <option value="comprador">Comprador</option>
+        <option value="administrador">Administrador</option>
+    </select>
+</div>
 
-      <div id="vendorKeyDiv" class="mb-3" style="display: none;">
-        <label class="form-label">Clave de vendedor (segunda contraseña)</label>
-        <input class="form-control" type="password" name="vendor_key">
-        <div class="form-text">Sólo si elegiste el rol vendedor.</div>
-      </div>
+<div id="adminKeyDiv" class="mb-3" style="display: none;">
+    <label class="form-label">Clave de administrador</label>
+    <input class="form-control" type="password" name="admin_key">
+    <div class="form-text">Solo si eliges administrador.</div>
+</div>
 
       <button class="btn btn-primary" type="submit">Registrarse</button>
     </form>
@@ -52,13 +51,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const roleSelect = document.getElementById('roleSelect');
-  const vendorKeyDiv = document.getElementById('vendorKeyDiv');
+  const adminKeyDiv = document.getElementById('adminKeyDiv');
 
-  function toggleVendor() {
-    if (roleSelect.value === 'vendedor') vendorKeyDiv.style.display = 'block';
-    else vendorKeyDiv.style.display = 'none';
+  function toggleAdmin() {
+    adminKeyDiv.style.display = (roleSelect.value === 'administrador') ? 'block' : 'none';
   }
-  roleSelect.addEventListener('change', toggleVendor);
-  toggleVendor();
+  roleSelect.addEventListener('change', toggleAdmin);
+  toggleAdmin();
 });
 </script>

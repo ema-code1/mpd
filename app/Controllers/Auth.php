@@ -25,37 +25,37 @@ class Auth extends Controller
             'password' => 'required|min_length[6]',
             'role'     => 'required'
         ];
-
+    
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
+    
         $name = $this->request->getPost('name');
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         $role = $this->request->getPost('role');
-
-        // Si elige vendedor, validar la clave secundaria
-        if ($role === 'vendedor') {
-            $vendor_input = $this->request->getPost('vendor_key');
-            if (empty($vendor_input)) {
-                return redirect()->back()->withInput()->with('error', 'La clave de vendedor es obligatoria para el rol vendedor.');
+    
+        // Si elige administrador, validar la clave adicional
+        if ($role === 'administrador') {
+            $admin_input = $this->request->getPost('admin_key');
+            if (empty($admin_input)) {
+                return redirect()->back()->withInput()->with('error', 'La clave de administrador es obligatoria.');
             }
-            $vendorModel = new VendorKeyModel();
-            $currentKey = $vendorModel->getCurrentKey();
-            if (!$currentKey || !password_verify($vendor_input, $currentKey['vendor_key_hash'])) {
-                return redirect()->back()->withInput()->with('error', 'Clave de vendedor incorrecta.');
+            $adminModel = new \App\Models\AdminKeyModel();
+            $currentKey = $adminModel->getCurrentKey();
+            if (!$currentKey || !password_verify($admin_input, $currentKey['vendor_key_hash'])) {
+                return redirect()->back()->withInput()->with('error', 'Clave de administrador incorrecta.');
             }
         }
-
-        $userModel = new UserModel();
+    
+        $userModel = new \App\Models\UserModel();
         $userModel->insert([
-           'name' => $name,
-           'email' => $email,
-           'password' => password_hash($password, PASSWORD_DEFAULT),
-           'role' => $role
+            'name' => $name,
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'role' => $role
         ]);
-
+    
         return redirect()->to('/login')->with('success', 'Registro correcto. Puede iniciar sesión.');
     }
 
@@ -71,44 +71,41 @@ class Auth extends Controller
         $session = session();
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
-        $role = $this->request->getPost('role'); // administrador / vendedor / comprador
-        $vendor_input = $this->request->getPost('vendor_key');
-
-        // Validaciones básicas
+        $role = $this->request->getPost('role');
+        $admin_input = $this->request->getPost('admin_key'); // ← clave adicional
+    
         if (empty($email) || empty($password) || empty($role)) {
             return redirect()->back()->withInput()->with('error', 'Complete todos los campos requeridos.');
         }
-
-        $userModel = new UserModel();
+    
+        $userModel = new \App\Models\UserModel();
         $user = $userModel->findByEmail($email);
-
+    
         if (!$user) {
             return redirect()->back()->withInput()->with('error', 'Usuario/Email no encontrado.');
         }
-
-        // Validar contraseña principal
+    
         if (!password_verify($password, $user['password'])) {
             return redirect()->back()->withInput()->with('error', 'Contraseña incorrecta.');
         }
-
-        // Validar que el rol elegido coincida con el rol del usuario
+    
         if ($user['role'] !== $role) {
-            return redirect()->back()->with('error', 'El rol seleccionado no coincide con el rol del usuario.');
+            return redirect()->back()->with('error', 'El rol seleccionado no coincide.');
         }
-
-        // Si el rol es vendedor: validar clave secundaria
-        if ($role === 'vendedor') {
-            if (empty($vendor_input)) {
-                return redirect()->back()->withInput()->with('error', 'Debe ingresar la clave de vendedor.');
+    
+        // Validar clave de administrador si elige ese rol
+        if ($role === 'administrador') {
+            if (empty($admin_input)) {
+                return redirect()->back()->withInput()->with('error', 'Debe ingresar la clave de administrador.');
             }
-            $vendorModel = new VendorKeyModel();
-            $currentKey = $vendorModel->getCurrentKey();
-            if (!$currentKey || !password_verify($vendor_input, $currentKey['vendor_key_hash'])) {
-                return redirect()->back()->withInput()->with('error', 'Clave de vendedor incorrecta.');
+            $adminModel = new \App\Models\AdminKeyModel();
+            $currentKey = $adminModel->getCurrentKey();
+            if (!$currentKey || !password_verify($admin_input, $currentKey['vendor_key_hash'])) {
+                return redirect()->back()->withInput()->with('error', 'Clave de administrador incorrecta.');
             }
         }
-
-        // Todo OK: setear sesión
+    
+        // Todo OK
         $session->set([
             'isLoggedIn' => true,
             'userId'     => $user['id'],
@@ -116,12 +113,9 @@ class Auth extends Controller
             'email'      => $user['email'],
             'role'       => $user['role']
         ]);
-
-        // Redirigir según rol
+    
         if ($user['role'] === 'administrador') {
             return redirect()->to('/admin');
-        } elseif ($user['role'] === 'vendedor') {
-            return redirect()->to('/vendor');
         } else {
             return redirect()->to('/home');
         }
