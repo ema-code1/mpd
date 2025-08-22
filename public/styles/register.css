@@ -1,0 +1,72 @@
+    body {
+  background: #FFFFFF;
+  font-family: Arial, sans-serif;
+  margin: 0; 
+}
+
+.container-container{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+        .register-container {
+        max-width: 400px;
+        margin: 60px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+        }
+
+        .register-container h2 {
+        color: #EF8D00;
+        margin-bottom: 20px;
+        }
+
+        .form-label {
+        display: block;
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 5px;
+        }
+
+        .form-control, .form-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+        outline: none;
+        border-color: #EF8D00;
+        box-shadow: 0 0 5px rgba(239,141,0,0.5);
+        }
+
+        .btn-submit {
+        background: #EF8D00;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+        background: #d97c00;
+        }
+
+        .form-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        text-align: left;
+        }

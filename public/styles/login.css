@@ -1,0 +1,98 @@
+/* General */
+body.login-body {
+    background-color: #fdfdfd;
+    font-family: Arial, sans-serif;
+    color: #1e1e1e;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor central */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Caja de login */
+.login-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(30,30,30,0.2);
+}
+
+/* Título */
+.login-title {
+    text-align: center;
+    color: #f28c00;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Mensajes */
+.alert {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #ffdddd;
+    border: 1px solid #e07b00;
+    color: #a70000;
+}
+
+.alert-success {
+    background-color: #ddffdd;
+    border: 1px solid #42cc40;
+    color: #1e6b1e;
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #1e1e1e;
+}
+
+.styled-input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+
+.styled-input:focus {
+    border-color: #f28c00;
+    outline: none;
+}
+
+/* Botón */
+.login-btn {
+    width: 100%;
+    background-color: #f28c00;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fdfdfd;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #e07b00;
+}
