@@ -18,21 +18,10 @@
         <?php if(session()->getFlashdata('success')): ?>
             <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
         <?php endif; ?>
-
-<<<<<<< HEAD
-      <div class="mb-3">
-    <label class="form-label">Selecciona rol</label>
-    <select id="loginRole" name="role" class="form-select">
-        <option value="comprador">Comprador</option>
-        <option value="administrador">Administrador</option>
-    </select>
-</div>
-
-<div id="loginAdminDiv" class="mb-3" style="display:none;">
-    <label class="form-label">Clave de administrador</label>
+    <div id="loginAdminDiv" class="mb-3" style="display:none;">
+     <label class="form-label">Clave de administrador</label>
     <input class="form-control" type="password" name="admin_key">
-</div>
-=======
+    </div>
         <form action="<?= site_url('login-post') ?>" method="post" novalidate>
             <?= csrf_field() ?>
 
@@ -40,8 +29,6 @@
                 <label class="form-label">Email</label>
                 <input class="styled-input" type="email" name="email" value="<?= old('email') ?>">
             </div>
->>>>>>> 463cda1a8b0e6b06fb4dd406dfd2326f85167b5e
-
             <div class="form-group">
                 <label class="form-label">Contraseña</label>
                 <input class="styled-input" type="password" name="password">
@@ -68,7 +55,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-<<<<<<< HEAD
   const loginRole = document.getElementById('loginRole');
   const loginAdminDiv = document.getElementById('loginAdminDiv');
 
@@ -77,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   loginRole.addEventListener('change', toggleAdminLogin);
   toggleAdminLogin();
-=======
     const loginRole = document.getElementById('loginRole');
     const loginVendorDiv = document.getElementById('loginVendorDiv');
 
@@ -86,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     loginRole.addEventListener('change', toggleVendorLogin);
     toggleVendorLogin();
->>>>>>> 463cda1a8b0e6b06fb4dd406dfd2326f85167b5e
 });
 </script>
 
