@@ -31,7 +31,7 @@
                 <input class="styled-input" type="password" name="password" required>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label class="form-label">Selecciona rol</label>
                 <select id="loginRole" name="role" class="form-select" required>
                     <option value="comprador">Comprador</option>
@@ -39,9 +39,9 @@
                 </select>
             </div>
 
-            <div id="loginAdminDiv" class="mb-3" style="display:none;">
+            <div id="loginAdminDiv" class="form-group" style="display:none;">
                 <label class="form-label">Clave de administrador</label>
-                <input class="form-control" type="password" name="admin_key">
+                    <input class="form-select" type="password" name="admin_key">
             </div>
 
             <button class="login-btn" type="submit">Ingresar</button>

@@ -71,6 +71,20 @@
     color: #1e1e1e;
 }
 
+
+.form-select {
+  appearance: none;
+  text-decoration: none;
+  background-color: var(--bg);
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: var(--text);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
 .styled-input {
     border: 1px solid #ccc;
     border-radius: 8px;
