@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="<?= base_url('styles/login.css') ?>">
 </head>
 <body class="login-body">
-
 <div class="login-container">
     <div class="login-box">
         <h2 class="login-title">Iniciar sesión</h2>
