@@ -11,7 +11,7 @@ class UserModel extends Model
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
-    public function findByEmail($email)
+    public function findByEmail($email) //findByEmail($email) → Busca un usuario por su correo.
     {
         return $this->where('email', $email)->first();
     }

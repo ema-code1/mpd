@@ -124,7 +124,7 @@ class Auth extends Controller
     public function logout()
     {
         $session = session();
-        $session->destroy();
+        $session->destroy(); // ← Esto BORRA todos los datos de la sesión en el SERVIDOR
         return redirect()->to('/login')->with('success','Cierre de sesión correcto.');
     }
 }
