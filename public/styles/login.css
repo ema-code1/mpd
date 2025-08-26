@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+
 :root {
   --header-height: 100px;
 }
 
+*{
+    font-family: 'Poppins', Arial, sans-serif;
+}
 /* General */
 .login-body {
-    background-color: #eeeeee;
-    font-family: Arial, sans-serif;
+    background-color: linear-gradient(to top, #eeeeee, #ffffff);
     color: #1e1e1e;
     margin: 0 auto;
     padding: 0;

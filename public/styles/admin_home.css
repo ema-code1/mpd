@@ -1,11 +1,14 @@
 :root { --header-h: 140px; } /* ajustá si tu header mide más/menos */
 header { min-height: var(--header-h); }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+
+
 
 * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', Arial, Helvetica, sans-serif;
     }
 
 body {
