@@ -145,6 +145,136 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">El Quijote</h3>
+                <p class="card-price">$2500</p>
+                <ul class="card-desc">
+                    <li>Autor: Cervantes</li>
+                    <li>Edición rústica</li>
+                    <li>Clásico universal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img">
+                <img src="<?= base_url('imgs/libroblanco.jpg') ?>" alt="Libro Amarillo" class="book-img">
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">1984</h3>
+                <p class="card-price">$3100</p>
+                <ul class="card-desc">
+                    <li>Autor: George Orwell</li>
+                    <li>Distopía política</li>
+                    <li>Best seller mundial</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">Cien años de soledad</h3>
+                <p class="card-price">$4200</p>
+                <ul class="card-desc">
+                    <li>Autor: García Márquez</li>
+                    <li>Realismo mágico</li>
+                    <li>Edición especial</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">Harry Potter</h3>
+                <p class="card-price">$5200</p>
+                <ul class="card-desc">
+                    <li>Autor: J.K. Rowling</li>
+                    <li>Fantasía juvenil</li>
+                    <li>Edición ilustrada</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">El Principito</h3>
+                <p class="card-price">$1800</p>
+                <ul class="card-desc">
+                    <li>Autor: Antoine de Saint-Exupéry</li>
+                    <li>Edición bolsillo</li>
+                    <li>Ilustraciones originales</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">El Quijote</h3>
+                <p class="card-price">$2500</p>
+                <ul class="card-desc">
+                    <li>Autor: Cervantes</li>
+                    <li>Edición rústica</li>
+                    <li>Clásico universal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">1984</h3>
+                <p class="card-price">$3100</p>
+                <ul class="card-desc">
+                    <li>Autor: George Orwell</li>
+                    <li>Distopía política</li>
+                    <li>Best seller mundial</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">Cien años de soledad</h3>
+                <p class="card-price">$4200</p>
+                <ul class="card-desc">
+                    <li>Autor: García Márquez</li>
+                    <li>Realismo mágico</li>
+                    <li>Edición especial</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">Harry Potter</h3>
+                <p class="card-price">$5200</p>
+                <ul class="card-desc">
+                    <li>Autor: J.K. Rowling</li>
+                    <li>Fantasía juvenil</li>
+                    <li>Edición ilustrada</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+                <h3 class="card-title">El Principito</h3>
+                <p class="card-price">$1800</p>
+                <ul class="card-desc">
+                    <li>Autor: Antoine de Saint-Exupéry</li>
+                    <li>Edición bolsillo</li>
+                    <li>Ilustraciones originales</li>
+                </ul>
+            </div>
+        </div>
     </div>
     </div>
         
