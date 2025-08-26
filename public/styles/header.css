@@ -11,6 +11,8 @@ body {
   color: #222;
 }
 
+
+
 /* NAVBAR */
 .navbar {
   background-color: #ffffff;
@@ -39,6 +41,11 @@ body {
     display: flex;
     align-items: end;
     margin-bottom: 25px;
+    transition: all 0.5s ease;
+}
+
+.fav-container:hover{
+  transform: scale(1.05);
 }
 
 .fav-img {
@@ -78,11 +85,11 @@ body {
   background-color: transparent;
   border: 2px solid #EF8D00;
   color: #EF8D00;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  padding: 12px 12px;
+  border-radius: 10px;
+  font-size: 1.2rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .btn:hover {

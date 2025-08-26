@@ -43,7 +43,7 @@ class Auth extends Controller
         }
         $adminModel = new \App\Models\AdminKeyModel();
         $currentKey = $adminModel->getCurrentKey();
-        if (!$currentKey || !password_verify($admin_input, $currentKey['vendor_key_hash'])) {
+        if (!$currentKey || !password_verify($admin_input, $currentKey['admin_key_hash'])) {
             return redirect()->back()->withInput()->with('error', 'Clave de administrador incorrecta.');
         }
     }

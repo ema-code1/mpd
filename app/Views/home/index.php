@@ -279,7 +279,13 @@
     </div>
         
     
-
+<script>
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".element").forEach(el => {
+        setTimeout(() => el.classList.add("active"), 50);
+      });
+    });
+  </script>
 
 
     <!-- <div class="card-grid">

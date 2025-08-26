@@ -1,5 +1,5 @@
 :root {
-  --header-height: 100px;
+  --header-height: 150px;
 }
 
 body {
@@ -10,7 +10,10 @@ body {
 }
 
 .container-container{
-  height: calc(100vh - var(--header-height) - 50px);
+  height: calc(100vh - var(--header-height));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .register-container{
@@ -19,10 +22,8 @@ body {
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(30,30,30,0.2);
   width: 400px;
-  position: absolute;       /* lo sacamos del flujo normal */
-  top: 50%;                 /* desde arriba 50% */
-  left: 50%;                /* desde la izquierda 50% */
-  transform: translate(-50%, -50%);
+  animation: fadeIn 0.5s ease forwards;
+  height: 500px;
 }
 
 .register-container h2 {
@@ -80,3 +81,14 @@ margin-top: -10px;
 margin-bottom: 10px;
 text-align: left;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+} 
