@@ -15,7 +15,6 @@ body {
 .navbar {
   background-color: #ffffff;
   padding: 12px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   height: 100px;
   display: flex ;
   align-items: center;
@@ -31,11 +30,31 @@ body {
 }
 
 .navbar-brand {
-  color: #EF8D00;
-  font-size: 1.4rem;
+  color: #1e1e1e;
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
+}
+
+.fav-container {
+    display: flex;
+    align-items: end;
+}
+
+.fav-img {
+    width: auto;  /* ajustá a lo que quieras */
+    height: 80px;
+    object-fit: contain;
+    margin-right: 3px;
+}
+
+.fav-text {
+    line-height: 1em; /* para juntar o separar líneas */
+    margin: 0;
+    font-size: 15pt;
+    transform: translateY(2px);
+    color: #1e1e1e;
+    letter-spacing: -1px;
 }
 
 .navbar-brand:hover {
@@ -81,5 +100,4 @@ body {
 .container {
   width: 90%;
   max-width: 1100px;
-  margin: 20px auto;
 }

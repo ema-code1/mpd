@@ -9,7 +9,16 @@
 <body>
   <nav class="navbar">
     <div class="navbar-container">
-      <a class="navbar-brand" href="<?= base_url() ?>">Librería</a>
+      <a class="navbar-brand" href="<?= base_url() ?>">
+        <div class="fav-container">
+          <img src="<?= base_url('imgs/logo_mpd.png') ?>" alt="Libro" class="fav-img">
+          <h1 class="fav-text">
+            MOVIMIENTO<br>
+            DE LA PALABRA<br>
+            DE DIOS
+          </h1>
+    </div>
+      </a>
       <div class="navbar-links">
         <?php if(session()->get('isLoggedIn')): ?>
           <span class="navbar-user">Hola, <?= esc(session()->get('name')) ?></span>
