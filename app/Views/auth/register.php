@@ -10,7 +10,6 @@
   <div class="container-container">
     <div class="register-container">
       <h2>Registro de usuario</h2>
-
       <?php if(session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
           <?php foreach(session()->getFlashdata('errors') as $err): ?>
@@ -26,16 +25,22 @@
       <form action="<?= site_url('register-post') ?>" method="post" novalidate>
         <?= csrf_field() ?>
 
-        <label class="form-label">Nombre</label>
-        <input class="form-control" type="text" name="name" value="<?= old('name') ?>" required>
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" type="text" name="name" value="<?= old('name') ?>" required>
+        </div>
 
-        <label class="form-label">Email</label>
-        <input class="form-control" type="email" name="email" value="<?= old('email') ?>" required>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" type="email" name="email" value="<?= old('email') ?>" required>
+        </div>
 
-        <label class="form-label">Contraseña</label>
-        <input class="form-control" type="password" name="password" required>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input class="form-control" type="password" name="password" required>
+        </div>
 
-        <div class="mb-3">
+        <div class="form-group">
           <label class="form-label">Rol</label>
           <select id="roleSelect" name="role" class="form-select" required>
             <option value="comprador">Comprador</option>
@@ -43,7 +48,7 @@
           </select>
         </div>
 
-        <div id="adminKeyDiv" class="mb-3" style="display: none;">
+        <div id="adminKeyDiv" class="form-group" style="display: none;">
           <label class="form-label">Clave de administrador</label>
           <input class="form-control" type="password" name="admin_key">
           <div class="form-text">Solo si eliges administrador.</div>
@@ -62,6 +67,7 @@
       function toggleAdmin() {
         adminKeyDiv.style.display = (roleSelect.value === 'administrador') ? 'block' : 'none';
       }
+      
       roleSelect.addEventListener('change', toggleAdmin);
       toggleAdmin();
     });
