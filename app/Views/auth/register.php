@@ -4,12 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrarse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="<?= base_url('styles/register.css') ?>">
+  <style>
+    /* Estilos adicionales por si falla la carga del CSS externo */
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(to top, #eeeeee, #ffffff);
+      min-height: 100vh;
+      margin: 0;
+    }
+  </style>
 </head>
-<body>
-  <div class="container-container">
+<body>  
+  <!-- Contenedor principal para centrado vertical -->
+  <main class="main-container">
     <div class="register-container">
       <h2>Registro de usuario</h2>
+
       <?php if(session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
           <?php foreach(session()->getFlashdata('errors') as $err): ?>
@@ -57,7 +69,7 @@
         <button class="btn-submit" type="submit">Registrarse</button>
       </form>
     </div>
-  </div>
+  </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', function(){

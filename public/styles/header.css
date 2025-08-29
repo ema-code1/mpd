@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins',Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -13,19 +13,20 @@ body {
   color: #222;
 }
 
-
-
 /* NAVBAR */
 .navbar {
   background-color: #ffffff;
   padding: 12px 0;
   height: 150px;
-  display: flex ;
+  display: flex;
   align-items: center;
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar-container {
   width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -40,30 +41,30 @@ body {
 }
 
 .fav-container {
-    display: flex;
-    align-items: end;
-    margin-bottom: 25px;
-    transition: all 0.5s ease;
+  display: flex;
+  align-items: end;
+  margin-bottom: 25px;
+  transition: all 0.5s ease;
 }
 
-.fav-container:hover{
+.fav-container:hover {
   transform: scale(1.05);
 }
 
 .fav-img {
-    width: auto;  /* ajustá a lo que quieras */
-    height: 80px;
-    object-fit: contain;
-    margin-right: 3px;
+  width: auto;
+  height: 80px;
+  object-fit: contain;
+  margin-right: 3px;
 }
 
 .fav-text {
-    line-height: 1em; /* para juntar o separar líneas */
-    margin: 0;
-    font-size: 15pt;
-    transform: translateY(2px);
-    color: #1e1e1e;
-    letter-spacing: -1px;
+  line-height: 1em;
+  margin: 0;
+  font-size: 15pt;
+  transform: translateY(2px);
+  color: #1e1e1e;
+  letter-spacing: -1px;
 }
 
 .navbar-brand:hover {
@@ -74,38 +75,232 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
 }
 
+/* ELIMINAR ESTE ELEMENTO QUE CAUSA EL PROBLEMA */
+/*
 .navbar-user {
   color: #fff;
   margin-right: 15px;
   font-size: 0.95rem;
 }
+*/
 
-/* Botones */
-.btn {
+/* Botón de usuario con menú desplegable */
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-btn {
   background-color: transparent;
   border: 2px solid #EF8D00;
   color: #EF8D00;
-  padding: 12px 12px;
+  padding: 12px 16px;
   border-radius: 10px;
   font-size: 1.2rem;
   text-decoration: none;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
 }
 
-.btn:hover {
+.user-btn:hover {
   background-color: #EF8D00;
   color: #fff;
   transform: scale(1.05);
 }
 
-/* Margen secundario */
-.ms {
-  margin-left: 6px;
+.user-btn i {
+  font-size: 1.1rem;
 }
 
-/* Container genérico */
-.container {
-  max-width: 100vw;
+/* Menú desplegable */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  min-width: 180px;
+  margin-top: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+/* Encabezado del menú desplegable */
+.dropdown-header {
+  padding: 8px 12px;
+  color: #666;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: left;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+  color: #EF8D00;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #eee;
+  margin: 5px 0;
+}
+
+/* Overlay para cerrar el menú al hacer clic fuera */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 999;
+  display: none;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .navbar {
+    height: 130px;
+    padding: 10px 0;
+  }
+  
+  .navbar-container {
+    width: 95%;
+  }
+  
+  .fav-img {
+    height: 65px;
+  }
+  
+  .fav-text {
+    font-size: 13pt;
+    letter-spacing: -0.5px;
+  }
+  
+  .user-btn {
+    padding: 10px 12px;
+    font-size: 1.1rem;
+    min-width: 110px;
+  }
+  
+  .dropdown-menu {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .dropdown-menu::before {
+    right: 15px;
+  }
+  
+  .user-btn span {
+    display: none; /* Ocultar texto en móviles */
+  }
+  
+  .user-btn i {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 120px;
+  }
+  
+  .fav-container {
+    margin-bottom: 20px;
+  }
+  
+  .fav-img {
+    height: 55px;
+  }
+  
+  .fav-text {
+    font-size: 11pt;
+    line-height: 0.9em;
+  }
+  
+  .user-btn {
+    padding: 8px 10px;
+    font-size: 1rem;
+    min-width: 50px; /* Solo el icono en móviles */
+  }
+  
+  .user-btn i {
+    font-size: 1rem;
+  }
+  
+  .dropdown-menu {
+    min-width: 140px;
+    right: -15px;
+  }
+  
+  .dropdown-item {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .fav-text {
+    font-size: 10pt;
+  }
+  
+  .user-btn {
+    min-width: 45px;
+    padding: 7px 9px;
+    font-size: 0.9rem;
+  }
 }
