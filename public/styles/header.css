@@ -78,14 +78,36 @@ body {
   position: relative;
 }
 
-/* ELIMINAR ESTE ELEMENTO QUE CAUSA EL PROBLEMA */
-/*
-.navbar-user {
+/* Botón de Panel de Administrador */
+.admin-panel-btn {
+  background-color: #2c5aa0;
+  border: 2px solid #2c5aa0;
   color: #fff;
-  margin-right: 15px;
-  font-size: 0.95rem;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
+  font-weight: 500;
+  white-space: nowrap;
 }
-*/
+
+.admin-panel-btn:hover {
+  background-color: #1e3d6f;
+  border-color: #1e3d6f;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.admin-panel-btn i {
+  font-size: 1.1rem;
+}
 
 /* Botón de usuario con menú desplegable */
 .user-menu {
@@ -230,6 +252,7 @@ body {
     letter-spacing: -0.5px;
   }
   
+  .admin-panel-btn,
   .user-btn {
     padding: 10px 12px;
     font-size: 1.1rem;
@@ -245,10 +268,12 @@ body {
     right: 15px;
   }
   
+  .admin-panel-btn span,
   .user-btn span {
     display: none; /* Ocultar texto en móviles */
   }
   
+  .admin-panel-btn i,
   .user-btn i {
     margin-right: 0;
   }
@@ -272,12 +297,14 @@ body {
     line-height: 0.9em;
   }
   
+  .admin-panel-btn,
   .user-btn {
     padding: 8px 10px;
     font-size: 1rem;
     min-width: 50px; /* Solo el icono en móviles */
   }
   
+  .admin-panel-btn i,
   .user-btn i {
     font-size: 1rem;
   }
@@ -291,6 +318,10 @@ body {
     padding: 10px 12px;
     font-size: 0.9rem;
   }
+  
+  .navbar-links {
+    gap: 5px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -298,6 +329,7 @@ body {
     font-size: 10pt;
   }
   
+  .admin-panel-btn,
   .user-btn {
     min-width: 45px;
     padding: 7px 9px;
