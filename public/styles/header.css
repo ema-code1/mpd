@@ -59,7 +59,7 @@ body {
 }
 
 .fav-text {
-  line-height: 1em;
+  line-height: 0.95em;
   margin: 0;
   font-size: 15pt;
   transform: translateY(2px);
@@ -80,8 +80,8 @@ body {
 
 /* Botón de Panel de Administrador */
 .admin-panel-btn {
-  background-color: #2c5aa0;
-  border: 2px solid #2c5aa0;
+  background-color: #EF8D00;
+  border: 2px solid #EF8D00;
   color: #fff;
   padding: 12px 16px;
   border-radius: 10px;
@@ -99,8 +99,8 @@ body {
 }
 
 .admin-panel-btn:hover {
-  background-color: #1e3d6f;
-  border-color: #1e3d6f;
+  background-color: #fb9f1e;
+  border-color: #fb9f1e;
   color: #fff;
   transform: scale(1.05);
 }
@@ -250,6 +250,8 @@ body {
   .fav-text {
     font-size: 13pt;
     letter-spacing: -0.5px;
+    line-height: 0.9em;
+    font-weight: 1400;
   }
   
   .admin-panel-btn,

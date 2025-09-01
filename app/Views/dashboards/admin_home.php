@@ -21,7 +21,7 @@
     <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
     <a href="#"><i class="ti ti-chart-bar"></i> Dashboard</a>
     <a href="#"><i class="ti ti-books"></i> Stock</a>
-    <a href="#"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
+    <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
     <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
   </div>

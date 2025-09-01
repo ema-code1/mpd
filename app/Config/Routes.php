@@ -41,3 +41,19 @@ $routes->get('/logout', 'Auth::logout');
 
 // Ruta por defecto
 $routes->get('/', 'Home::index');
+
+
+
+
+// --- RUTAS PARA LIBROS (NUEVO formulario) ---
+$routes->get('upload_book', 'LibroController::crear');
+$routes->post('crearLibro', 'LibroController::crearLibro');
+
+// --- RUTAS PARA ADMINISTRACIÓN ---
+$routes->get('admin_home', 'AdminController::admin_home');
+
+// --- RUTAS PARA EL HOME (si es necesario) ---
+$routes->get('home', 'Home::index');
+
+// ¡IMPORTANTE! Esta línea debe ir AL FINAL para evitar conflictos
+$routes->get('(:any)', 'Home::index/$1');
