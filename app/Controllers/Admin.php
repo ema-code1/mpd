@@ -18,4 +18,8 @@ class Admin extends Controller
         echo view('dashboards/admin_home', $data);
         echo view('templates/footer');
     }
+
+    public function admincasa(){
+        
+    }
 }

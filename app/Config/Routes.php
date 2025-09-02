@@ -50,10 +50,17 @@ $routes->get('upload_book', 'LibroController::crear');
 $routes->post('crearLibro', 'LibroController::crearLibro');
 
 // --- RUTAS PARA ADMINISTRACIÓN ---
-$routes->get('admin_home', 'AdminController::admin_home');
+$routes->get('admin_home', 'Admin::admin_home');
 
 // --- RUTAS PARA EL HOME (si es necesario) ---
 $routes->get('home', 'Home::index');
+
+
+// En lugar de admin_home, usa directamente el método index
+$routes->get('volver_home', 'Admin::index');
+
+
+
 
 // ¡IMPORTANTE! Esta línea debe ir AL FINAL para evitar conflictos
 $routes->get('(:any)', 'Home::index/$1');
