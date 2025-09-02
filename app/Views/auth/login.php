@@ -41,7 +41,7 @@
 
             <div id="loginAdminDiv" class="form-group" style="display:none;">
                 <label class="form-label">Clave de administrador</label>
-                    <input class="form-select" type="password" name="admin_key">
+                    <input class="styled-input" type="password" name="admin_key">
             </div>
 
             <button class="login-btn" type="submit">Ingresar</button>
