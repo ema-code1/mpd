@@ -63,6 +63,10 @@
                     <!-- Los archivos seleccionados aparecerán aquí -->
                 </div>
         </form>
+        <div class="form-buttons">
+            <a href="<?= site_url('admin') ?>" class="btn-cancel">Cancelar</a>
+            <button type="submit" class="btn-submit">Guardar Libro</button>
+        </div>
     </div>
 
 <script>
