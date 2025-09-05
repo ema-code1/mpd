@@ -34,49 +34,52 @@
   ?>
   
   <?php if(session()->get('isLoggedIn')): ?>
-    <!-- USUARIO LOGUEADO - Menú desplegable -->
-    <div class="user-menu">
-      <button class="user-btn" id="userMenuBtn">
-        <i class="ti ti-user"></i>
-        <span><?= esc(session()->get('name')) ?></span>
-      </button>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <div class="dropdown-header">Sesión activa</div>
-        <a href="#" class="dropdown-item">
-          <i class="ti ti-user-circle"></i> Cuenta
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="<?= site_url('logout') ?>" class="dropdown-item">
-          <i class="ti ti-logout"></i> Cerrar sesión
-        </a>
-      </div>
+  <!-- USUARIO LOGUEADO - Menú desplegable -->
+  <div class="user-menu">
+    <button class="user-btn" id="userMenuBtn">
+      <i class="ti ti-user"></i>
+      <span><?= esc(session()->get('name')) ?></span>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-header">Sesión activa</div>
+      <a href="#" class="dropdown-item">
+        <i class="ti ti-user-circle"></i> Cuenta
+      </a>
+      <div class="dropdown-divider"></div>
+      <a href="<?= site_url('logout') ?>" class="dropdown-item">
+        <i class="ti ti-logout"></i> Cerrar sesión
+      </a>
     </div>
+  </div>
 
+  <!-- ✅ Botón de Admin: Solo si el rol es 'administrador' -->
+  <?php if (session()->get('role') === 'administrador'): ?>
     <a href="<?= site_url('panel') ?>" class="admin-panel-btn">
       <i class="ti ti-dashboard"></i>
       <span>Admin.</span>
     </a>
-
-    <div class="overlay" id="overlay"></div>
-  <?php else: ?>
-    <!-- USUARIO NO LOGUEADO - Menú desplegable -->
-    <div class="user-menu">
-      <button class="user-btn" id="userMenuBtn">
-        <i class="ti ti-user"></i>
-        <span>Usuario</span>
-      </button>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="<?= site_url('login') ?>" class="dropdown-item">
-          <i class="ti ti-login"></i> Iniciar sesión
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="<?= site_url('register') ?>" class="dropdown-item">
-          <i class="ti ti-user-plus"></i> Registrarse
-        </a>
-      </div>
-    </div>
-    <div class="overlay" id="overlay"></div>
   <?php endif; ?>
+
+  <div class="overlay" id="overlay"></div>
+<?php else: ?>
+  <!-- USUARIO NO LOGUEADO - Menú desplegable -->
+  <div class="user-menu">
+    <button class="user-btn" id="userMenuBtn">
+      <i class="ti ti-user"></i>
+      <span>Usuario</span>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="<?= site_url('login') ?>" class="dropdown-item">
+        <i class="ti ti-login"></i> Iniciar sesión
+      </a>
+      <div class="dropdown-divider"></div>
+      <a href="<?= site_url('register') ?>" class="dropdown-item">
+        <i class="ti ti-user-plus"></i> Registrarse
+      </a>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+<?php endif; ?>
 </div>
     </div>
   </nav>
