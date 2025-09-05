@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Nuevo Libro</title>
     <link href="<?= base_url('styles/upload_book.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="form-container">
         <h1 class="form-title">Cargar Nuevo Libro</h1>
         
-        <form method="post" action="<?= site_url('crearLibro') ?>" enctype="multipart/form-data">
+        <form method="post" action="<?= site_url('crearLibro') ?>" enctype="multipart/form-data" id="bookForm">
             <div class="form-grid">
                 <div class="form-group">
                     <label for="titulo" class="form-label">Título *</label>
@@ -47,43 +48,194 @@
 
             <div class="form-divider"></div>
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Foto 1</label>
-                    <div class="file-input-container">
-                        <input type="file" id="foto1" name="foto1" class="file-input" accept="image/*">
-                        <label for="foto1" class="file-label">Seleccionar archivo</label>
-                        <span class="file-status">Ningún archivo seleccionado</span>
-                    </div>
-                </div>
+            <!-- NUEVO: Área de drag & drop -->
+            <div class="drag-drop-container">
+                <label class="form-label">Fotos del Libro</label>
+                <div class="drag-drop-area" id="dragDropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="drag-drop-text">Arrastra y suelta archivos aquí o</div>
+                    <div class="drag-drop-browse" id="browseButton">Buscar</div>
+                    <div class="drag-drop-info">Sube hasta 2 fotos. Max. tamaño de imagen: 20MB</div>
+                    <input type="file" id="fileInput" class="drag-drop-input" accept="image/*" multiple>
+            </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Foto 2</label>
-                    <div class="file-input-container">
-                        <input type="file" id="foto2" name="foto2" class="file-input" accept="image/*">
-                        <label for="foto2" class="file-label">Seleccionar archivo</label>
-                        <span class="file-status">Ningún archivo seleccionado</span>
-                    </div>
+                <div class="file-list" id="fileList">
+                    <!-- Los archivos seleccionados aparecerán aquí -->
                 </div>
-            </div>
-
-            <div class="form-divider"></div>
-
-            <div class="form-buttons">
-                <a href="<?= site_url('volver_home') ?>" class="btn-cancel">Cancelar</a>
-                <button type="submit" class="btn-submit">Guardar Libro</button>
-            </div>
         </form>
     </div>
 
-    <script>
-        // JavaScript para mostrar el nombre del archivo seleccionado
-        document.querySelectorAll('.file-input').forEach(input => {
-            input.addEventListener('change', function() {
-                const status = this.parentElement.querySelector('.file-status');
-                status.textContent = this.files.length > 0 ? this.files[0].name : 'Ningún archivo seleccionado';
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dragDropArea = document.getElementById('dragDropArea');
+        const browseButton = document.getElementById('browseButton');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const hiddenInput1 = document.getElementById('foto1');
+        const hiddenInput2 = document.getElementById('foto2');
+        let uploadedFiles = [];
+        let fileCounter = 0;
+
+        // SOLUCIÓN: Configurar el input file para selección múltiple
+        fileInput.setAttribute('multiple', 'multiple');
+
+        // SOLUCIÓN: Solo el botón de "Buscar" abre el file explorer
+        browseButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            fileInput.click();
         });
-    </script>
+
+        // SOLUCIÓN: Remover cualquier evento click del área de drop
+        // Esto evita que interfiera con la selección múltiple
+
+        // Configurar eventos de drag and drop CORRECTAMENTE
+        dragDropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.add('dragover');
+        });
+
+        dragDropArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('dragover');
+        });
+
+        dragDropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                processFiles(files);
+            }
+        });
+
+        // Manejar selección de archivos desde el input
+        fileInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                processFiles(files);
+            }
+            // Resetear el input
+            this.value = '';
+        });
+
+        function processFiles(files) {
+            // Convertir FileList a array
+            const newFiles = Array.from(files);
+            
+            // Verificar límite de archivos
+            if (uploadedFiles.length + newFiles.length > 2) {
+                alert('Solo puedes subir hasta 2 fotos');
+                return;
+            }
+
+            newFiles.forEach(file => {
+                // Validaciones
+                if (file.size > 20 * 1024 * 1024) {
+                    alert(`El archivo ${file.name} excede el tamaño máximo de 20MB`);
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    alert(`El archivo ${file.name} no es una imagen válida`);
+                    return;
+                }
+
+                // Agregar archivo
+                uploadedFiles.push(file);
+                displayFile(file);
+            });
+
+            updateHiddenInputs();
+        }
+
+        function displayFile(file) {
+            const fileId = `file-${fileCounter++}`;
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.id = fileId;
+
+            const fileSize = formatFileSize(file.size);
+            
+            fileItem.innerHTML = `
+                <div class="file-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <div class="file-info">
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${fileSize}</div>
+                    <div class="file-progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+                <button type="button" class="file-remove" data-file-id="${fileId}" data-file-name="${file.name}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            fileList.appendChild(fileItem);
+
+            // Event listener para eliminar
+            const removeButton = fileItem.querySelector('.file-remove');
+            removeButton.addEventListener('click', function() {
+                removeFile(fileId, this.getAttribute('data-file-name'));
+            });
+
+            // Simular progreso
+            simulateUploadProgress(fileItem);
+        }
+
+        function simulateUploadProgress(fileItem) {
+            const progressBar = fileItem.querySelector('.progress-bar');
+            let width = 0;
+            
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    fileItem.querySelector('.file-progress').style.display = 'none';
+                } else {
+                    width += Math.random() * 20;
+                    progressBar.style.width = Math.min(width, 100) + '%';
+                }
+            }, 100);
+        }
+
+        function removeFile(fileId, fileName) {
+            // Remover de la vista
+            const fileElement = document.getElementById(fileId);
+            if (fileElement) {
+                fileElement.remove();
+            }
+
+            // Remover del array
+            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+            
+            // Actualizar inputs ocultos
+            updateHiddenInputs();
+        }
+
+        function updateHiddenInputs() {
+            const dt1 = new DataTransfer();
+            const dt2 = new DataTransfer();
+
+            if (uploadedFiles.length > 0) dt1.items.add(uploadedFiles[0]);
+            if (uploadedFiles.length > 1) dt2.items.add(uploadedFiles[1]);
+
+            hiddenInput1.files = dt1.files;
+            hiddenInput2.files = dt2.files;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+        }
+    });
+</script>
 </body>
 </html>
