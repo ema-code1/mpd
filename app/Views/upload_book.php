@@ -57,7 +57,12 @@
                     <div class="drag-drop-browse" id="browseButton">Buscar</div>
                     <div class="drag-drop-info">Sube hasta 2 fotos. Max. tamaño de imagen: 20MB</div>
                     <input type="file" id="fileInput" class="drag-drop-input" accept="image/*" multiple>
+                    <!-- Después del drag-drop-container -->
+            <input type="file" name="foto1" id="hiddenFoto1" hidden>
+            <input type="file" name="foto2" id="hiddenFoto2" hidden>
             </div>
+            
+            
                 
                 <div class="file-list" id="fileList">
                     <!-- Los archivos seleccionados aparecerán aquí -->
@@ -223,15 +228,18 @@
         }
 
         function updateHiddenInputs() {
-            const dt1 = new DataTransfer();
-            const dt2 = new DataTransfer();
+    // Crear nuevos DataTransfer objects
+    const dt1 = new DataTransfer();
+    const dt2 = new DataTransfer();
 
-            if (uploadedFiles.length > 0) dt1.items.add(uploadedFiles[0]);
-            if (uploadedFiles.length > 1) dt2.items.add(uploadedFiles[1]);
+    // Agregar archivos a los DataTransfer objects
+    if (uploadedFiles.length > 0) dt1.items.add(uploadedFiles[0]);
+    if (uploadedFiles.length > 1) dt2.items.add(uploadedFiles[1]);
 
-            hiddenInput1.files = dt1.files;
-            hiddenInput2.files = dt2.files;
-        }
+    // Asignar los files a los inputs ocultos
+    document.getElementById('hiddenFoto1').files = dt1.files;
+    document.getElementById('hiddenFoto2').files = dt2.files;
+}
 
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';

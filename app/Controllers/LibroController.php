@@ -53,15 +53,15 @@ class LibroController extends Controller
     }
     
     private function processImage($fieldName)
-    {
-        $file = $this->request->getFile($fieldName);
-        
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(ROOTPATH . 'public/uploads', $newName);
-            return $newName;
-        }
-        
-        return null;
+{
+    $file = $this->request->getFile($fieldName);
+    
+    if ($file && $file->isValid() && !$file->hasMoved()) {
+        $newName = $file->getRandomName();
+        $file->move(ROOTPATH . 'public/imgs', $newName); // Cambiado a 'imgs'
+        return 'imgs/' . $newName; // Guardar la ruta completa
     }
+    
+    return null;
+}
 }

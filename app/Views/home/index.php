@@ -12,21 +12,22 @@
         <input type="text" class="search-input" placeholder="Buscar...">
     </div>
     
-    <!-- Contenedor principal para los libros -->
-    <div class="container-container">
-        <div class="card-grid">
+    <!-- Contenedor principal para los libros --> 
+    <div class="cards-container">
+        <div class="container-container">
+            <div class="card-grid">
             <?php if(!empty($libros)): ?>
                 <?php foreach($libros as $libro): ?>
                     <div class="card">
                         <div class="card-img">
                             <?php if (!empty($libro['foto1'])): ?>
-                                <img src="<?= base_url('uploads/' . $libro['foto1']) ?>" 
+                                <img src="<?= base_url( $libro['foto1'])?>"
                                      alt="<?= esc($libro['titulo']) ?>"
                                      class="book-image">
                             <?php else: ?>
-                                <img src="<?= base_url('imgs/default-book.png') ?>" 
+                                <img src="<?= base_url('imgs/noimageavailable.jpg') ?>" 
                                      alt="Libro sin imagen"
-                                     class="book-image">
+                                     class="card-img">
                             <?php endif; ?>
                         </div>
                         <div class="card-body">
@@ -50,6 +51,7 @@
                     <p>No hay libros en stock.</p>
                 </div>
             <?php endif; ?>
+        </div>
         </div>
     </div>
     
