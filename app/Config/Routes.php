@@ -55,6 +55,12 @@ $routes->get('upload_book', 'LibroController::crear', ['filter' => 'admin']);
 $routes->post('crearLibro', 'LibroController::crearLibro', ['filter' => 'admin']);
 $routes->get('admin_home', 'AdminController::admin_home', ['filter' => 'admin']);
 
+
+
+
+$routes->get('libro/(:num)', 'LibroController::detalles/$1', ['filter' => 'admin']);
+
+
 // -----------------------------
 // 🛠️ OTRAS RUTAS (si las necesitas en el futuro)
 // -----------------------------

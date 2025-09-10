@@ -18,7 +18,7 @@
             <div class="card-grid">
             <?php if(!empty($libros)): ?>
                 <?php foreach($libros as $libro): ?>
-                    <div class="card">
+                    <div class="card" onclick="window.location.href='<?= site_url('libro/' . $libro['id']) ?>'" style="cursor: pointer;">   
                         <div class="card-img">
                             <?php if (!empty($libro['foto1'])): ?>
                                 <img src="<?= base_url( $libro['foto1'])?>"

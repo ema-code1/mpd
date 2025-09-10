@@ -64,4 +64,18 @@ class LibroController extends Controller
     
     return null;
 }
+
+
+
+    public function detalles($id)
+{
+    $libroModel = new LibroModel();
+    $libro = $libroModel->find($id);
+    
+    if (!$libro) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Libro no encontrado');
+    }
+    
+    return view('book_details', ['libro' => $libro]);
+}
 }
