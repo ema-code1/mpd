@@ -20,7 +20,7 @@ body {
     background: var(--background);
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     color: var(--text);
 }
 

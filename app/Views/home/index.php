@@ -22,10 +22,10 @@
                         <div class="card-img">
                             <?php if (!empty($libro['foto1'])): ?>
                                 <img src="<?= base_url( $libro['foto1'])?>"
-                                     alt="<?= esc($libro['titulo']) ?>"
+                                     alt="<?= base_url( $libro['foto1'])?>"
                                      class="book-image">
                             <?php else: ?>
-                                <img src="<?= base_url('imgs/noimageavailable.jpg') ?>" 
+                                <img src="<?= base_url('imgs/noimageavailable.jpg')?>" 
                                      alt="Libro sin imagen"
                                      class="card-img">
                             <?php endif; ?>
@@ -39,8 +39,16 @@
                                 <li><strong>Categoría:</strong> <?= esc($libro['categoria']) ?></li>
                                 <li><?= esc(substr($libro['descripcion'], 0, 100) . (strlen($libro['descripcion']) > 100 ? '...' : '')) ?></li>
                             </ul>
-                            <div class="card-footer">
-                                <a href="<?= site_url('libro/' . $libro['id']) ?>" class="btn-detail">Ver detalles</a>
+                            <div class="card-options">
+                                <button class="options-btn" title="Más opciones">
+                                    <i class="ti ti-dots-vertical"></i>
+                                </button>
+                                <div class="options-menu">
+                                    <a href="<?= site_url('libro/editar/' . $libro['id']) ?>" class="option-item">
+                                        <i class="ti ti-edit"></i>
+                                        <span>Editar publicación</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,6 +71,39 @@
                 }, 100 * index);
             });
         });
+
+            document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-btn');
+        
+        optionsButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.nextElementSibling;
+                const isShowing = menu.classList.contains('show');
+                
+                // Cerrar todos los menús abiertos
+                document.querySelectorAll('.options-menu.show').forEach(openMenu => {
+                    if (openMenu !== menu) {
+                        openMenu.classList.remove('show');
+                    }
+                });
+                
+                // Abrir/cerrar el menú actual
+                if (!isShowing) {
+                    menu.classList.add('show');
+                } else {
+                    menu.classList.remove('show');
+                }
+            });
+        });
+        
+        // Cerrar menús al hacer clic en cualquier parte del documento
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.options-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        });
+    });
     </script>
     
     <link rel="stylesheet" href="<?= base_url('styles/index.css') ?>">
