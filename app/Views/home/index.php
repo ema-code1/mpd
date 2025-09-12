@@ -104,37 +104,56 @@
         });
     });
     </script>
-    <!-- PANEL DE FILTROS LATERAL -->
-<div id="panel-filtros" style="position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: #f9f9f9; box-shadow: 2px 0 10px rgba(0,0,0,0.1); padding: 20px; transition: left 0.3s ease; z-index: 1000; overflow-y: auto;">
-    <h3 style="margin-top: 0; padding-bottom: 10px; border-bottom: 1px solid #ddd; font-family: inherit;">Filtros de búsqueda</h3>
-    <label style="display: block; margin: 10px 0; cursor: pointer; font-family: inherit;">
-        <input type="checkbox" name="filtro" value="titulo" checked> Título
-    </label>
-    <label style="display: block; margin: 10px 0; cursor: pointer; font-family: inherit;">
-        <input type="checkbox" name="filtro" value="autor" checked> Autor
-    </label>
-    <label style="display: block; margin: 10px 0; cursor: pointer; font-family: inherit;">
-        <input type="checkbox" name="filtro" value="edicion" checked> Edición
-    </label>
-    <div style="margin: 15px 0; padding: 10px; background: #f1f1f1; border-radius: 8px; font-family: inherit;">
-    <label style="display: block; margin: 5px 0; cursor: pointer;">
-        <input type="checkbox" name="filtro_precio" value="menor" id="filtro_precio_menor"> Precio menor a:
-        <input type="number" id="precio_menor_valor" placeholder="Ej: 500" style="width: 80px; padding: 3px 5px; margin-left: 10px; border: 1px solid #ccc; border-radius: 4px;">
-    </label>
-    <label style="display: block; margin: 5px 0; cursor: pointer;">
-        <input type="checkbox" name="filtro_precio" value="mayor" id="filtro_precio_mayor"> Precio mayor a:
-        <input type="number" id="precio_mayor_valor" placeholder="Ej: 1000" style="width: 80px; padding: 3px 5px; margin-left: 10px; border: 1px solid #ccc; border-radius: 4px;">
-    </label>
+<div id="panel-filtros">
+    <h3 class="panel-header">Filtros de búsqueda</h3>
+    
+    <div class="filter-options-container">
+        <label class="filter-option">
+            <input type="checkbox" class="toggle" name="filtro" value="titulo" checked> 
+            <span>Título</span>
+        </label>
+        
+        <label class="filter-option">
+            <input type="checkbox" class="toggle" name="filtro" value="autor" checked> 
+            <span>Autor</span>
+        </label>
+        
+        <label class="filter-option">
+            <input type="checkbox" class="toggle" name="filtro" value="edicion" checked> 
+            <span>Edición</span>
+        </label>
+        
+        <div class="price-filter-section">
+            <label class="price-filter-label">
+                <input type="checkbox" class="toggle-price toggle" name="filtro_precio" value="menor" id="filtro_precio_menor" checked> 
+                <span>Precio menor a:</span>
+                <input type="number" class="price-input" id="precio_menor_valor" placeholder="500" checked>
+            </label>
+            
+            <label class="price-filter-label">
+                <input type="checkbox" class="toggle-price toggle" name="filtro_precio" value="mayor" id="filtro_precio_mayor"> 
+                <span>Precio mayor a:</span>
+                <input type="number" class="price-input" id="precio_mayor_valor" placeholder="1000">
+            </label>
+        </div>
+        
+        <label class="filter-option">
+            <input type="checkbox" class="toggle" name="filtro" value="categoria" checked> 
+            <span>Categoría</span>
+        </label>
     </div>
-    <label style="display: block; margin: 10px 0; cursor: pointer; font-family: inherit;">
-        <input type="checkbox" name="filtro" value="categoria" checked> Categoría
-    </label>
-    <button onclick="filtrarLibros()" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; font-family: inherit;">Aplicar Filtros</button>
-    <button onclick="toggleFiltros()" style="width: 100%; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; font-family: inherit;">Cerrar</button>
+    
+    <div class="filter-buttons">
+        <button class="filter-button apply" onclick="filtrarLibros()">Aplicar Filtros</button>
+        <button class="filter-button close" onclick="toggleFiltros()">Cerrar</button>
+    </div>
 </div>
 
-<!-- OVERLAY -->
-<div id="overlay-filtros" onclick="toggleFiltros()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+<!-- OVERLAY con efecto de difuminado -->
+<div id="overlay-filtros" onclick="toggleFiltros()"></div>
+
+
+
 
 <script> //SCRIPT DE FILTRADO
 function toggleFiltros() {

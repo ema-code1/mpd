@@ -98,7 +98,7 @@
             <div class="form-buttons">
                 <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
                 <div>
-                    <a href="<?= site_url('admin') ?>" class="btn-cancel">Cancelar</a>
+                    <a href="<?= site_url('libro/' . $libro['id']) ?>" class="btn-cancel">Cancelar</a>
                     <button type="submit" class="btn-submit">Guardar Cambios</button>
                 </div>
             </div>

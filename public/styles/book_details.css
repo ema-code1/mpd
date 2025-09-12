@@ -155,7 +155,7 @@ body {
     .options-btn {
         background: #ffffff;
         border: none;
-        border-radius:10px;     /* Más border-radius como solicitaste */
+        border-radius: 10px;     /* Más border-radius como solicitaste */
         cursor: pointer;
         padding: 6px;
         width: 40px;
