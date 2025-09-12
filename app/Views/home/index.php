@@ -39,17 +39,7 @@
                                 <li><strong>Categoría:</strong> <?= esc($libro['categoria']) ?></li>
                                 <li><?= esc(substr($libro['descripcion'], 0, 100) . (strlen($libro['descripcion']) > 100 ? '...' : '')) ?></li>
                             </ul>
-                            <div class="card-options">
-                                <button class="options-btn" title="Más opciones">
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="options-menu">
-                                    <a href="<?= site_url('libro/editar/' . $libro['id']) ?>" class="option-item">
-                                        <i class="ti ti-edit"></i>
-                                        <span>Editar publicación</span>
-                                    </a>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 <?php endforeach; ?>

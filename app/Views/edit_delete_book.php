@@ -99,7 +99,7 @@
                 <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
                 <div>
                     <a href="<?= site_url('admin') ?>" class="btn-cancel">Cancelar</a>
-                    <button type="submit" class="btn-submit" onclick="assasassasasasasasasasasa">Guardar Cambios</button>
+                    <button type="submit" class="btn-submit">Guardar Cambios</button>
                 </div>
             </div>
         </form>
@@ -333,7 +333,7 @@ function redirectToHome() {
             <i class="fas fa-check-circle"></i>
         </div>
         <h2 class="popup-title">¡Éxito!</h2>
-        <p class="popup-message">Libro actualizado correctamente</p>
+        <p class="popup-message">Libro subido correctamente</p>
         <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
     </div>
 </div>

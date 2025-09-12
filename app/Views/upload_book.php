@@ -73,6 +73,16 @@
             <button type="submit" class="btn-submit">Guardar Libro</button>
         </div>
     </div>
+    <div id="successPopup" class="popup-overlay" style="display: none;">
+    <div class="popup-container">
+        <div class="popup-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="popup-title">¡Éxito!</h2>
+        <p class="popup-message">Libro subido correctamente</p>
+        <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
+    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -248,6 +258,25 @@
             return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
         }
     });
+
+// SOLO ESTO en el script
+document.getElementById('bookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    showSuccessPopup();
+});
+
+function showSuccessPopup() {
+    const popup = document.getElementById('successPopup');
+    popup.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function redirectToHome() {
+    // Enviar formulario de forma tradicional
+    const form = document.getElementById('bookForm');
+    form.submit();
+}
 </script>
+
 </body>
 </html>

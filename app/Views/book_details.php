@@ -31,10 +31,23 @@
                 </div>
                 <?php endif; ?>
             </div>
-            
             <!-- Sección de información del libro -->
             <div class="book-info">
-                <h1 class="book-title"><?= esc($libro['titulo']) ?></h1>
+                <div class="title-header">
+                    <h1 class="book-title"><?= esc($libro['titulo']) ?></h1>
+                        <!-- Botón de opciones -->
+                    <div class="card-options">
+                        <button class="options-btn" title="Más opciones">
+                            <i class="ti ti-pencil"></i>
+                        </button>
+                        <div class="options-menu">
+                            <a href="<?= site_url('libro/editar/' . $libro['id']) ?>" class="option-item">
+                                <i class="ti ti-edit"></i>
+                                <span>Editar publicación</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <p class="book-price">$<?= number_format($libro['precio'], 2) ?></p>
                 
                 <div class="book-meta">
@@ -86,6 +99,40 @@
             // Agregar clase active a la miniatura clickeada
             event.currentTarget.classList.add('active');
         }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const optionsButtons = document.querySelectorAll('.options-btn');
+    
+    optionsButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const menu = this.nextElementSibling;
+            const isShowing = menu.classList.contains('show');
+            
+            // Cerrar todos los menús abiertos
+            document.querySelectorAll('.options-menu.show').forEach(openMenu => {
+                if (openMenu !== menu) {
+                    openMenu.classList.remove('show');
+                }
+            });
+            
+            // Abrir/cerrar el menú actual
+            if (!isShowing) {
+                menu.classList.add('show');
+            } else {
+                menu.classList.remove('show');
+            }
+        });
+    });
+    
+    // Cerrar menús al hacer clic en cualquier parte del documento
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.options-menu.show').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    });
+});
     </script>
 </body>
 </html>
