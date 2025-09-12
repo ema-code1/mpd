@@ -59,8 +59,8 @@
                     <input type="file" id="fileInput" class="drag-drop-input" accept="image/*" multiple>
                 </div>
                 <!-- Inputs para nuevas fotos -->
-                <input type="file" name="foto1" id="hiddenFoto1" hidden>
-                <input type="file" name="foto2" id="hiddenFoto2" hidden>
+                <input type="file" name="foto1" id="hiddenfoto1" hidden>
+                <input type="file" name="foto2" id="hiddenfoto2" hidden>
                 
                 <!-- Mostrar imágenes actuales -->
                 <div class="current-images">

@@ -111,7 +111,7 @@ public function editar($id)
     }
     
     // Función para actualizar el libro
-    public function actualizar($id)
+public function actualizar($id)
 {
     $libroModel = new LibroModel();
     
@@ -144,12 +144,16 @@ public function editar($id)
         }
     }
 
-    // Procesar NUEVAS imágenes usando processImage() para consistencia
-    $foto1 = $this->processImage('foto1');
-    $foto2 = $this->processImage('foto2');
-    
-    // Solo actualizar si se subió una nueva imagen
-    if ($foto1 !== null) {
+    // DEBUG: Verificar si llegan archivos
+    // echo "Foto1 recibida: " . ($this->request->getFile('foto1') ? 'Sí' : 'No');
+    // echo "Foto2 recibida: " . ($this->request->getFile('foto2') ? 'Sí' : 'No');
+
+    // Procesar NUEVAS imágenes - MANERA CORRECTA
+    $foto1File = $this->request->getFile('foto1');
+    $foto2File = $this->request->getFile('foto2');
+
+    // Procesar foto1 si se subió
+    if ($foto1File && $foto1File->isValid() && !$foto1File->hasMoved()) {
         // Eliminar imagen anterior si existe
         $libroActual = $libroModel->find($id);
         if (!empty($libroActual['foto1'])) {
@@ -158,10 +162,15 @@ public function editar($id)
                 unlink($rutaAnterior);
             }
         }
-        $data['foto1'] = $foto1;
+        
+        // Guardar nueva imagen
+        $newName = $foto1File->getRandomName();
+        $foto1File->move(ROOTPATH . 'public/imgs', $newName);
+        $data['foto1'] = 'imgs/' . $newName;
     }
-    
-    if ($foto2 !== null) {
+
+    // Procesar foto2 si se subió
+    if ($foto2File && $foto2File->isValid() && !$foto2File->hasMoved()) {
         // Eliminar imagen anterior si existe
         $libroActual = $libroModel->find($id);
         if (!empty($libroActual['foto2'])) {
@@ -170,7 +179,11 @@ public function editar($id)
                 unlink($rutaAnterior);
             }
         }
-        $data['foto2'] = $foto2;
+        
+        // Guardar nueva imagen
+        $newName = $foto2File->getRandomName();
+        $foto2File->move(ROOTPATH . 'public/imgs', $newName);
+        $data['foto2'] = 'imgs/' . $newName;
     }
 
     // Actualizar el libro
@@ -180,7 +193,7 @@ public function editar($id)
         return redirect()->back()->with('error', 'Error al actualizar el libro')->withInput();
     }
 }
-    
+
     // Función para eliminar el libro
     public function eliminar($id)
     {
