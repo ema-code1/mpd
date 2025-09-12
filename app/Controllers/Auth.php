@@ -1,5 +1,5 @@
 <?php namespace App\Controllers;
-//Controlador de autenticación prueba
+//Controlador de autenticación
 
 use App\Models\UserModel;
 use App\Models\AdminKeyModel; // Corregido: VendorKeyModel → AdminKeyModel
