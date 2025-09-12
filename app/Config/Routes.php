@@ -58,18 +58,18 @@ $routes->get('admin_home', 'AdminController::admin_home', ['filter' => 'admin'])
 
 
 
-$routes->get('libro/(:num)', 'LibroController::detalles/$1', ['filter' => 'admin']);
+$routes->get('libro/(:num)', 'LibroController::detalles/$1');
 
 
 
 
 // Agregar esta ruta para editar libros
-$routes->get('libro/editar/(:num)', 'LibroController::editar/$1');
-$routes->post('libro/actualizar/(:num)', 'LibroController::actualizar/$1');
-$routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1');
+$routes->get('libro/editar/(:num)', 'LibroController::editar/$1', ['filter' => 'admin']);
+$routes->post('libro/actualizar/(:num)', 'LibroController::actualizar/$1', ['filter' => 'admin']);
+$routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1' , ['filter' => 'admin']);
 
 
-$routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1');
+$routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1' , ['filter' => 'admin']);
 
 // -----------------------------
 // 🛠️ OTRAS RUTAS (si las necesitas en el futuro)
