@@ -1,4 +1,4 @@
-/* Modern Orange Minimalist - edit_delete_book.css */
+    /* Modern Orange Minimalist - edit_delete_book.css */
 :root {
     --primary: #EF8D00;
     --secondary: #f28c00;
@@ -335,6 +335,7 @@ body {
 }
 
 /* Popup Styles */
+/* Estilos del popup - VERSIÓN CORREGIDA */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -347,15 +348,16 @@ body {
     align-items: center;
     z-index: 1000;
     backdrop-filter: blur(5px);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .popup-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem;
+    background: white;
+    padding: 30px;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
+    max-width: 350px;
     width: 90%;
     animation: popupIn 0.3s ease-out;
 }
@@ -372,9 +374,9 @@ body {
 }
 
 .popup-icon {
-    font-size: 4rem;
-    color: #4ade80;
-    margin-bottom: 1rem;
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 15px;
     animation: bounce 0.5s ease-in-out;
 }
 
@@ -390,43 +392,12 @@ body {
     }
 }
 
-/* Popup Styles - Estilo Admin */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    font-family: Arial, sans-serif;
-}
-
-.popup-container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    max-width: 350px;
-    width: 90%;
-    border: 1px solid #ddd;
-}
-
-.popup-icon {
-    font-size: 3rem;
-    color: #28a745;
-    margin-bottom: 15px;
-}
-
 .popup-title {
     color: #333;
     font-size: 1.5rem;
     margin-bottom: 10px;
-    font-weight: bold;
+    font-weight: 600;
+    letter-spacing: -0.5px;
 }
 
 .popup-message {
@@ -446,27 +417,13 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    min-width: 80px;
 }
 
 .popup-button:hover {
-    background: #ffffff;
-    transform: scale(1.1);
-}
-
-/* Estilo minimalista y profesional */
-.popup-container {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.popup-title {
-    font-weight: 600;
-    letter-spacing: -0.5px;
-}
-
-.popup-button {
-    font-weight: 500;
-    text-transform: none;
-    min-width: 80px;
+    background: #EF8D00;
+    color: white;
+    transform: scale(1.05);
 }
 
 @keyframes fadeIn {
