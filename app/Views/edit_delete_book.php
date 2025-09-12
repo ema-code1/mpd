@@ -99,7 +99,7 @@
                 <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
                 <div>
                     <a href="<?= site_url('admin') ?>" class="btn-cancel">Cancelar</a>
-                    <button type="submit" class="btn-submit">Guardar Cambios</button>
+                    <button type="submit" class="btn-submit" onclick="assasassasasasasasasasasa">Guardar Cambios</button>
                 </div>
             </div>
         </form>
@@ -307,6 +307,37 @@
             document.getElementById('deleteForm').submit();
         }
     }
+
+
+// SOLO ESTO en el script
+document.getElementById('bookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    showSuccessPopup();
+});
+
+function showSuccessPopup() {
+    const popup = document.getElementById('successPopup');
+    popup.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function redirectToHome() {
+    // Enviar formulario de forma tradicional
+    const form = document.getElementById('bookForm');
+    form.submit();
+}
 </script>
+<div id="successPopup" class="popup-overlay" style="display: none;">
+    <div class="popup-container">
+        <div class="popup-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="popup-title">¡Éxito!</h2>
+        <p class="popup-message">Libro actualizado correctamente</p>
+        <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
+    </div>
+</div>
+
 </body>
+
 </html>

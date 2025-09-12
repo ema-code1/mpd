@@ -205,14 +205,15 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: background-color 0.2s;
+        transition: all 0.2s ease;
         color: #333;
         text-decoration: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.20);
     }
     
     .option-item:hover {
-        background-color: #f0f7ff;
-        color: #1a73e8;
+        background-color: #f6f6f6;
+        color: #EF8D00;
     }
     
     .option-item i {
@@ -227,20 +228,6 @@
         justify-content: space-between;
         align-items: center;
         border-top: 1px solid #eee;
-    }
-    
-    .btn-detail {
-        background-color: #4a6cf7;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background-color 0.3s;
-    }
-    
-    .btn-detail:hover {
-        background-color: #3a5ae0;
     }
 
 
