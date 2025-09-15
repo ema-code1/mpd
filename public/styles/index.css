@@ -25,9 +25,15 @@ body {
 
 .filter-label {
     color: #fff;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 1.2rem;
     white-space: nowrap;
+    background: none; 
+    border: none; 
+    cursor: pointer;
+    display: flex; 
+    align-items: center; 
+    gap: 5px;
 }
 
 .search-input {
@@ -204,6 +210,203 @@ body {
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #eee;
+}
+
+
+/* Variables */
+:root {
+    --primary: #EF8D00;
+    --secondary: #f28c00;
+    --hover: #ffaf3e;
+    --background: #f6f6f6;
+    --text: #333333;
+    --text-secondary: #666666;
+    --text-tertiary: #777777;
+    --white: #ffffff;
+    --border: #e0e0e0;
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --radius-sm: 10px;
+    --radius-lg: 15px;
+    --transition: all 0.3s ease;
+}
+
+/* Estilos para el panel de filtros */
+#panel-filtros {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: auto;
+    background: var(--white);
+    box-shadow: var(--shadow-hover);
+    border-radius: 20px;
+    padding: 40px;
+    padding-left: 100px;
+    margin-top: 250px; /* ACA VER CARAJO */ 
+    transition: var(--transition);
+    z-index: 1000;
+    overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+#panel-filtros h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de opciones de precio */
+#panel-filtros > div {
+    margin: 15px 0;
+    padding: 15px;
+    background: var(--background);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+/* Estilos para labels */
+#panel-filtros label {
+    display: block;
+    margin: 15px 0;
+    cursor: pointer;
+    color: var(--text);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+#panel-filtros label:hover {
+    color: var(--primary);
+}
+
+/* Estilos para botones */
+#panel-filtros button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    margin-top: 15px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+#panel-filtros button:first-of-type {
+    background: var(--primary);
+    color: var(--white);
+}
+
+#panel-filtros button:first-of-type:hover {
+    background: var(--hover);
+    box-shadow: var(--shadow-hover);
+}
+
+#panel-filtros button:last-of-type {
+    background: var(--text-secondary);
+    color: var(--white);
+}
+
+#panel-filtros button:last-of-type:hover {
+    background: var(--text-tertiary);
+    box-shadow: var(--shadow);
+}
+
+/* Campos de número para precios */
+#panel-filtros input[type="number"] {
+    width: 80px;
+    padding: 8px;
+    margin-left: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+#panel-filtros input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(239, 141, 0, 0.2);
+}
+
+/* Estilos para checkboxes personalizados */
+#panel-filtros input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#panel-filtros input[type="checkbox"]:focus {
+    outline: 0;
+}
+
+#panel-filtros input[type="checkbox"] + span {
+    display: inline-block;
+    position: relative;
+}
+
+/* Toggle switch para checkboxes */
+#panel-filtros input[type="checkbox"] + span::before {
+    content: "";
+    height: 22px;
+    width: 42px;
+    border-radius: 16px;
+    display: inline-block;
+    position: relative;
+    margin: 0 10px 0 0;
+    border: 2px solid var(--border);
+    background: var(--border);
+    transition: var(--transition);
+    vertical-align: middle;
+}
+
+#panel-filtros input[type="checkbox"] + span::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
+    transition: var(--transition);
+    vertical-align: middle;
+}
+
+#panel-filtros input[type="checkbox"]:checked + span::before {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+
+#panel-filtros input[type="checkbox"]:checked + span::after {
+    transform: translateX(20px);
+}
+
+/* Estilo especial para los checkboxes de precio */
+#panel-filtros input[name="filtro_precio"] + span::before {
+    margin-right: 15px;
+}
+
+/* Ajuste para labels con inputs de precio */
+#panel-filtros > div label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    #panel-filtros {
+        width: 85%;
+        left: -85%;
+    }
 }
 
 /* ANIMACIONES */
