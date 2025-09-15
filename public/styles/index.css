@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
 
-<<<<<<< HEAD
 :root {
     --primary: #EF8D00;
     --secondary: #f28c00;
@@ -24,14 +23,6 @@
         box-sizing: border-box;
         font-family: 'Poppins', Arial, Helvetica, sans-serif;
     }
-=======
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', Arial, Helvetica, sans-serif;
-}
->>>>>>> 39d0c10e5bb77077f423f9cb646ab18a1d77154a
 
 body {
     background: #ffffff;
@@ -293,7 +284,6 @@ body {
         padding: 10px;
     }
 
-<<<<<<< HEAD
     .card {
         background-color: #fff;
         border-radius: 10px;
@@ -334,11 +324,6 @@ body {
 
     .card:hover {
         transform: translateY(-5px);
-=======
-    .card-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 0.8rem;
->>>>>>> 39d0c10e5bb77077f423f9cb646ab18a1d77154a
     }
 
     .card-title {
@@ -355,7 +340,6 @@ body {
         grid-template-columns: 1fr;
     }
 
-<<<<<<< HEAD
     .card-desc {
         list-style: none;
         padding: 0;
@@ -379,7 +363,7 @@ body {
         align-items: center;
         border-top: 1px solid #eee;
     }
-
+}
 
 
 
@@ -789,10 +773,3 @@ input[type="checkbox"]:focus{
             margin: 0 auto;
         }
     }
-=======
-    .card {
-        max-width: 280px;
-        margin: 0 auto;
-    }
-}
->>>>>>> 39d0c10e5bb77077f423f9cb646ab18a1d77154a
