@@ -110,41 +110,71 @@
     <h3>Filtrar por</h3>
     <label>
         <input type="checkbox" name="filtro" value="titulo" checked> 
-        <span>Título</span>
+        <span class="span">Título</span>
     </label>
     <label>
         <input type="checkbox" name="filtro" value="autor" checked> 
-        <span>Autor</span>
+        <span class="span">Autor</span>
     </label>
     <label>
         <input type="checkbox" name="filtro" value="edicion" checked> 
-        <span>Edición</span>
+        <span class="span">Edición</span>
     </label>
     <div class="filtro-precio">
         <label>
-            <input type="checkbox" name="filtro_precio" value="menor" id="filtro_precio_menor"> 
-            <span>Precio menor a:</span>
-            <input type="number" id="precio_menor_valor" placeholder="Ej: 500">
-        </label>
-        <label>
             <input type="checkbox" name="filtro_precio" value="mayor" id="filtro_precio_mayor"> 
-            <span>Precio mayor a:</span>
+            <span class="masde">Más de</span>
             <input type="number" id="precio_mayor_valor" placeholder="Ej: 1000">
         </label>
+        <label>
+            <input type="checkbox" name="filtro_precio" value="menor" id="filtro_precio_menor"> 
+            <span>Menos de</span>
+            <input type="number" id="precio_menor_valor" placeholder="Ej: 500">
+        </label>
+        
     </div>
     <label>
         <input type="checkbox" name="filtro" value="categoria" checked> 
-        <span>Categoría</span>
+        <span class="span">Categoría</span>
     </label>
     <button onclick="filtrarLibros()">Aplicar Filtros</button>
-    <button onclick="toggleFiltros()">Cerrar</button>
+    <button>Cerrar</button>
 </div>
 
 
 
 
 <script> //SCRIPT DE FILTRADO
+  const btnFiltros = document.getElementById("btn-filtros");
+  const panelFiltros = document.getElementById("panel-filtros");
+  const overlayFiltros = document.getElementById("overlay-filtros");
+  const closeBtns = panelFiltros.querySelectorAll("button, .cerrar-filtros");
 
+  // Abrir o cerrar sidebar con el mismo botón
+  btnFiltros.addEventListener("click", (e) => {
+    e.stopPropagation();
+    panelFiltros.classList.toggle("active");
+    overlayFiltros.classList.toggle("active");
+  });
+
+  // Cerrar sidebar con botones internos
+  closeBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      panelFiltros.classList.remove("active");
+      overlayFiltros.classList.remove("active");
+    });
+  });
+
+  // Cerrar sidebar haciendo click fuera (en documento)
+  document.addEventListener("click", () => {
+    panelFiltros.classList.remove("active");
+    overlayFiltros.classList.remove("active");
+  });
+
+  // Evitar cierre si clickeo dentro del panel
+  panelFiltros.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 
 
 
@@ -197,15 +227,7 @@ function filtrarLibros() {
         // Mostrar solo si coincide texto Y precio
         item.style.display = (coincideTexto && coincidePrecio) ? 'flex' : 'none';
     });
-}
-
-// Asignar evento al botón "Filtrar"
-document.addEventListener('DOMContentLoaded', function() {
-    const btnFiltros = document.getElementById('btn-filtros');
-    if (btnFiltros) {
-        btnFiltros.addEventListener('click', toggleFiltros);
-    }
-});
+};
 </script>
     
     <link rel="stylesheet" href="<?= base_url('styles/index.css') ?>">

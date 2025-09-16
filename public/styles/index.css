@@ -15,26 +15,27 @@
     --radius-sm: 10px;
     --radius-lg: 15px;
     --transition: all 0.3s ease;
-}   
+}
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', Arial, Helvetica, sans-serif;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
 
 body {
     background: #ffffff;
     overflow-x: hidden;
 }
 
+/* ---------- Filter bar ---------- */
 .filter-bar {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 1.5rem;
-    background: #EF8D00;
+    background: var(--primary);
     border-radius: 30px 30px 0 0;
     width: 100%;
     padding: 20px 5%;
@@ -45,11 +46,11 @@ body {
     font-weight: 700;
     font-size: 1.2rem;
     white-space: nowrap;
-    background: none; 
-    border: none; 
+    background: none;
+    border: none;
     cursor: pointer;
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     gap: 5px;
 }
 
@@ -62,10 +63,22 @@ body {
     border: none;
     outline: none;
     font-size: 1rem;
+    
+}
+.search-input:focus {
+    animation: stretch-caret 0.33s step-start infinite;
+    transition: 0.3s ease;
 }
 
+@keyframes blink-stretch {
+  0%, 100% { height: 1em; } /* tamaño normal del cursor */
+  50% { height: 0.5em; }    /* achica a la mitad */
+}
+
+
+/* ---------- Cards ---------- */
 .cards-container {
-    background-color: #EF8D00;
+    background-color: var(--primary);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -75,14 +88,13 @@ body {
 .container-container {
     display: flex;
     justify-content: center;
-    background-color: #f6f6f6;
+    background-color: var(--background);
     width: 95%;
     max-width: 1800px;
     padding: 30px 20px;
     border-radius: 20px;
 }
 
-/* Grid de cards */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -95,36 +107,35 @@ body {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
     position: relative;
+    padding: 10px 10px;
 }
 
 .card:hover {
     transform: translateY(-5px);
 }
 
-/* --- ESTILOS MODIFICADOS PARA LAS IMÁGENES --- */
 .card-img {
     width: 100%;
-    height: 250px; /* Altura fija para consistencia */
+    height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f6f6f6; /* Fondo para cuando hay barras con 'contain' */
+    background-color: var(--white);
 }
 
 .book-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* ¡Esta es la clave! Muestra la imagen completa sin recortar */
+    object-fit: contain;
     display: block;
 }
-/* ------------------------------------------- */
 
 .card-title {
     font-size: 1.1rem;
@@ -136,7 +147,7 @@ body {
 .card-price {
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text);
     font-size: 1.2rem;
 }
 
@@ -153,15 +164,15 @@ body {
     margin-bottom: 0.2rem;
 }
 
-/* Estilos para el card y el menú de tres puntos */
-.card {
-    position: relative;
+.card-footer {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
 }
 
-.card-image-container {
-    position: relative;
-}
-
+/* ---------- Options menu ---------- */
 .card-options {
     position: absolute;
     top: 10px;
@@ -180,13 +191,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .options-btn:hover {
-    display: flex;
     background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hover);
     transform: scale(1.05);
 }
 
@@ -197,7 +207,7 @@ body {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-hover);
     padding: 8px 0;
     min-width: 160px;
     z-index: 1000;
@@ -211,7 +221,7 @@ body {
 .options-menu .dropdown-item {
     padding: 8px 16px;
     text-decoration: none;
-    color: #333;
+    color: var(--text);
     display: block;
     transition: background-color 0.2s;
 }
@@ -220,57 +230,46 @@ body {
     background-color: #f8f9fa;
 }
 
-/* Estilos para el card-footer */
-.card-footer {
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #eee;
-}
-
-
-/* Variables */
-:root {
-    --primary: #EF8D00;
-    --secondary: #f28c00;
-    --hover: #ffaf3e;
-    --background: #f6f6f6;
-    --text: #333333;
-    --text-secondary: #666666;
-    --text-tertiary: #777777;
-    --white: #ffffff;
-    --border: #e0e0e0;
-    --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --radius-sm: 10px;
-    --radius-lg: 15px;
-    --transition: all 0.3s ease;
-}
-
-/* Estilos para el panel de filtros */
-#panel-filtros {
+/* ---------- Sidebar (primer estilo elegido) ---------- */
+.panel-filtros {
     position: fixed;
-    top: 0;
-    left: -300px;
+    top: calc(90px + 50vh) ;
+    left: -300px; /* o right: 0 si está del otro lado */
+    transform: translateY(-50%);
     width: 300px;
     height: auto;
     background: var(--white);
-    box-shadow: var(--shadow-hover);
+    box-shadow: var(--shadow);
     border-radius: 20px;
-    padding: 40px;
-    padding-left: 100px;
-    margin-top: 250px; /* ACA VER CARAJO */ 
+    padding: 25px;
+    padding-left: 50px; /* MODIFICAR*/
     transition: var(--transition);
     z-index: 1000;
     overflow-y: auto;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
-#panel-filtros.active {
-    left: 0;
+.panel-filtros.active {
+    left: -20px;
 }
 
-#panel-filtros h3 {
+.overlay-filtros {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: var(--transition);
+}
+#overlay-filtros.active {
+    display: block;
+    opacity: 1;
+}
+
+.panel-filtros h3 {
     margin-top: 0;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
@@ -279,32 +278,38 @@ body {
     margin-bottom: 20px;
 }
 
-/* Contenedor de opciones de precio */
-#panel-filtros > div {
+.filtro-precio {
     margin: 15px 0;
-    padding: 15px;
+    padding: 0 15px;
     background: var(--background);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
 }
 
-/* Estilos para labels */
-#panel-filtros label {
-    display: block;
+.panel-filtros label {
+    display: flex;
     margin: 15px 0;
     cursor: pointer;
     color: var(--text);
     transition: var(--transition);
+}
+
+.span {
     display: flex;
     align-items: center;
 }
 
-#panel-filtros label:hover {
+.masde {
+    text-wrap: nowrap;
+    white-space: nowrap;
+}
+
+
+.panel-filtros label:hover {
     color: var(--primary);
 }
 
-/* Estilos para botones */
-#panel-filtros button {
+.panel-filtros button {
     width: 100%;
     padding: 12px;
     border: none;
@@ -316,28 +321,25 @@ body {
     transition: var(--transition);
 }
 
-#panel-filtros button:first-of-type {
+.panel-filtros button:first-of-type {
     background: var(--primary);
     color: var(--white);
 }
-
-#panel-filtros button:first-of-type:hover {
+.panel-filtros button:first-of-type:hover {
     background: var(--hover);
     box-shadow: var(--shadow-hover);
 }
 
-#panel-filtros button:last-of-type {
+.panel-filtros button:last-of-type {
     background: var(--text-secondary);
     color: var(--white);
 }
-
-#panel-filtros button:last-of-type:hover {
+.panel-filtros button:last-of-type:hover {
     background: var(--text-tertiary);
     box-shadow: var(--shadow);
 }
 
-/* Campos de número para precios */
-#panel-filtros input[type="number"] {
+.panel-filtros input[type="number"] {
     width: 80px;
     padding: 8px;
     margin-left: 10px;
@@ -345,15 +347,13 @@ body {
     border-radius: var(--radius-sm);
     transition: var(--transition);
 }
-
-#panel-filtros input[type="number"]:focus {
+.panel-filtros input[type="number"]:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(239, 141, 0, 0.2);
 }
 
-/* Estilos para checkboxes personalizados */
-#panel-filtros input[type="checkbox"] {
+.panel-filtros input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -361,32 +361,25 @@ body {
     cursor: pointer;
     margin-right: 10px;
 }
-
-#panel-filtros input[type="checkbox"]:focus {
+.panel-filtros input[type="checkbox"]:focus {
     outline: 0;
 }
-
-#panel-filtros input[type="checkbox"] + span {
-    display: inline-block;
+.panel-filtros input[type="checkbox"] + span {
     position: relative;
 }
 
-/* Toggle switch para checkboxes */
-#panel-filtros input[type="checkbox"] + span::before {
+.panel-filtros input[type="checkbox"] + span::before {
     content: "";
     height: 22px;
     width: 42px;
     border-radius: 16px;
     display: inline-block;
-    position: relative;
-    margin: 0 10px 0 0;
+    margin-right: 10px;
     border: 2px solid var(--border);
     background: var(--border);
     transition: var(--transition);
-    vertical-align: middle;
 }
-
-#panel-filtros input[type="checkbox"] + span::after {
+.panel-filtros input[type="checkbox"] + span::after {
     content: "";
     position: absolute;
     top: 2px;
@@ -397,51 +390,19 @@ body {
     background: var(--white);
     box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
     transition: var(--transition);
-    vertical-align: middle;
 }
-
-#panel-filtros input[type="checkbox"]:checked + span::before {
+.panel-filtros input[type="checkbox"]:checked + span::before {
     border-color: var(--primary);
     background: var(--primary);
 }
-
-#panel-filtros input[type="checkbox"]:checked + span::after {
+.panel-filtros input[type="checkbox"]:checked + span::after {
     transform: translateX(20px);
 }
 
-/* Estilo especial para los checkboxes de precio */
-#panel-filtros input[name="filtro_precio"] + span::before {
-    margin-right: 15px;
-}
 
-/* Ajuste para labels con inputs de precio */
-#panel-filtros > div label {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
-/* Responsive */
-@media (max-width: 480px) {
-    #panel-filtros {
-        width: 85%;
-        left: -85%;
-    }
-}
 
-/* ANIMACIONES */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.97);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Responsive */
+/* ---------- Responsive ---------- */
 @media (max-width: 1200px) {
     .card-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -453,11 +414,9 @@ body {
         gap: 1rem;
         padding: 15px 5%;
     }
-
     .filter-label {
         font-size: 1.1rem;
     }
-
     .card-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 1.2rem;
@@ -470,74 +429,41 @@ body {
         align-items: stretch;
         padding: 15px;
     }
-
     .search-input {
         max-width: 100%;
     }
-
     .container-container {
         padding: 20px 15px;
     }
-
     .card-grid {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 1rem;
+    }
+    #panel-filtros {
+        width: 280px;
+        left: -280px;
     }
 }
 
 @media (max-width: 576px) {
     .filter-bar {
-        padding: 10px;
+        border-radius: 20px 20px 0 0;
+        padding: 12px 7%;
     }
-
-    .card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        padding: 5px;
-        transition: transform .2s ease;
-        animation: fadeIn 0.5s ease forwards;
-        display: flex;
-        flex-direction: column;
+    .filter-label {
+        font-size: 1rem;
     }
-
-    .card-img {
-        height: 10rem;
-        width: 100%;
-        background-color: #ffffff9c;
-        border-radius: 10px;
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-
-    .card-img .book-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-
-    .card-body {
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
     .card-title {
         font-size: 1rem;
     }
-
     .card-price {
         font-size: 1.1rem;
+    }
+    .card-desc {
+        font-size: 0.8rem;
     }
 }
 
@@ -545,426 +471,15 @@ body {
     .card-grid {
         grid-template-columns: 1fr;
     }
-
-    .card-desc {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        font-size: 0.85rem;
-        color: #555;
-        flex-grow: 1;
+    .card {
+        max-width: 280px;
+        margin: 0 auto;
     }
-
-    .card-desc li {
-        margin-bottom: 0.2rem;
-    }
-
-    
-    
-    /* Estilos para el card-footer */
-    .card-footer {
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid #eee;
-    }
-}
-
-
-
-
-    /* ANIMACIONES */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.97);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-
-
-/* Panel de filtros estilo ventana lateral */
-#panel-filtros {
-    position: fixed;
-    top: 0;
-    left: -320px;
-    width: 320px;
-    height: 100vh;
-    background: var(--white);
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
-    padding: 0;
-    transition: var(--transition);
-    z-index: 1000;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Reemplazo del JavaScript con CSS puro */
-#toggle-filtros {
-    display: none;
-}
-
-#overlay-filtros {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-#toggle-filtros:checked ~ #overlay-filtros {
-    display: block;
-    opacity: 1;
-}
-
-#panel-filtros {
-    position: fixed;
-    top: 0;
-    left: -320px;
-    width: 320px;
-    height: 100vh;
-    background: var(--white);
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
-    padding: 0;
-    transition: var(--transition);
-    z-index: 1000;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-#toggle-filtros{
-    left: 0;
-}
-
-/* Estilo para el botón que activa/desactiva el panel */
-.toggle-filtros-btn {
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
-    padding: 10px 15px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-}
-
-.toggle-filtros-btn:hover {
-    background-color: var(--hover);
-    box-shadow: var(--shadow-hover);
-}
-
-/* Estilo para el botón de cerrar dentro del panel */
-.cerrar-filtros {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: var(--text);
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.cerrar-filtros:hover {
-    color: var(--primary);
-}
-
-.panel-header {
-    background: var(--primary);
-    color: var(--white);
-    padding: 20px;
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-
-.filter-options-container {
-    padding: 20px;
-    flex-grow: 1;
-}
-
-.filter-option {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    color: var(--text);
-    transition: var(--transition);
-}
-
-.filter-option:hover {
-    background-color: #f9f9f9;
-}
-
-
-input[type="checkbox"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
-}
-input[type="checkbox"]:focus{
-    outline: 0;
-}
-
-        /* Estilos para el interruptor personalizado */
-        .toggle {
-            height: 32px;
-            width: 52px;
-            border-radius: 16px;
-            display: inline-block;
-            position: relative;
-            margin: 0 20px;
-            border: 2px solid #474755;
-            background: #777777;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .toggle-price {
-            height: 32px;
-            width: 52px;
-            border-radius: 16px;
-            display: inline-block;
-            position: relative;
-            margin: 0 2x;
-            border: 2px solid #474755;
-            background: #777777;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        /* Círculo deslizante */
-        .toggle::after {
-            content: "";
-            position: absolute;
-            top: 1px;
-            left: 1px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
-            transition: all 0.3s ease cubic-bezier(0.5, 0.1, 0.75, 1.35);
-        }
-
-        /* Estado activo/checked */
-        .toggle:checked {
-            border-color: #EF8D00;
-            background-color:#ffaf3e;
-        }
-
-        .toggle:checked::after {
-            transform: translateX(20px);
-            transition: all 0.3 ease;
-        }
-
-        /* Contenedor para organizar los elementos */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        /* Etiqueta de texto */
-        .checkbox-label {
-            margin-left: 10px;
-            font-family: Arial, sans-serif;
-        }
-
-.price-filter-section {
-    margin: 20px 0;
-    padding: 15px;
-    background: var(--background);
-    border-radius: var(--radius-sm);
-    border-left: 4px solid var(--primary);
-}
-
-.price-filter-label {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    cursor: pointer;
-}
-
-.price-input {
-    width: 80px;
-    padding: 8px 10px;
-    margin-left: 10px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: inherit;
-    transition: var(--transition);
-}
-
-.price-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgb(212, 186, 150);
-}
-
-.filter-buttons {
-    padding: 20px;
-    background: #f9f9f9;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.filter-button {
-    padding: 12px;
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
-    text-align: center;
-}
-
-.filter-button.apply {
-    background: var(--primary);
-}
-
-.filter-button.apply:hover {
-    background: var(--hover);
-}
-
-.filter-button.close {
-    background: var(--text-secondary);
-}
-
-.filter-button.close:hover {
-    background: var(--text-tertiary);
-}
-
-
-
-
-/* Responsive */
-@media (max-width: 768px) {
-    #panel-filtros {
-        width: 280px;
-        left: -280px;
-    }
-}
-
-@media (max-width: 400px) {
     #panel-filtros {
         width: 85%;
         left: -85%;
     }
-    
     .price-input {
         width: 70px;
     }
 }
-
-
-
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-        .card-grid {
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        }
-    }
-
-    @media (max-width: 992px) {
-        .filter-bar {
-            gap: 1rem;
-            padding: 15px 5%;
-        }
-        
-        .filter-label {
-            font-size: 1.1rem;
-        }
-        
-        .card-grid {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.2rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .filter-bar {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.8rem;
-            padding: 15px 7%;
-        }
-        
-        .search-input {
-            max-width: 100%;
-            width: 100%;
-        }
-        
-        .container-container {
-            padding: 20px 15px;
-            width: 98%;
-        }
-        
-        .card-grid {
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1rem;
-        }
-        
-        .card-img {
-            height: 8rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .filter-bar {
-            border-radius: 20px 20px 0 0;
-            padding: 12px 7%;
-        }
-        
-        .filter-label {
-            font-size: 1rem;
-        }
-        
-        .card-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .card-title {
-            font-size: 1rem;
-        }
-        
-        .card-price {
-            font-size: 1.1rem;
-        }
-        
-        .card-desc {
-            font-size: 0.8rem;
-        }
-    }
-
-    @media (max-width: 400px) {
-        .card-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .card {
-            max-width: 280px;
-            margin: 0 auto;
-        }
-    }
