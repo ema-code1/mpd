@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 </head>
 <body>
+    <!-- Comentario -->
     <div class="book-details-container">
         <div class="book-details">
             <!-- Sección de imágenes con slider -->

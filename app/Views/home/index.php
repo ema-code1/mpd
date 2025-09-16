@@ -21,13 +21,13 @@
             <?php if(!empty($libros)): ?>
                 <?php foreach($libros as $libro): ?>
                     <div class="card" 
-     data-titulo="<?= esc($libro['titulo']) ?>" 
-     data-autor="<?= esc($libro['autor']) ?>" 
-     data-edicion="<?= esc($libro['edicion'] ?? 'No especificada') ?>" 
-     data-precio="<?= esc(str_replace(',', '.', str_replace('$', '', $libro['precio']))) ?>"
-     data-categoria="<?= esc($libro['categoria']) ?>"
-     onclick="window.location.href='<?= site_url('libro/' . $libro['id']) ?>'" 
-     style="cursor: pointer;">   
+                         data-titulo="<?= esc($libro['titulo']) ?>" 
+                         data-autor="<?= esc($libro['autor']) ?>" 
+                         data-edicion="<?= esc($libro['edicion'] ?? 'No especificada') ?>" 
+                         data-precio="<?= esc(str_replace(',', '.', str_replace('$', '', $libro['precio']))) ?>"
+                         data-categoria="<?= esc($libro['categoria']) ?>"
+                         onclick="window.location.href='<?= site_url('libro/' . $libro['id']) ?>'" 
+                         style="cursor: pointer;">   
                         <div class="card-img">
                             <?php if (!empty($libro['foto1'])): ?>
                                 <img src="<?= base_url( $libro['foto1'])?>"
@@ -104,8 +104,9 @@
         });
     });
     </script>
+    
     <!-- PANEL DE FILTROS LATERAL -->
-<div id="panel-filtros">
+<div class="panel-filtros" id="panel-filtros">
     <h3>Filtrar por</h3>
     <label>
         <input type="checkbox" name="filtro" value="titulo" checked> 
@@ -139,24 +140,13 @@
     <button onclick="toggleFiltros()">Cerrar</button>
 </div>
 
-<!-- OVERLAY con efecto de difuminado -->
-<div id="overlay-filtros" onclick="toggleFiltros()"></div>
-
 
 
 
 <script> //SCRIPT DE FILTRADO
-function toggleFiltros() {
-    const panel = document.getElementById('panel-filtros');
-    const overlay = document.getElementById('overlay-filtros');
-    if (panel.style.left === "-80px") {
-        panel.style.left = "0px";
-        overlay.style.display = "none";
-    } else {
-        panel.style.left = "-80px";
-        overlay.style.display = "block";
-    }
-}
+
+
+
 
 function filtrarLibros() {
     const texto = document.getElementById('buscador').value.toLowerCase();
