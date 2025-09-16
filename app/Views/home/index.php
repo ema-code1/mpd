@@ -139,15 +139,18 @@
     <button onclick="toggleFiltros()">Cerrar</button>
 </div>
 
-<!-- OVERLAY -->
-<div id="overlay-filtros" onclick="toggleFiltros()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+<!-- OVERLAY con efecto de difuminado -->
+<div id="overlay-filtros" onclick="toggleFiltros()"></div>
+
+
+
 
 <script> //SCRIPT DE FILTRADO
 function toggleFiltros() {
     const panel = document.getElementById('panel-filtros');
     const overlay = document.getElementById('overlay-filtros');
     if (panel.style.left === "-80px") {
-        panel.style.left = "-300px";
+        panel.style.left = "0px";
         overlay.style.display = "none";
     } else {
         panel.style.left = "-80px";

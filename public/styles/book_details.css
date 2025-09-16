@@ -127,6 +127,107 @@ body {
     margin: 0;
 }
 
+
+/* CONTENEDOR PARA TÍTULO Y BOTÓN EN LA MISMA LÍNEA */
+.title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.book-title {
+    font-size: 2.5em;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+    font-weight: 700;
+    flex: 1; /* Esto hace que el título ocupe el espacio disponible */
+}
+
+/* Estilos para el card y el menú de tres puntos */   
+    .card-options {
+    position: relative;
+    flex-shrink: 0; /* Evita que se reduzca de tamaño */
+}
+    
+    .options-btn {
+        background: #ffffff;
+        border: none;
+        border-radius: 10px;     /* Más border-radius como solicitaste */
+        cursor: pointer;
+        padding: 6px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .options-btn i {
+    font-size: 23px; /* Ajusta este valor según necesites */
+    width: 24px;
+    padding-bottom: 2px;
+}
+    
+    .options-btn:hover {
+        display: flex;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: scale(1.05);
+    }
+    
+    .options-menu {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transform: translateX(-180px);
+        transition: all 0.3s ease;
+        z-index: 10;
+        min-width: 180px;
+        overflow: hidden;
+    }
+    
+    .options-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transform: translate(-190px);
+    }
+    
+    .option-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s ease;
+        color: #333;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    }
+    
+    .option-item:hover {
+        background-color: #fefefe;
+        color: #EF8D00;
+    }
+    
+    .option-item i {
+        font-size: 25px;
+        width: 40px;
+    }
+
+
+
 /* Meta información */
 .book-meta {
     display: flex;
