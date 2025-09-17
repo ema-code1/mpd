@@ -21,12 +21,13 @@ body {
   align-items: center;
   position: relative;
   z-index: 1000;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .navbar-container {
-  width: 90%;
+  width: 95%;
   max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -229,6 +230,36 @@ body {
 
 .overlay.active {
   display: block;
+}
+
+.cartbtn {
+  background-color: #EF8D00;
+  border: 2px solid #EF8D00;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 1px;
+  justify-content: center;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.cartbtn:hover {
+  background-color: #fb9f1e;
+  border-color: #fb9f1e;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.cart-icon {
+  font-size: 1.1rem;
 }
 
 /* RESPONSIVE */

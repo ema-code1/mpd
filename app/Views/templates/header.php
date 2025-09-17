@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
   <link rel="stylesheet" href="<?= base_url('styles/header.css') ?>">
 </head>
 <body>
@@ -19,7 +20,9 @@
           </h1>
         </div>
       </a>
-      <div class="navbar-links">
+
+
+<div class="navbar-links">
   
   
   <!-- DEBUG: Mostrar información de sesión -->
@@ -57,9 +60,11 @@
       <i class="ti ti-dashboard"></i>
       <span>Admin.</span>
     </a>
-  <?php endif; ?>
+    
+<?php endif ?>
 
   <div class="overlay" id="overlay"></div>
+
 <?php else: ?>
   <!-- USUARIO NO LOGUEADO - Menú desplegable -->
   <div class="user-menu">
@@ -79,6 +84,11 @@
   </div>
   <div class="overlay" id="overlay"></div>
 <?php endif; ?>
+
+    <a href="<?= site_url('cart') ?>" class="cartbtn">
+      <i class="cart-icon fas fa-shopping-cart"></i>
+    </a>
+
 </div>
     </div>
   </nav>
