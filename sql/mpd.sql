@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-09-2025 a las 23:47:40
+-- Tiempo de generación: 17-09-2025 a las 02:24:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,6 +44,29 @@ INSERT INTO `admin_keys` (`id`, `admin_key_hash`, `description`, `created_at`) V
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `libro_id` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 1,
+  `seleccionado` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=seleccionado para comprar, 0=no seleccionado',
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id`, `user_id`, `libro_id`, `cantidad`, `seleccionado`, `created_at`) VALUES
+(1, 2, 12, 2, 1, '2025-09-16 21:11:53'),
+(2, 2, 10, 1, 1, '2025-09-16 21:21:02');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `libros`
 --
 
@@ -66,7 +89,9 @@ CREATE TABLE `libros` (
 --
 
 INSERT INTO `libros` (`id`, `titulo`, `descripcion`, `autor`, `edicion`, `precio`, `categoria`, `foto1`, `foto2`, `created_at`, `updated_at`) VALUES
-(1, 'El quijote de la mancha', 'Hola como te va esta es la descripsion', 'Jose Mangold', 'De bolsillo', 99999999.99, 'Fixion', NULL, NULL, '2025-09-01 22:06:13', '2025-09-01 22:06:13');
+(9, 'Prueba', 'Es el primero', 'Ema', 'Tapa Blanda', 10000.00, 'Niños', 'imgs/1757699944_c94babaa73967b8fa9ce.jpg', 'imgs/1757699944_d70e3fd28a419d731ec9.png', '2025-09-12 17:59:04', '2025-09-12 17:59:48'),
+(10, 'Harry Potter', 'El mejor', 'JKRowling', 'Mediano', 140000.00, 'nadie', 'imgs/1757700244_7fa0764e1c835fdc53a4.jpeg', NULL, '2025-09-12 18:04:04', '2025-09-16 21:05:48'),
+(12, 'Emanuel el pro', 'fds', 'Ema', 'dsfs', 165.00, 'niños', 'imgs/1758057791_bc37fc9a4fdd09cdecf1.png', NULL, '2025-09-16 21:23:11', '2025-09-16 22:19:34');
 
 -- --------------------------------------------------------
 
@@ -107,6 +132,14 @@ ALTER TABLE `admin_keys`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `libro_id` (`libro_id`);
+
+--
 -- Indices de la tabla `libros`
 --
 ALTER TABLE `libros`
@@ -130,16 +163,33 @@ ALTER TABLE `admin_keys`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`libro_id`) REFERENCES `libros` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
