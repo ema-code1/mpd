@@ -305,10 +305,16 @@ body {
     gap: 10px;
 }
 
+.ti-shopping-cart-plus{
+    font-size: 1.5em;
+}
+
 .btn-buy {
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: var(--white);
-    flex: 2;
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
 }
 
 .btn-buy:hover {
@@ -321,7 +327,9 @@ body {
     background: var(--white);
     color: var(--primary);
     border: 2px solid var(--primary);
-    flex: 1;
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
 }
 
 .btn-wishlist:hover {

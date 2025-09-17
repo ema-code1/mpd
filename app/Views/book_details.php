@@ -78,18 +78,15 @@
 
                 <div class="book-actions">
                     <button class="btn btn-buy">
-                        <i class="ti ti-shopping-cart"></i> Comprar ahora
+                        Comprar ahora
                     </button>
-                    <button class="btn btn-wishlist">
-                        <i class="ti ti-heart"></i> Agregar a favoritos
+
+                    <?php if (session()->get('isLoggedIn') && session()->get('role') === 'comprador'): ?>
+                    <button type="button" class="btn btn-wishlist" onclick="addToCart(<?= $libro['id'] ?>)">
+                        <i class="ti ti-shopping-cart-plus"></i> Agregar al carrito
                     </button>
+                    <?php endif; ?>
                 </div>
-                <!-- Botón "Añadir al Carrito" (solo para compradores) -->
-                <?php if (session()->get('isLoggedIn') && session()->get('role') === 'comprador'): ?>
-                    <button type="button" class="btn-add-to-cart" onclick="addToCart(<?= $libro['id'] ?>)">
-                        <i class="ti ti-shopping-cart-plus"></i> Añadir al Carrito
-                    </button>
-                <?php endif; ?>
             </div>
         </div>
 
