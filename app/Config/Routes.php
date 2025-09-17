@@ -71,6 +71,12 @@ $routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::el
 
 $routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1' , ['filter' => 'admin']);
 
+// Rutas para el carrito
+$routes->get('cart', 'CartController::index');
+$routes->post('cart/add/(:num)', 'CartController::add/$1');
+$routes->post('cart/update', 'CartController::update');
+$routes->post('cart/remove/(:num)', 'CartController::remove/$1');
+
 // -----------------------------
 // 🛠️ OTRAS RUTAS (si las necesitas en el futuro)
 // -----------------------------

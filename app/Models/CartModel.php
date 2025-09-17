@@ -1,0 +1,12 @@
+<?php
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class CartModel extends Model
+{
+    protected $table = 'carrito';
+    protected $primaryKey = 'id';
+    protected $allowedFields = ['user_id', 'libro_id', 'cantidad', 'seleccionado'];
+    protected $returnType = 'array';
+}

@@ -84,6 +84,12 @@
                         <i class="ti ti-heart"></i> Agregar a favoritos
                     </button>
                 </div>
+                <!-- Botón "Añadir al Carrito" (solo para compradores) -->
+                <?php if (session()->get('isLoggedIn') && session()->get('role') === 'comprador'): ?>
+                    <button type="button" class="btn-add-to-cart" onclick="addToCart(<?= $libro['id'] ?>)">
+                        <i class="ti ti-shopping-cart-plus"></i> Añadir al Carrito
+                    </button>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -140,6 +146,45 @@
             });
         });
     </script>
+    <script> // Para carrito
+        function addToCart(libroId) {
+            fetch('<?= site_url('cart/add/') ?>' + libroId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `<?= csrf_token() ?>=<?= csrf_hash() ?>`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('¡Libro añadido al carrito!');
+                    } else {
+                        alert('Error al añadir el libro.');
+                    }
+                });
+        }
+    </script>
+
+    <style> 
+    /* para el carrito */
+        .btn-add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+    </style>
 </body>
 
 </html>
