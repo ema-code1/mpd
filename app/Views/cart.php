@@ -29,7 +29,6 @@
                                         <input type="number" class="quantity-input" value="<?= $item['cantidad'] ?>" min="1" data-id="<?= $item['id'] ?>" onchange="updateQuantity(<?= $item['id'] ?>, 0, this.value)">
                                         <button type="button" class="btn-quantity" onclick="updateQuantity(<?= $item['id'] ?>, 1)">+</button>
                                     </div>
-                                    <p class="item-price-total">Subtotal: $<span class="price-total"><?= number_format($item['precio'] * $item['cantidad'], 2) ?></span></p>
                                 </div>
                                 <div class="item-actions">
                                     <button type="button" class="btn-select" onclick="toggleSelect(<?= $item['id'] ?>, <?= $item['seleccionado'] ?>)">
