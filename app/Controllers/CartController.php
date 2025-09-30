@@ -93,22 +93,26 @@ class CartController extends BaseController
         return $this->response->setJSON(['success' => true]);
     }
 
-    // Acción para eliminar un item del carrito
-    public function remove($itemId)
-    {
-        if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
-            return $this->response->setJSON(['error' => 'No autorizado']);
-        }
-
-        $userId = session()->get('userId');
-        $cartModel = new CartModel();
-
-        $item = $cartModel->find($itemId);
-        if (!$item || $item['user_id'] != $userId) {
-            return $this->response->setJSON(['error' => 'Item no encontrado']);
-        }
-
-        $cartModel->delete($itemId);
-        return $this->response->setJSON(['success' => true]);
+public function delete()
+{
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
+        return $this->response->setJSON(['error' => 'No autorizado']);
     }
-}
+
+    $userId = session()->get('userId');
+    $cartModel = new CartModel();
+    
+    $itemId = $this->request->getPost('item_id');
+    
+    // Verificar que el item pertenece al usuario
+    $item = $cartModel->where('user_id', $userId)->where('id', $itemId)->first();
+    
+    if (!$item) {
+        return $this->response->setJSON(['error' => 'Item no encontrado']);
+    }
+    
+    // Eliminar el item
+    $cartModel->delete($itemId);
+    
+    return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado del carrito']);
+}}
