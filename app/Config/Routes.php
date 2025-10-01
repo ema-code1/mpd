@@ -75,7 +75,7 @@ $routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$
 $routes->get('cart', 'CartController::index');
 $routes->post('cart/add/(:num)', 'CartController::add/$1');
 $routes->post('cart/update', 'CartController::update');
-$routes->post('cart/remove/(:num)', 'CartController::remove/$1');
+$routes->post('cart/delete', 'CartController::delete');
 
 // -----------------------------
 // 🛠️ OTRAS RUTAS (si las necesitas en el futuro)
