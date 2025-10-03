@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
   margin: 0;
@@ -128,7 +128,6 @@ form {
 }
 
 .btn-submit {
-  background: #EF8D00;
   font-size: 1rem;
   border: none;
   color: #fff;
@@ -137,12 +136,16 @@ form {
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   margin-top: 10px;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);  
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
 }
 
 .btn-submit:hover {
-  background: #d97c00;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);  
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+  transform: scale(1.05);
 }
 
 @keyframes fadeIn {
