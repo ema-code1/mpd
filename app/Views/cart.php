@@ -26,11 +26,11 @@
 
                             <div class="item-controls">
                                 <div class="quantity-control">
-                                    <button class="btn-quantity" data-action="minus">-</button>
-                                    <input type="text" value="<?= $item['cantidad'] ?? 1 ?>" class="quantity-input">
-                                    <button class="btn-quantity" data-action="plus">+</button>
+                                    <button class="btn-quantity" data-action="minus" onclick="updateCartQuantity(<?= $item['libro_id'] ?>, 'minus', <?= $item['id'] ?>)">-</button>
+                                    <input type="text" value="<?= $item['cantidad'] ?? 1 ?>" class="quantity-input" id="quantity-<?= $item['id'] ?>">
+                                    <button class="btn-quantity" data-action="plus" onclick="updateCartQuantity(<?= $item['libro_id'] ?>, 'plus', <?= $item['id'] ?>)">+</button>
                                 </div>
-                                <p class="item-price-total">$<?= number_format($item['precio'], 2) ?></p>
+                                <p class="item-price-total">$<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?></p>
                             </div>
 
                             <div class="item-actions">
@@ -68,14 +68,76 @@
     </div>
 </div>
 
-<!-- SCRIPT (mismo que te pasé antes) -->
+<!-- SCRIPT ACTUALIZADO - REUTILIZANDO LA LÓGICA DE book_details.php -->
 <script>
+// Función reutilizada de book_details.php para agregar al carrito
+function addToCart(libroId) {
+    fetch('<?= site_url('cart/add/') ?>' + libroId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `<?= csrf_token() ?>=<?= csrf_hash() ?>`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('¡Libro añadido al carrito!');
+                // Recargar la página para reflejar los cambios
+                location.reload();
+            } else {
+                alert('Error al añadir el libro.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión.');
+        });
+}
+
+// Nueva función para manejar los botones + y -
+function updateCartQuantity(libroId, action, cartItemId) {
+    const quantityInput = document.getElementById('quantity-' + cartItemId);
+    let currentQuantity = parseInt(quantityInput.value) || 1;
+    
+    if (action === 'plus') {
+        // Usar la misma lógica de addToCart para incrementar
+        addToCart(libroId);
+    } else if (action === 'minus' && currentQuantity > 1) {
+        // Para decrementar, usar el endpoint de actualización
+        const newQuantity = currentQuantity - 1;
+        
+        fetch('<?= site_url('cart/update') ?>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `item_id=${cartItemId}&action=cantidad&value=${newQuantity}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Cantidad actualizada');
+                // Recargar la página para reflejar los cambios
+                location.reload();
+            } else {
+                alert('Error al actualizar la cantidad.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión.');
+        });
+    }
+}
+
+// Script existente para el manejo del carrito (se mantiene igual)
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.cart-items');
   const buyBtn = document.querySelector('.btn-buy');
 
   function updateSummary(){
-    const items = document.querySelectorAll('.cart-item'); // dinámico
+    const items = document.querySelectorAll('.cart-item');
     let total = 0;
     let selectedCount = 0;
 
@@ -85,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceUnit = parseFloat(item.dataset.price) || 0;
 
       if (item.classList.contains('selected')) {
-        selectedCount += quantity; // si querés contar títulos en vez de cantidad, cambia esto por selectedCount += 1;
+        selectedCount += quantity;
         total += priceUnit * quantity;
       }
 
@@ -100,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (buyBtn) buyBtn.disabled = selectedCount === 0;
   }
 
-  // Delegación de eventos para +, -, seleccionar y eliminar
+  // Delegación de eventos para seleccionar y eliminar (se mantiene igual)
   if (container) {
     container.addEventListener('click', (e) => {
       const btn = e.target.closest('button');
@@ -108,17 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const item = btn.closest('.cart-item');
       if (!item) return;
 
-      // + / -
-      if (btn.classList.contains('btn-quantity')) {
-        const action = btn.dataset.action;
-        const input = item.querySelector('.quantity-input');
-        let v = parseInt(input.value) || 0;
-        if (action === 'plus') v++;
-        if (action === 'minus' && v > 1) v--;
-        input.value = v;
-        updateSummary();
-        return;
-      }
+      // Los botones + y - ahora tienen su propia función, se elimina su manejo aquí
 
       // seleccionar
       if (btn.classList.contains('btn-select')) {
@@ -132,12 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btn.classList.contains('btn-remove')) {
         if (!confirm('¿Querés borrar este producto del carrito?')) return;
         const id = item.dataset.id;
-        if (!id) {
-          alert('No hay id del producto. Fijate el atributo data-id en el cart-item.');
-          return;
-        }
         
-        // Hacer la petición AJAX para eliminar
         fetch('<?= base_url('cart/delete') ?>', {
           method: 'POST',
           headers: {
@@ -148,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(json => {
           if (json.success) {
-            // Eliminar el elemento del DOM
             item.remove();
             updateSummary();
             alert('Producto eliminado correctamente');
@@ -163,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Cambios manuales en el input de cantidad
+    // Cambios manuales en el input de cantidad (se mantiene)
     container.addEventListener('change', (e) => {
       if (e.target && e.target.classList.contains('quantity-input')) {
         if (parseInt(e.target.value) < 1) e.target.value = 1;
