@@ -57,13 +57,13 @@ $routes->get('admin_home', 'AdminController::admin_home', ['filter' => 'admin'])
 
 
 
-
+// Ruta para ver detalle de c/libro
 $routes->get('libro/(:num)', 'LibroController::detalles/$1');
 
 
 
 
-// Agregar esta ruta para editar libros
+// Ruta para editar libros
 $routes->get('libro/editar/(:num)', 'LibroController::editar/$1', ['filter' => 'admin']);
 $routes->post('libro/actualizar/(:num)', 'LibroController::actualizar/$1', ['filter' => 'admin']);
 $routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1' , ['filter' => 'admin']);
@@ -77,9 +77,8 @@ $routes->post('cart/add/(:num)', 'CartController::add/$1');
 $routes->post('cart/update', 'CartController::update');
 $routes->post('cart/delete', 'CartController::delete');
 
-// -----------------------------
-// 🛠️ OTRAS RUTAS (si las necesitas en el futuro)
-// -----------------------------
+
+// 🛠️ OTRAS RUTAS (p/futuro)
 // $routes->get('home', 'Home::index'); // ya está en (:any)
 
 // -----------------------------
