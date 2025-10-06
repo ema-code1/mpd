@@ -35,7 +35,7 @@ class CartController extends BaseController
         echo view('templates/footer');
     }
 
-    // Acción para añadir un libro al carrito (llamada desde book_details)
+    // Acción para añadir un libro al carrito (llamada desde book_details y cart.php)
     public function add($libroId)
 {
     if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
@@ -96,35 +96,23 @@ class CartController extends BaseController
         return $this->response->setJSON(['success' => true]);
     }
 
-public function delete()
-{
-    if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
-        return $this->response->setJSON(['error' => 'Debes iniciar sesión como comprador']);
-    }
-
-    $userId = session()->get('userId');
-    $cartModel = new CartModel();
-    
-    $itemId = $this->request->getPost('item_id');
-    
-    if (!$itemId) {
-        return $this->response->setJSON(['error' => 'ID del item no proporcionado']);
-    }
-    
-    // ELIMINACIÓN DIRECTA - sin tantas verificaciones
-    try {
-        // Eliminar directamente donde coincida el ID y el user_id
-        $result = $cartModel->where('id', $itemId)->where('user_id', $userId)->delete();
-        
-        if ($result) {
-            return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado del carrito']);
-        } else {
-            // Si no se pudo eliminar, intentar de otra forma
-            $cartModel->delete($itemId);
-            return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado (método alternativo)']);
+    public function delete()
+    {
+        if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
+            return $this->response->setJSON(['error' => 'Debes iniciar sesión como comprador']);
         }
-    } catch (\Exception $e) {
-        return $this->response->setJSON(['error' => 'Error: ' . $e->getMessage()]);
+
+        $userId = session()->get('userId');
+        $cartModel = new CartModel();
+        
+        $itemId = $this->request->getPost('item_id');
+        
+        if (!$itemId) {
+            return $this->response->setJSON(['error' => 'ID del item no proporcionado']);
+        }
+        
+        $cartModel->where('id', $itemId)->where('user_id', $userId)->delete();
+        
+        return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado del carrito']);
     }
-}
 }
