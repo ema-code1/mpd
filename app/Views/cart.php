@@ -38,7 +38,10 @@
                                             data-libro-id="<?= $item['libro_id'] ?>"
                                             data-action="plus">+</button>
                                     </div>
-                                    <p class="item-price-total">$<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?></p>
+                                    <div>
+                                        <p>Subtotal:</p> <p class="item-price-total">$<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?></p>
+                                    </div>
+                                    
                                 </div>
 
                                 <div class="item-actions">

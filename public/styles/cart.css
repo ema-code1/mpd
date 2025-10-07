@@ -64,9 +64,17 @@ body {
     border-bottom: none;
 }
 
-.cart-item.selected {
-    border: 2px solid var(--primary);
-    background-color: #fff9f0;
+.cart-item.selected .btn-select{
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+    color: #fff;
+}
+.cart-item.selected .btn-select:hover{
+    transform: scale(1.05);
+}
+
+.btn-select:hover {
+    transform: scale(1.05);
 }
 
 .cart-items {
@@ -83,7 +91,7 @@ body {
     height: 160px;
     object-fit: cover;
     border-radius: var(--radius-sm);
-    margin-right: 1.5rem;
+    margin: 0 1rem;
     transition: transform 0.4s ease;
 }
 
@@ -120,6 +128,11 @@ body {
     gap: 0.5rem;
 }
 
+.quantity-control p, .item-price-total{
+    display: flex;
+    gap: 10px;
+}
+
 .btn-quantity {
     width: 32px;
     height: 32px;
@@ -132,9 +145,10 @@ body {
 }
 
 .btn-quantity:hover {
-    background: var(--primary);
+        background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: inset 0 1px 2px #fffcf2;
     color: var(--white);
-    border-color: var(--primary);
+    border: none;
     transform: scale(1.1);
 }
 
@@ -173,19 +187,8 @@ body {
 }
 
 .btn-select {
-    background: var(--background);
-    color: var(--text);
-}
-
-.btn-select:hover {
-    background: var(--primary);
-    color: var(--white);
-    transform: translateY(-2px);
-}
-
-.btn-select.active {
-    background: var(--primary);
-    color: var(--white);
+    background-color: #fff0e4;
+    color: #939393;
 }
 
 .btn-remove {
@@ -231,7 +234,7 @@ body {
 
 .summary-card:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    transform: scale(1.02);
 }
 
 .summary-row {
@@ -248,11 +251,12 @@ body {
 .btn-buy {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: var(--white);
     font-weight: 600;
     border: none;
     border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
     cursor: pointer;
     margin-top: 1.5rem;
     transition: var(--transition);
@@ -264,9 +268,9 @@ body {
 }
 
 .btn-buy:hover:not(:disabled) {
-    background: linear-gradient(135deg, var(--secondary) 0%, var(--hover) 100%);
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
     transform: translateY(-2px) scale(1.02);
-    box-shadow: var(--shadow-hover);
 }
 
 .btn-buy:disabled {
@@ -278,16 +282,6 @@ body {
 }
 
 /* Animations */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-@keyframes slideDown {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
 @keyframes popIn {
     from {opacity: 0; transform: scale(0.95);}
     to {opacity: 1; transform: scale(1);}

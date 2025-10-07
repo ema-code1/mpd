@@ -328,13 +328,16 @@ body {
     border: 2px solid var(--primary);
     flex: 1.5;
     display: flex;
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
     justify-content: center;
 }
 
 .btn-wishlist:hover {
-    background: var(--primary);
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
     color: var(--white);
-    transform: translateY(-2px);
+    border: none;
+    transform: scale(1.02);
 }
 
 /* Botón volver */
