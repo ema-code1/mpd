@@ -64,7 +64,7 @@ chart.render();
       <i class="ti ti-x"></i>
     </button>
     <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
-    <a href="#"><i class="ti ti-chart-bar"></i> Dashboard</a>
+    <a href="#"><i class="ti ti-chart-bar"></i> Gráficos</a>
     <a href="#"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
@@ -102,8 +102,8 @@ chart.render();
       <!-- Contenido adicional para demostrar el scroll -->
       <div style="margin-top: 2.5rem;">
         <h4>Historial de Ventas</h4>
-        <div style="height: 800px; background: linear-gradient(to bottom, #f9f9f9, #eee); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777;">          <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <div style="height: 800px; background: linear-gradient(to bottom, #f9f9f9, #eee); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777;">          <div id="chartContainer" style="height: 370px; width: 80%;"></div>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
         </div>
       </div>
     </div>
