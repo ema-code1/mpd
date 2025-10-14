@@ -124,14 +124,14 @@ new Chart(ctx, {
       borderColor: 'rgb(239, 141, 0)',
       backgroundColor: (() => {
         const g = ctx.createLinearGradient(0, 0, 400, 400);
-        g.addColorStop(0, 'rgb(254, 160, 30)');
-        g.addColorStop(1, 'rgb(254, 133, 53)');
+        g.addColorStop(0, 'rgb(254, 176, 65)');
+        g.addColorStop(1, 'rgb(255, 165, 106)');
         return g;
       })(),
       tension: 0.3,
       fill: true,
       pointRadius: 6,
-      pointBackgroundColor: 'rgb(255, 237, 212)',
+      pointBackgroundColor: 'rgb(255, 252, 248)',
       pointHoverRadius: 8,
       pointHoverBackgroundColor: 'rgb(255, 255, 255)'
     }]
