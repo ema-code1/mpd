@@ -144,8 +144,8 @@
         });
     </script>
     <script> // Para carrito
-        function addToCart(libroId) {
-            fetch('<?= site_url('cart/add/') ?>' + libroId, {
+        function addToCart(libro) {
+            fetch('<?= site_url('cart/add/') ?>' + libro, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
