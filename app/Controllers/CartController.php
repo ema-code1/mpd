@@ -38,46 +38,53 @@ class CartController extends BaseController
 
     // Acción para añadir un libro al carrito (llamada desde book_details y cart.php)
     public function add($libro)
-    {
-        if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
-            return $this->response->setJSON(['error' => 'No autorizado']);
-        }
+{
+    $debug = []; // array para debug
 
-        $userId = session()->get('userId');
-        $cartModel = new CartModel();
+    $debug['add_iniciado'] = true;
+    $debug['libro'] = $libro;
+    $debug['userId'] = session()->get('userId');
 
-        // Obtener el cambio desde la solicitud (por defecto +1)
-        $change = (int) $this->request->getPost('change', FILTER_SANITIZE_NUMBER_INT);
-        if ($change === 0) $change = 1; // Por seguridad
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
+        $debug['error'] = 'No autorizado';
+        return $this->response->setJSON($debug);
+    }
 
-        // Buscar si el libro ya está en el carrito
+    $userId = session()->get('userId');
+    $cartModel = new CartModel();
+
+    $change = (int) $this->request->getPost('change');
+    if ($change === 0) $change = 1;
+    $debug['change'] = $change;
+
+    try {
         $existing = $cartModel->where('user_id', $userId)->where('libro_id', $libro)->first();
+        $debug['existing'] = $existing;
 
         if ($existing) {
             $newCantidad = $existing['cantidad'] + $change;
+            $debug['newCantidad'] = $newCantidad;
 
-            if ($newCantidad <= 0) {
-                // Si la cantidad llega a 0 o menos, eliminamos el item
-                $cartModel->delete($existing['id']);
-            } else {
-                // Actualizamos la cantidad
-                $cartModel->update($existing['id'], ['cantidad' => $newCantidad]);
-            }
-        } else {
-            // Si no existe y el cambio es positivo, lo creamos
-            if ($change > 0) {
-                $cartModel->insert([
-                    'user_id' => $userId,
-                    'libro_id' => $libro,
-                    'cantidad' => $change, // En caso de que alguien pase change=3
-                    'seleccionado' => 1
-                ]);
-            }
-            // Si no existe y el cambio es negativo, no hacemos nada
+            if ($newCantidad <= 0) $cartModel->delete($existing['id']);
+            else $cartModel->update($existing['id'], ['cantidad' => $newCantidad]);
+        } else if ($change > 0) {
+            $cartModel->insert([
+                'user_id' => $userId,
+                'libro_id' => $libro,
+                'cantidad' => $change,
+                'seleccionado' => 1
+            ]);
+            $debug['insertado'] = true;
         }
-
-        return $this->response->setJSON(['success' => true]);
+    } catch (\Exception $e) {
+        $debug['exception'] = $e->getMessage();
+        return $this->response->setJSON($debug);
     }
+
+    $debug['success'] = true;
+    return $this->response->setJSON($debug);
+}
+
 
     // Acción para actualizar cantidad o selección (llamada por AJAX desde la vista)
     public function update()

@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-
+    
     <script>
         // Actualizar cantidad (+/-)
         function addToCart(libro, change = 1) {
