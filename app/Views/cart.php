@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,34 +17,47 @@
             <div class="cart-items">
                 <?php if (!empty($cartItems)): ?>
                     <?php foreach ($cartItems as $item): ?>
-                        <div class="cart-item" data-price="<?= $item['precio'] ?>" data-id="<?= $item['id'] ?>">
+                        <div class="cart-item"
+                             data-price="<?= $item['precio'] ?>"
+                             data-libro-id="<?= $item['libro_id'] ?>"> <!-- 👈 CAMBIO AQUÍ -->
+
                             <div class="item-image">
-                                <img src="<?= base_url($item['foto1'] ?? 'imgs/noimageavailable.jpg') ?>" alt="<?= esc($item['titulo']) ?>">
+                                <img src="<?= base_url($item['foto1'] ?? 'imgs/noimageavailable.jpg') ?>"
+                                     alt="<?= esc($item['titulo']) ?>">
                             </div>
+
                             <div class="item-details">
                                 <h2 class="item-title"><?= htmlspecialchars($item['titulo']) ?></h2>
                                 <p class="item-price-unit">$<?= number_format($item['precio'], 2) ?></p>
 
                                 <div class="item-controls">
                                     <div class="quantity-control">
-                                        <button type="button" class="btn-quantity"
-                                            data-libro-id="<?= $item['libro_id'] ?>"
-                                            data-action="minus">-</button>
+                                        <button type="button"
+                                                class="btn-quantity"
+                                                data-libro-id="<?= $item['libro_id'] ?>"
+                                                data-action="minus">-</button>
 
-                                        <input type="number" class="quantity-input" value="<?= $item['cantidad'] ?>" min="1" readonly>
+                                        <input type="number" class="quantity-input"
+                                               value="<?= $item['cantidad'] ?>" min="1" readonly>
 
-                                        <button type="button" class="btn-quantity"
-                                            data-libro-id="<?= $item['libro_id'] ?>"
-                                            data-action="plus">+</button>
+                                        <button type="button"
+                                                class="btn-quantity"
+                                                data-libro-id="<?= $item['libro_id'] ?>"
+                                                data-action="plus">+</button>
                                     </div>
+
                                     <div>
-                                        <p>Subtotal:</p> <p class="item-price-total">$<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?></p>
+                                        <p>Subtotal:</p>
+                                        <p class="item-price-total">
+                                            $<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?>
+                                        </p>
                                     </div>
-                                    
                                 </div>
 
                                 <div class="item-actions">
-                                    <button class="btn-select <?= ($item['seleccionado'] ?? 0) ? 'active' : '' ?>">Seleccionar</button>
+                                    <button class="btn-select <?= ($item['seleccionado'] ?? 0) ? 'active' : '' ?>">
+                                        Seleccionar
+                                    </button>
                                     <button class="btn-remove">Eliminar</button>
                                 </div>
                             </div>
@@ -78,69 +90,40 @@
     </div>
 
     <script>
-        // Agregar un libro al carrito (usa lógica de book_details.php)
-        function addToCart(libroId) {
-            fetch('<?= site_url('cart/add/') ?>' + libroId, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `<?= csrf_token() ?>=<?= csrf_hash() ?>`
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) location.reload();
-                    else alert('Error al añadir el libro.');
-                })
-                .catch(() => alert('Error de conexión.'));
+        // Actualizar cantidad (+/-)
+        function addToCart(libro, change = 1) {
+            fetch('<?= site_url('cart/add/') ?>' + libro, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `change=${change}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) location.reload();
+                else alert('Error: ' + (data.error || 'No se pudo actualizar el carrito.'));
+            })
+            .catch(() => alert('Error de conexión.'));
         }
 
-        // Función unificada para manejar + y -
-        function addToCart(libroId, change = 1) {
-            fetch('<?= site_url('cart/add/') ?>' + libroId, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `change=${change}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload(); // Recarga para mostrar el estado actualizado
-                    } else {
-                        alert('Error: ' + (data.error || 'No se pudo actualizar el carrito.'));
-                    }
-                })
-                .catch(() => alert('Error de conexión.'));
-        }
-
-        // Eventos para los botones + y -
-        document.addEventListener('click', function(e) {
+        // Manejador de botones de cantidad
+        document.addEventListener('click', e => {
             const btn = e.target.closest('.btn-quantity');
             if (!btn) return;
-
-            const item = btn.closest('.cart-item');
-            const libroId = <?= $libro['id'] ?? 'null' ?>; // Esto no sirve aquí, mejor usar data attributes
-
-            // ✅ MEJOR: Usar data attributes en los botones
-            const libroIdFromBtn = btn.dataset.libroId;
+            const libroId = btn.dataset.libroId;
             const action = btn.dataset.action;
-
-            if (libroIdFromBtn && (action === 'plus' || action === 'minus')) {
+            if (libroId && (action === 'plus' || action === 'minus')) {
                 const change = (action === 'plus') ? 1 : -1;
-                addToCart(parseInt(libroIdFromBtn), change);
+                addToCart(parseInt(libroId), change);
             }
         });
 
-        // Control general del carrito (selección, borrado, totales)
+        // Control del carrito (selección, borrado, totales)
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.querySelector('.cart-items');
             const buyBtn = document.querySelector('.btn-buy');
 
             function updateSummary() {
-                let total = 0,
-                    count = 0;
+                let total = 0, count = 0;
                 document.querySelectorAll('.cart-item').forEach(item => {
                     const price = parseFloat(item.dataset.price) || 0;
                     const qty = parseInt(item.querySelector('.quantity-input').value) || 0;
@@ -159,44 +142,39 @@
                 buyBtn.disabled = count === 0;
             }
 
-            // Seleccionar o eliminar producto
+            // Eventos de selección y eliminación
             container.addEventListener('click', e => {
                 const btn = e.target.closest('button');
                 if (!btn) return;
                 const item = btn.closest('.cart-item');
+                const libroId = item.dataset.libroId;
 
+                // Seleccionar
                 if (btn.classList.contains('btn-select')) {
                     btn.classList.toggle('active');
                     item.classList.toggle('selected');
                     updateSummary();
                 }
 
+                // Eliminar
                 if (btn.classList.contains('btn-remove')) {
                     if (!confirm('¿Querés borrar este producto del carrito?')) return;
                     fetch('<?= base_url('cart/delete') ?>', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            body: 'item_id=' + item.dataset.id
-                        })
-                        .then(res => res.json())
-                        .then(json => {
-                            if (json.success) {
-                                item.remove();
-                                updateSummary();
-                                alert('Producto eliminado correctamente');
-                            } else alert(json.error || 'No se pudo borrar el item');
-                        })
-                        .catch(() => alert('Error de red.'));
-                }
-            });
-
-            // Cambios manuales en la cantidad
-            container.addEventListener('change', e => {
-                if (e.target.classList.contains('quantity-input')) {
-                    if (parseInt(e.target.value) < 1) e.target.value = 1;
-                    updateSummary();
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'libro_id=' + libroId // 👈 CAMBIO CLAVE
+                    })
+                    .then(res => res.json())
+                    .then(json => {
+                        if (json.success) {
+                            item.remove();
+                            updateSummary();
+                            alert('Producto eliminado correctamente');
+                        } else {
+                            alert(json.error || 'No se pudo borrar el item');
+                        }
+                    })
+                    .catch(() => alert('Error de red.'));
                 }
             });
 
@@ -204,5 +182,4 @@
         });
     </script>
 </body>
-
 </html>
