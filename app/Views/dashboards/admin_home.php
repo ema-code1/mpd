@@ -6,51 +6,7 @@
   <title>Dashboard - Administración</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="<?= base_url('styles/admin_home.css') ?>">
-  <script>
-window.onload = function () {
-
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,  
-	title:{
-		text: "Company Revenue by Year"
-	},
-	axisY: {
-		title: "Revenue in pesos",
-		valueFormatString: "#0,,.",
-		suffix: "mn",
-		prefix: "$"
-	},
-	data: [{
-		type: "splineArea",
-		color: "rgba(54,158,173,.7)",
-		markerSize: 5,
-		xValueFormatString: "YYYY",
-		yValueFormatString: "$#,##0.##",
-		dataPoints: [
-			{ x: new Date(2000, 0), y: 3289000 },
-			{ x: new Date(2001, 0), y: 3830000 },
-			{ x: new Date(2002, 0), y: 2009000 },
-			{ x: new Date(2003, 0), y: 2840000 },
-			{ x: new Date(2004, 0), y: 2396000 },
-			{ x: new Date(2005, 0), y: 1613000 },
-			{ x: new Date(2006, 0), y: 2821000 },
-			{ x: new Date(2007, 0), y: 2000000 },
-			{ x: new Date(2008, 0), y: 1397000 },
-			{ x: new Date(2009, 0), y: 2506000 },
-			{ x: new Date(2010, 0), y: 2798000 },
-			{ x: new Date(2011, 0), y: 3386000 },
-			{ x: new Date(2012, 0), y: 6704000},
-			{ x: new Date(2013, 0), y: 6026000 },
-			{ x: new Date(2014, 0), y: 2394000 },
-			{ x: new Date(2015, 0), y: 1872000 },
-			{ x: new Date(2016, 0), y: 2140000 }
-		]
-	}]
-	});
-chart.render();
-
-}
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <!-- El header es un template que se incluye automáticamente -->
@@ -102,12 +58,58 @@ chart.render();
       <!-- Contenido adicional para demostrar el scroll -->
       <div style="margin-top: 2.5rem;">
         <h4>Historial de Ventas</h4>
-        <div style="height: 800px; background: linear-gradient(to bottom, #f9f9f9, #eee); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777;">          <div id="chartContainer" style="height: 370px; width: 80%;"></div>
-        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <div style="height: 800px; background: linear-gradient(to bottom, #f9f9f9, #eee); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777;">          
+          <canvas id="myChart" style="height: 370px; width: 80%;"></canvas>
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </div>
       </div>
     </div>
   </div>
+
+<?php 
+$servidor="localhost";
+$user="root";
+$password="";
+$db="mpd";
+
+try{
+  $conexion=new PDO("mysql:host=$servidor;dbname=$db", $user, $password);
+
+  $sentencia=$conexion->prepare("SELECT COUNT(monto_enpesos) FROM montos");
+  $sentencia->execute();
+  $nombre=$sentencia->fetchColumn();
+} catch (Exception $e) {
+  echo $e -> getMessage();
+}
+?>
+
+
+
+  <script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["negro", 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+
+
 
   <!-- SCRIPT -->
   <script>
