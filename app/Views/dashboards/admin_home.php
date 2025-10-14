@@ -72,40 +72,87 @@ $user="root";
 $password="";
 $db="mpd";
 
-try{
-  $conexion=new PDO("mysql:host=$servidor;dbname=$db", $user, $password);
+try {
+  $conexion = new PDO("mysql:host=$servidor;dbname=$db;charset=utf8", $user, $password);
+  $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  $sentencia=$conexion->prepare("SELECT COUNT(monto_enpesos) FROM montos");
+  $sql = "
+    SELECT 
+      MONTH(v.fecha_de_pago) AS mes,
+      COALESCE(SUM(m.monto_enpesos), 0) AS total_mes
+    FROM 
+      (
+        SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
+        SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION 
+        SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+      ) AS meses
+    LEFT JOIN ventas v 
+      ON meses.mes = MONTH(v.fecha_de_pago)
+      AND YEAR(v.fecha_de_pago) = YEAR(CURDATE())
+    LEFT JOIN montos m 
+      ON v.monto_id = m.id
+    GROUP BY meses.mes
+    ORDER BY meses.mes;
+  ";
+
+  $sentencia = $conexion->prepare($sql);
   $sentencia->execute();
-  $nombre=$sentencia->fetchColumn();
+  $resultados = $sentencia->fetchAll(PDO::FETCH_COLUMN, 1);
+  $data = array_map('floatval', $resultados);
 } catch (Exception $e) {
-  echo $e -> getMessage();
+  echo "Error: " . $e->getMessage();
 }
 ?>
 
 
 
-  <script>
-  const ctx = document.getElementById('myChart');
+<script>
+const canvas = document.getElementById('myChart');
+const ctx = canvas.getContext('2d');
 
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ["negro", 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ],
+    datasets: [{
+      label: 'Ingresos por mes (en pesos)',
+      data: <?php echo json_encode($data); ?>,
+      borderWidth: 2,
+      borderColor: 'rgb(239, 141, 0)',
+      backgroundColor: (() => {
+        const g = ctx.createLinearGradient(0, 0, 400, 400);
+        g.addColorStop(0, 'rgb(254, 160, 30)');
+        g.addColorStop(1, 'rgb(254, 133, 53)');
+        return g;
+      })(),
+      tension: 0.3,
+      fill: true,
+      pointRadius: 6,
+      pointBackgroundColor: 'rgb(255, 237, 212)',
+      pointHoverRadius: 8,
+      pointHoverBackgroundColor: 'rgb(255, 255, 255)'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { 
+      beginAtZero: true,
+      ticks: {
+        // Agrega $ antes del número
+        callback: function(value, index, ticks) {
+          return '$ ' + value;
         }
       }
+    },
+      x: { title: { display: true, text: 'Meses del año' } }
     }
-  });
+  }
+});
+
 </script>
 
 
