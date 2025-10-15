@@ -21,7 +21,7 @@
     </button>
     <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
     <a href="#"><i class="ti ti-chart-bar"></i> Gráficos</a>
-    <a href="#"><i class="ti ti-books"></i> Stock</a>
+    <a href="<?= site_url('stock_spreadsheet')?>"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
     <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
@@ -57,7 +57,6 @@
       
       <!-- Contenido adicional para demostrar el scroll -->
       <div style="margin-top: 2.5rem;">
-        <h4>Historial de Ventas</h4>
         <div style="height: 800px; background: linear-gradient(to bottom, #f9f9f9, #eee); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777;">          
           <canvas id="myChart" style="height: 370px; width: 80%;"></canvas>
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -111,7 +110,7 @@ const canvas = document.getElementById('myChart');
 const ctx = canvas.getContext('2d');
 
 new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: [
       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
