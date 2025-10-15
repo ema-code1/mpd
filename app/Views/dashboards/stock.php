@@ -37,10 +37,6 @@
     <thead>
         <tr>
             <th>Titulo</th>
-            <th>Autor</th>
-            <th>Edicion</th>
-            <th>Precio</th>
-            <th>Categoria</th>
             <th>Cantidad</th>
         </tr>
     </thead>
@@ -51,10 +47,6 @@
             foreach ($tieneStock as $libro): ?>
                 <tr>
                     <td><?= htmlspecialchars($libro['titulo']) ?></td>
-                    <td><?= htmlspecialchars($libro['autor']) ?></td>
-                    <td><?= htmlspecialchars($libro['edicion']) ?></td>
-                    <td>$<?= number_format($libro['precio'], 2) ?></td>
-                    <td><?= htmlspecialchars($libro['categoria']) ?></td>
                     <td><?= htmlspecialchars($libro['stock']) ?></td>
                 </tr>
             <?php endforeach;
