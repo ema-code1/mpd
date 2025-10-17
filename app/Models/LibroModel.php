@@ -15,7 +15,8 @@ class LibroModel extends Model
         'precio', 
         'categoria', 
         'foto1', 
-        'foto2'
+        'foto2',
+        'stock'
     ];
     
     protected $useTimestamps = true;
