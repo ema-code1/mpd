@@ -154,6 +154,7 @@ body {
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
     letter-spacing: 0.5px;
     border-bottom: none;
+    height: 4rem;
 }
 
 /* Celdas de datos */
@@ -165,6 +166,7 @@ body {
     font-size: 0.95rem;
     border-radius: 5px;
     transition: background 0.3s, transform 0.2s;
+    height: 30px;
 }
 
 /* Hover para filas */
@@ -191,6 +193,8 @@ body {
     width: 100%;
     overflow: hidden;
     position: relative;
+    align-items: flex-start; /* para que no se estiren todas las columnas */
+
 }
 
 /* Columna Título (Fija izquierda) */
@@ -211,6 +215,7 @@ body {
     min-width: 200px;
     background: var(--bg-color);
     scroll-behavior: smooth;
+    margin: 0 0.8rem;
 }
 
 .scrollable-columns {
@@ -220,14 +225,10 @@ body {
 }
 
 /* Asegurar que TODAS las tablas tengan exactamente el mismo alto */
-.excel-table {
-    height: fit-content;
-    border-collapse: collapse;
-}
+
 
 .excel-table thead th,
 .excel-table tbody td {
-    height: 53px; /* Altura fija para todas las celdas */
     padding: 12px 20px;
     box-sizing: border-box;
     vertical-align: middle;
@@ -243,6 +244,7 @@ body {
     min-width: 150px;
     max-width: 150px;
     margin-right: 8px;
+    
 }
 
 .dynamic-column th {
@@ -252,7 +254,7 @@ body {
 
 /* Colores para ingresos (VERDE) y egresos (ROJO) */
 .ingreso-column th {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
+    background: linear-gradient(135deg, #10b940, #0f9e3f) !important;
     color: white;
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
 }
@@ -261,14 +263,6 @@ body {
     background: linear-gradient(135deg, #ef4444, #dc2626) !important;
     color: white;
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.column-type {
-    font-size: 0.7rem;
-    opacity: 0.9;
-    font-weight: normal;
-    display: block;
-    margin-top: 2px;
 }
 
 /* Columna Stock (Fija derecha) */
@@ -476,8 +470,52 @@ body {
     padding: 8px 12px !important;
 }
 
+.scrollable-columns-container {
+    height: calc(100% + 6px);  /* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */ 
+    align-self: flex-start; /* importante para que no empuje las otras columnas */
+}
 
-    
+/* Scrollbar moderna y sofisticada */
+.scrollable-columns-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.scrollable-columns-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    margin: 0 10px;
+}
+
+.scrollable-columns-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.scrollable-columns-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 2px 8px rgb(239, 139, 0); 
+}
+
+/* Para Firefox */
+.scrollable-columns-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.05);
+}
+
+/* Efecto de desenfoque sutil al hacer scroll */
+.scrollable-columns-container {
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 20px,
+        black calc(100% - 20px),
+        transparent
+    );
+}
+
+
 
 @media (max-width: 768px) {
     .excel-table th, .excel-table td {

@@ -103,39 +103,60 @@ class StockController extends Controller
     }
 
     public function updateCell()
-    {
-        $request = Services::request();
-        $colId = (int)$request->getPost('column_id');
-        $libroId = (int)$request->getPost('libro_id');
-        $delta = (int)$request->getPost('delta');
+{
+    $request = Services::request();
+    $colId = (int)$request->getPost('column_id');
+    $libroId = (int)$request->getPost('libro_id');
+    $delta = (int)$request->getPost('delta');
 
-        // Leer fila actual
-        $svTable = $this->db->table('stock_values');
-        $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();
+    // Leer fila actual
+    $svTable = $this->db->table('stock_values');
+    $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();
 
-        if (!$row) {
-            // Si no existe, crearla
-            $newVal = max(0, $delta);
-            $svTable->insert([
-                'column_id' => $colId,
-                'libro_id' => $libroId,
-                'cantidad' => $newVal,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
-        } else {
-            $newVal = max(0, $row['cantidad'] + $delta);
-            $svTable->where('id', $row['id'])->update([
-                'cantidad' => $newVal,
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
-        }
-
-        return $this->response->setJSON([
-            'status' => 'ok',
-            'new_value' => $newVal
+    if (!$row) {
+        $newVal = max(0, $delta);
+        $svTable->insert([
+            'column_id' => $colId,
+            'libro_id' => $libroId,
+            'cantidad' => $newVal,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+    } else {
+        $newVal = max(0, $row['cantidad'] + $delta);
+        $svTable->where('id', $row['id'])->update([
+            'cantidad' => $newVal,
+            'updated_at' => date('Y-m-d H:i:s')
         ]);
     }
+
+    // 🔥 FALTA ESTA PARTE: Recalcular el stock total del libro
+    $nuevoStock = $this->recalcularStockTotal($libroId);
+
+    return $this->response->setJSON([
+        'status' => 'ok',
+        'new_value' => $newVal,
+        'nuevo_stock' => $nuevoStock  // ← Enviar el nuevo stock al frontend
+    ]);
+}
+
+// 🔥 Actualizar stock en tiempo real:
+private function recalcularStockTotal($libroId)
+{
+    $sql = "SELECT GREATEST(COALESCE(SUM(
+                CASE 
+                    WHEN sc.tipo = 'ingreso' THEN sv.cantidad 
+                    WHEN sc.tipo = 'egreso' THEN -sv.cantidad 
+                    ELSE 0 
+                END
+            ), 0), 0) as stock
+            FROM stock_values sv
+            JOIN stock_columns sc ON sv.column_id = sc.id
+            WHERE sv.libro_id = ?";
+    
+    $result = $this->db->query($sql, [$libroId])->getRow();
+    return $result ? $result->stock : 0;
+}
 
     public function getStock()
     {

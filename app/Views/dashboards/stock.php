@@ -74,7 +74,6 @@
                         <div class="column-header">
                           <span class="column-name">
                             <?= htmlspecialchars($col['name']) ?>
-                            <span class="column-type">(<?= $col['tipo'] ?>)</span>
                           </span>
                           <div class="column-actions">
                             <button class="column-menu-btn" data-column-id="<?= $col['id'] ?>">
@@ -209,40 +208,32 @@
 
     // Actualizar cantidad en la base de datos
     function updateQuantity(columnId, libroId, delta) {
-      console.log('Updating quantity:', { columnId, libroId, delta });
-      
-      fetch('<?= site_url('stock/updateCell') ?>', {
+    fetch('<?= site_url('stock/updateCell') ?>', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: `column_id=${columnId}&libro_id=${libroId}&delta=${delta}`
-      })
-      .then(response => {
-        console.log('Response status:', response.status);
-        if (!response.ok) throw new Error('Network error');
-        return response.json();
-      })
-      .then(data => {
-        console.log('Update response:', data);
+    })
+    .then(response => response.json())
+    .then(data => {
         if (data.status === 'ok') {
-          // Actualizar el input de la celda
-          const inputs = document.querySelectorAll(`input.quantity-input[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
-          inputs.forEach(input => {
-            input.value = data.new_value;
-          });
-          
-          // Actualizar stock general
-          updateStockDisplay(libroId);
-        } else {
-          alert('Error: ' + (data.message || 'Error desconocido'));
+            // 1. Actualizar el input de la celda modificada
+            const inputs = document.querySelectorAll(`.btn-quantity[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
+            inputs.forEach(btn => {
+                const input = btn.closest('.quantity-control').querySelector('.quantity-input');
+                input.value = data.new_value;
+            });
+            
+            // 2. 🔥 ACTUALIZAR EL STOCK EN TIEMPO REAL (usando el valor del backend)
+            const stockElements = document.querySelectorAll(`.stock-value[data-libro-id="${libroId}"]`);
+            stockElements.forEach(element => {
+                element.textContent = data.nuevo_stock; // ← Usar el stock recalculado
+            });
         }
-      })
-      .catch(error => {
-        console.error('Update error:', error);
-        alert('Error de conexión al actualizar la cantidad');
-      });
-    }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
     // Actualizar display del stock
     function updateStockDisplay(libroId) {
