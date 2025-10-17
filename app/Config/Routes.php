@@ -81,10 +81,11 @@
 
    // funciones para crear y modificar columnas de ingresos y egresos
    
-$routes->get('stock', 'StockController::index');
+    $routes->get('stock', 'StockController::index');
 $routes->post('stock/createColumn', 'StockController::createColumn');
 $routes->post('stock/updateCell', 'StockController::updateCell');
 $routes->post('stock/getStock', 'StockController::getStock');
+$routes->post('stock/deleteColumn', 'StockController::deleteColumn');
 
 
 

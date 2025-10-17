@@ -22,7 +22,7 @@
     </button>
     <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
     <a href="#"><i class="ti ti-chart-bar"></i> Gráficos</a>
-    <a href="<?= site_url('stock_spreadsheet')?>"><i class="ti ti-books"></i> Stock</a>
+    <a href="<?= site_url('stock')?>"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
     <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
@@ -99,16 +99,14 @@
                       <tr>
                         <td>
                           <div class="quantity-control">
-                            <button type="button" class="btn-quantity" 
+                            <button type="button" class="btn-quantity minus-btn" 
                                     data-column-id="<?= $col['id'] ?>" 
-                                    data-libro-id="<?= $libro['id'] ?>" 
-                                    data-action="minus">-</button>
+                                    data-libro-id="<?= $libro['id'] ?>">-</button>
                             <input type="number" class="quantity-input" 
                                    value="<?= $valor ?>" min="0" readonly>
-                            <button type="button" class="btn-quantity" 
+                            <button type="button" class="btn-quantity plus-btn" 
                                     data-column-id="<?= $col['id'] ?>" 
-                                    data-libro-id="<?= $libro['id'] ?>" 
-                                    data-action="plus">+</button>
+                                    data-libro-id="<?= $libro['id'] ?>">+</button>
                           </div>
                         </td>
                       </tr>
@@ -149,24 +147,69 @@
   </div>
 
   <script>
-    // Manejar botones de cantidad - VERSIÓN CORREGIDA
-    document.addEventListener('click', function(e) {
-      const btn = e.target.closest('.btn-quantity');
-      if (!btn) return;
+    // DEBUG: Verificar que el JavaScript se carga
+    console.log('Stock script loaded');
 
-      const columnId = btn.dataset.columnId;
-      const libroId = btn.dataset.libroId;
-      const action = btn.dataset.action;
+    // Manejar botones de cantidad - VERSIÓN SIMPLIFICADA
+    document.addEventListener('click', function(e) {
+      console.log('Click detected:', e.target);
       
-      if (columnId && libroId && (action === 'plus' || action === 'minus')) {
-        const change = (action === 'plus') ? 1 : -1;
-        updateQuantity(parseInt(columnId), parseInt(libroId), change);
+      // Botones de cantidad
+      if (e.target.classList.contains('btn-quantity')) {
+        const btn = e.target;
+        const columnId = btn.dataset.columnId;
+        const libroId = btn.dataset.libroId;
+        const isPlus = btn.classList.contains('plus-btn');
+        
+        console.log('Quantity button clicked:', { columnId, libroId, isPlus });
+        
+        if (columnId && libroId) {
+          const change = isPlus ? 1 : -1;
+          updateQuantity(parseInt(columnId), parseInt(libroId), change);
+        }
+        return;
+      }
+
+      // Dropdown menus
+      if (e.target.closest('.column-menu-btn')) {
+        const menuBtn = e.target.closest('.column-menu-btn');
+        const columnId = menuBtn.dataset.columnId;
+        const dropdown = document.getElementById(`dropdown-${columnId}`);
+        
+        // Cerrar todos los demás dropdowns
+        document.querySelectorAll('.column-dropdown.active').forEach(dd => {
+          if (dd !== dropdown) dd.classList.remove('active');
+        });
+        
+        // Toggle el dropdown actual
+        dropdown.classList.toggle('active');
+        e.stopPropagation();
+        return;
+      }
+
+      // Eliminar columna
+      if (e.target.closest('.delete-column')) {
+        const deleteBtn = e.target.closest('.delete-column');
+        const columnId = deleteBtn.dataset.columnId;
+        
+        if (confirm('¿Estás seguro de que quieres eliminar esta columna? Se perderán todos los datos.')) {
+          deleteColumn(columnId);
+        }
+        e.stopPropagation();
+        return;
+      }
+
+      // Cerrar dropdowns al hacer click fuera
+      if (!e.target.closest('.column-dropdown') && !e.target.closest('.column-menu-btn')) {
+        document.querySelectorAll('.column-dropdown.active').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
       }
     });
 
     // Actualizar cantidad en la base de datos
     function updateQuantity(columnId, libroId, delta) {
-      console.log('Updating:', columnId, libroId, delta); // Debug
+      console.log('Updating quantity:', { columnId, libroId, delta });
       
       fetch('<?= site_url('stock/updateCell') ?>', {
         method: 'POST',
@@ -176,30 +219,28 @@
         body: `column_id=${columnId}&libro_id=${libroId}&delta=${delta}`
       })
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        console.log('Response status:', response.status);
+        if (!response.ok) throw new Error('Network error');
         return response.json();
       })
       .then(data => {
-        console.log('Response:', data); // Debug
+        console.log('Update response:', data);
         if (data.status === 'ok') {
           // Actualizar el input de la celda
-          const inputs = document.querySelectorAll(`.btn-quantity[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
-          inputs.forEach(btn => {
-            const input = btn.closest('.quantity-control').querySelector('.quantity-input');
+          const inputs = document.querySelectorAll(`input.quantity-input[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
+          inputs.forEach(input => {
             input.value = data.new_value;
           });
           
           // Actualizar stock general
           updateStockDisplay(libroId);
         } else {
-          console.error('Server error:', data.message);
+          alert('Error: ' + (data.message || 'Error desconocido'));
         }
       })
       .catch(error => {
-        console.error('Error:', error);
-        alert('Error al actualizar la cantidad');
+        console.error('Update error:', error);
+        alert('Error de conexión al actualizar la cantidad');
       });
     }
 
@@ -221,7 +262,7 @@
           });
         }
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => console.error('Stock display error:', error));
     }
 
     // Agregar nueva columna
@@ -244,56 +285,16 @@
           }
         })
         .catch(error => {
-          console.error('Error:', error);
-          alert('Error al crear la columna');
+          console.error('Create column error:', error);
+          alert('Error de conexión al crear la columna');
         });
       }
-    });
-
-    // Dropdown para eliminar columnas
-    document.addEventListener('click', function(e) {
-      // Abrir/cerrar dropdown
-      const menuBtn = e.target.closest('.column-menu-btn');
-      if (menuBtn) {
-        const columnId = menuBtn.dataset.columnId;
-        const dropdown = document.getElementById(`dropdown-${columnId}`);
-        const allDropdowns = document.querySelectorAll('.column-dropdown');
-        
-        // Cerrar todos los demás dropdowns
-        allDropdowns.forEach(dd => {
-          if (dd !== dropdown) {
-            dd.classList.remove('active');
-          }
-        });
-        
-        // Toggle el dropdown actual
-        dropdown.classList.toggle('active');
-        e.stopPropagation();
-        return;
-      }
-
-      // Eliminar columna
-      const deleteBtn = e.target.closest('.delete-column');
-      if (deleteBtn) {
-        const columnId = deleteBtn.dataset.columnId;
-        if (confirm('¿Estás seguro de que quieres eliminar esta columna? Se perderán todos los datos.')) {
-          deleteColumn(columnId);
-        }
-        e.stopPropagation();
-        return;
-      }
-
-      // Cerrar dropdowns al hacer click fuera
-      const dropdowns = document.querySelectorAll('.column-dropdown.active');
-      dropdowns.forEach(dropdown => {
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove('active');
-        }
-      });
     });
 
     // Eliminar columna
     function deleteColumn(columnId) {
+      console.log('Deleting column:', columnId);
+      
       fetch('<?= site_url('stock/deleteColumn') ?>', {
         method: 'POST',
         headers: {
@@ -303,6 +304,7 @@
       })
       .then(response => response.json())
       .then(data => {
+        console.log('Delete response:', data);
         if (data.status === 'ok') {
           // Remover la columna del DOM
           const column = document.querySelector(`.dynamic-column[data-column-id="${columnId}"]`);
@@ -312,12 +314,12 @@
           // Recargar para actualizar cálculos de stock
           location.reload();
         } else {
-          alert('Error al eliminar la columna: ' + data.msg);
+          alert('Error al eliminar la columna: ' + (data.msg || 'Error desconocido'));
         }
       })
       .catch(error => {
-        console.error('Error:', error);
-        alert('Error al eliminar la columna');
+        console.error('Delete error:', error);
+        alert('Error de conexión al eliminar la columna');
       });
     }
 
@@ -337,7 +339,6 @@
         setTimeout(() => {
           scrollContainer.scrollLeft = scrollContainer.scrollWidth;
         }, 100);
-        scrollContainer.style.scrollBehavior = 'smooth';
       }
     });
   </script>

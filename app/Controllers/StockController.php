@@ -19,15 +19,6 @@ class StockController extends Controller
         $sql = "SELECT 
                     l.id,
                     l.titulo,
-                    l.descripcion,
-                    l.autor,
-                    l.edicion,
-                    l.precio,
-                    l.categoria,
-                    l.foto1,
-                    l.foto2,
-                    l.created_at,
-                    l.updated_at,
                     GREATEST(COALESCE(SUM(
                         CASE 
                             WHEN sc.tipo = 'ingreso' THEN sv.cantidad 
@@ -38,9 +29,8 @@ class StockController extends Controller
                 FROM libros l
                 LEFT JOIN stock_values sv ON l.id = sv.libro_id
                 LEFT JOIN stock_columns sc ON sv.column_id = sc.id
-                GROUP BY l.id, l.titulo, l.descripcion, l.autor, l.edicion, l.precio, 
-                         l.categoria, l.foto1, l.foto2, l.created_at, l.updated_at
-                ORDER BY l.titulo"; // ELIMINADO el HAVING stock >= 1
+                GROUP BY l.id, l.titulo
+                ORDER BY l.titulo";
 
         $libros = $this->db->query($sql)->getResultArray();
 
@@ -65,7 +55,6 @@ class StockController extends Controller
         ]);
     }
 
-    // Crear nueva columna (ingreso/egreso)
     public function createColumn()
     {
         $request = Services::request();
@@ -74,7 +63,6 @@ class StockController extends Controller
 
         $this->db->transStart();
         
-        // Insertar en stock_columns
         $this->db->table('stock_columns')->insert([
             'name' => $name,
             'tipo' => $tipo,
@@ -114,17 +102,73 @@ class StockController extends Controller
         }
     }
 
-    // Agrega este método al controlador
-public function deleteColumn()
-{
-    $id = (int)$this->request->getPost('id');
-    if (!$id) {
-        return $this->response->setJSON(['status' => 'error', 'msg' => 'No id provided']);
+    public function updateCell()
+    {
+        $request = Services::request();
+        $colId = (int)$request->getPost('column_id');
+        $libroId = (int)$request->getPost('libro_id');
+        $delta = (int)$request->getPost('delta');
+
+        // Leer fila actual
+        $svTable = $this->db->table('stock_values');
+        $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();
+
+        if (!$row) {
+            // Si no existe, crearla
+            $newVal = max(0, $delta);
+            $svTable->insert([
+                'column_id' => $colId,
+                'libro_id' => $libroId,
+                'cantidad' => $newVal,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        } else {
+            $newVal = max(0, $row['cantidad'] + $delta);
+            $svTable->where('id', $row['id'])->update([
+                'cantidad' => $newVal,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'new_value' => $newVal
+        ]);
     }
-    
-    $this->db->table('stock_columns')->where('id', $id)->delete();
-    // stock_values se elimina automáticamente por CASCADE
-    
-    return $this->response->setJSON(['status' => 'ok']);
-}
+
+    public function getStock()
+    {
+        $libroId = (int)$this->request->getPost('libro_id');
+        
+        $sql = "SELECT GREATEST(COALESCE(SUM(
+                    CASE 
+                        WHEN sc.tipo = 'ingreso' THEN sv.cantidad 
+                        WHEN sc.tipo = 'egreso' THEN -sv.cantidad 
+                        ELSE 0 
+                    END
+                ), 0), 0) as stock
+                FROM stock_values sv
+                JOIN stock_columns sc ON sv.column_id = sc.id
+                WHERE sv.libro_id = ?";
+        
+        $result = $this->db->query($sql, [$libroId])->getRow();
+        
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'stock' => $result ? $result->stock : 0
+        ]);
+    }
+
+    public function deleteColumn()
+    {
+        $id = (int)$this->request->getPost('id');
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'msg' => 'No id provided']);
+        }
+        
+        $this->db->table('stock_columns')->where('id', $id)->delete();
+        
+        return $this->response->setJSON(['status' => 'ok']);
+    }
 }
