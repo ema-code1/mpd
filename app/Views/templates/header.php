@@ -44,7 +44,7 @@
     </button>
     <div class="dropdown-menu" id="dropdownMenu">
       <div class="dropdown-header">Sesión activa</div>
-      <a href="#" class="dropdown-item">
+      <a href="<?= base_url('perfil') ?>" class="dropdown-item">
         <i class="ti ti-user-circle"></i> Cuenta
       </a>
       <div class="dropdown-divider"></div>
