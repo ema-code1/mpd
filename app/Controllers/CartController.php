@@ -37,7 +37,7 @@ class CartController extends BaseController
     }
 
     // Acción para añadir un libro al carrito (llamada desde book_details y cart.php)
-    public function add($libro)
+    public function add($libro) //$libro trae valor de cambio de stock
 {
     $debug = []; // array para debug
 
@@ -63,11 +63,18 @@ class CartController extends BaseController
 
         if ($existing) {
             $newCantidad = $existing['cantidad'] + $change;
-            $debug['newCantidad'] = $newCantidad;
-
-            if ($newCantidad <= 0) $cartModel->delete($existing['id']);
-            else $cartModel->update($existing['id'], ['cantidad' => $newCantidad]);
-        } else if ($change > 0) {
+        
+            if ($newCantidad <= 0) {
+                // Si la cantidad llega a 0 o menos, eliminamos el item usando la PK compuesta: $cartModel->where('user_id', $userId)->where('libro_id', $libro)->delete();
+            } else {
+                // Actualizamos la cantidad usando WHERE (no usamos update($id,...) porque no hay id único)
+                $cartModel->set('cantidad', $newCantidad)
+                          ->where('user_id', $userId)
+                          ->where('libro_id', $libro)
+                          ->update();
+            }
+        }
+         else if ($change > 0) {
             $cartModel->insert([
                 'user_id' => $userId,
                 'libro_id' => $libro,
@@ -88,59 +95,70 @@ class CartController extends BaseController
 
     // Acción para actualizar cantidad o selección (llamada por AJAX desde la vista)
     public function update()
-    {
-        if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
-            return $this->response->setJSON(['error' => 'No autorizado']);
-        }
-
-        $userId = session()->get('userId');
-        $cartModel = new CartModel();
-
-        $itemId = $this->request->getPost('item_id');
-        $action = $this->request->getPost('action'); // 'cantidad' o 'seleccionado'
-        $value = $this->request->getPost('value');
-
-        $item = $cartModel->find($itemId);
-        if (!$item || $item['user_id'] != $userId) {
-            return $this->response->setJSON(['error' => 'Item no encontrado']);
-        }
-
-        if ($action === 'cantidad') {
-            $value = max(1, (int)$value); // Mínimo 1
-            $cartModel->update($itemId, ['cantidad' => $value]);
-        } elseif ($action === 'seleccionado') {
-            $cartModel->update($itemId, ['seleccionado' => (int)$value]);
-        }
-
-        return $this->response->setJSON(['success' => true]);
+{
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
+        return $this->response->setJSON(['error' => 'No autorizado']);
     }
 
-    public function delete()
-    {
-        // Verifica login y rol
-        if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
-            return $this->response->setJSON(['error' => 'Debes iniciar sesión como comprador']);
-        }
+    $userId = session()->get('userId');
+    $cartModel = new CartModel();
 
-        $userId = session()->get('userId');
-        $itemId = $this->request->getPost('libro_id'); // 👈 Asegurate de usar libro_id también en JS
+    // Ahora recibimos libro_id (no item_id) y action/value
+    $libroId = $this->request->getPost('libro_id');
+    $action = $this->request->getPost('action'); // 'cantidad' o 'seleccionado'
+    $value = $this->request->getPost('value');
 
-        if (!$itemId) {
-            return $this->response->setJSON(['error' => 'ID del item no proporcionado']);
-        }
-
-        $cartModel = new \App\Models\CartModel();
-
-        // Verificamos que el ítem exista
-        $item = $cartModel->where('libro_id', $itemId)->where('user_id', $userId)->first();
-
-        if (!$item) {
-            return $this->response->setJSON(['error' => 'El producto no existe en tu carrito']);
-        }
-
-        // Eliminamos el ítem del carrito del usuario
-        $cartModel->where('libro_id', $itemId)->where('user_id', $userId)->delete();
-
-        return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado del carrito']);
+    if (!$libroId) {
+        return $this->response->setJSON(['error' => 'libro_id no proporcionado']);
     }
+
+    // Buscar el item por la PK compuesta
+    $item = $cartModel->where('user_id', $userId)->where('libro_id', $libroId)->first();
+    if (!$item) {
+        return $this->response->setJSON(['error' => 'Item no encontrado']);
+    }
+
+    if ($action === 'cantidad') {
+        $value = max(1, (int)$value); // Mínimo 1
+        $cartModel->set('cantidad', $value)
+                  ->where('user_id', $userId)
+                  ->where('libro_id', $libroId)
+                  ->update();
+    } elseif ($action === 'seleccionado') {
+        $cartModel->set('seleccionado', (int)$value)
+                  ->where('user_id', $userId)
+                  ->where('libro_id', $libroId)
+                  ->update();
+    } else {
+        return $this->response->setJSON(['error' => 'Acción no válida']);
+    }
+
+    return $this->response->setJSON(['success' => true]);
+}
+
+public function delete()
+{
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
+        return $this->response->setJSON(['error' => 'Debes iniciar sesión como comprador']);
+    }
+
+    $userId = session()->get('userId');
+    $cartModel = new CartModel();
+    $libroId = $this->request->getPost('libro_id');
+
+    if (!$libroId) {
+        return $this->response->setJSON(['error' => 'libro_id no proporcionado']);
+    }
+
+    // Verificar que exista para este usuario
+    $item = $cartModel->where('user_id', $userId)->where('libro_id', $libroId)->first();
+    if (!$item) {
+        return $this->response->setJSON(['error' => 'Item no encontrado o no autorizado']);
+    }
+
+    // Eliminar usando WHERE por la PK compuesta
+    $cartModel->where('user_id', $userId)->where('libro_id', $libroId)->delete();
+
+    return $this->response->setJSON(['success' => true, 'msg' => 'Producto eliminado del carrito']);
+}
 }
