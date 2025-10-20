@@ -158,24 +158,26 @@
 
                 // Eliminar
                 if (btn.classList.contains('btn-remove')) {
-                    if (!confirm('¿Querés borrar este producto del carrito?')) return;
-                    fetch('<?= base_url('cart/delete') ?>', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: 'libro_id=' + libroId // 👈 CAMBIO CLAVE
-                    })
-                    .then(res => res.json())
-                    .then(json => {
-                        if (json.success) {
-                            item.remove();
-                            updateSummary();
-                            alert('Producto eliminado correctamente');
-                        } else {
-                            alert(json.error || 'No se pudo borrar el item');
-                        }
-                    })
-                    .catch(() => alert('Error de red.'));
-                }
+    if (!confirm('¿Querés borrar este producto del carrito?')) return;
+
+    const libroId = item.dataset.libroId;
+
+    fetch('<?= base_url('cart/delete') ?>', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'libro_id=' + encodeURIComponent(libroId)
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (json.success) {
+            alert('Producto eliminado correctamente');
+            location.reload(); // recarga para reflejar estado real desde BD
+        } else {
+            alert(json.error || 'No se pudo borrar el item');
+        }
+    })
+    .catch(() => alert('Error de red.'));
+}
             });
 
             updateSummary();
