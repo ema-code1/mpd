@@ -89,8 +89,7 @@ $routes->post('stock/deleteColumn', 'StockController::deleteColumn');
 
 $routes->get('/perfil', 'Perfil::index');
 $routes->post('/perfil/actualizar', 'Perfil::actualizar');
-$routes->post('/perfil/uploadFoto', 'Perfil::uploadFoto');
-
+$routes->post('/perfil/uploadTempImage', 'Perfil::uploadTempImage');
 
 
     // 🛠️ OTRAS RUTAS (p/futuro)
