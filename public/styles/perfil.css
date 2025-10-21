@@ -41,7 +41,7 @@ section .wave span {
   z-index: 1;
   font-size: 4em;
   letter-spacing: 2px;
-  color: #fff;
+  color: #fff;  
 }
 section .wave span:nth-child(1) {
   border-radius: 45%;
