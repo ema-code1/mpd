@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\LibroModel;
+use App\Models\ResenasModel;
 
 class LibroController extends Controller
 {
@@ -69,7 +70,7 @@ class LibroController extends Controller
 
 
 
-    public function detalles($id)
+public function detalles($id)
 {
     $libroModel = new LibroModel();
     $libro = $libroModel->find($id);
@@ -77,13 +78,208 @@ class LibroController extends Controller
     if (!$libro) {
         throw new \CodeIgniter\Exceptions\PageNotFoundException('Libro no encontrado');
     }
+
+    // Cargar modelo de reseñas y obtener datos
+    $resenasModel = new ResenasModel();
+    
+    // CORREGIDO: Usar 'userId' en lugar de 'id'
+    $user_id = session()->get('userId');
+    
+    $data = [
+        'libro' => $libro,
+        'resenas' => $resenasModel->getResenasByLibro($id),
+        'stats_resenas' => $resenasModel->getStatsResenas($id),
+        'user_ya_reseno' => session()->get('isLoggedIn') ? 
+            $resenasModel->userYaReseno($user_id, $id) : false
+    ];
     
     echo view('templates/header');
-    return view('book_details', ['libro' => $libro]);
-    
+    return view('book_details', $data);
 }
 
-// comentario
+public function agregarResena()
+{
+    if (!$this->request->isAJAX() || !session()->get('isLoggedIn')) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['No autorizado o no es una petición AJAX']
+        ]);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'libro_id' => 'required|integer',
+        'rating' => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[5]',
+        'descripcion' => 'required|min_length[10]|max_length[500]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => $validation->getErrors(),
+            'debug' => 'Error de validación'
+        ]);
+    }
+
+    $resenasModel = new ResenasModel();
+    $libro_id = $this->request->getPost('libro_id');
+    
+    // CORREGIDO: Usar 'userId' en lugar de 'id'
+    $user_id = session()->get('userId');
+
+    // Debug: Verificar datos recibidos
+    $debug_data = [
+        'libro_id' => $libro_id,
+        'user_id' => $user_id,
+        'rating' => $this->request->getPost('rating'),
+        'descripcion_length' => strlen($this->request->getPost('descripcion'))
+    ];
+
+    // Verificar si el usuario ya reseñó este libro
+    if ($resenasModel->userYaReseno($user_id, $libro_id)) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['Ya has publicado una reseña para este libro'],
+            'debug' => $debug_data
+        ]);
+    }
+
+    $resenaData = [
+        'libro_id' => $libro_id,
+        'user_id' => $user_id,
+        'rating' => $this->request->getPost('rating'),
+        'descripcion' => $this->request->getPost('descripcion')
+    ];
+
+    try {
+        if ($resenasModel->insert($resenaData)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Reseña publicada exitosamente',
+                'stats' => $resenasModel->getStatsResenas($libro_id),
+                'debug' => $debug_data
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'errors' => ['Error al insertar en la base de datos'],
+                'debug' => $debug_data,
+                'model_errors' => $resenasModel->errors()
+            ]);
+        }
+    } catch (\Exception $e) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['Excepción: ' . $e->getMessage()],
+            'debug' => $debug_data
+        ]);
+    }
+}
+
+public function editarResena($resena_id)
+{
+    if (!$this->request->isAJAX() || !session()->get('isLoggedIn')) {
+        return $this->response->setStatusCode(403);
+    }
+
+    $resenasModel = new ResenasModel();
+    $resena = $resenasModel->getResenaById($resena_id);
+    
+    // Verificar que la reseña existe y pertenece al usuario
+    if (!$resena || $resena['user_id'] != session()->get('userId')) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['No tienes permiso para editar esta reseña']
+        ]);
+    }
+
+    return $this->response->setJSON([
+        'success' => true,
+        'resena' => $resena
+    ]);
+}
+
+public function actualizarResena($resena_id)
+{
+    if (!$this->request->isAJAX() || !session()->get('isLoggedIn')) {
+        return $this->response->setStatusCode(403);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'rating' => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[5]',
+        'descripcion' => 'required|min_length[10]|max_length[500]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => $validation->getErrors()
+        ]);
+    }
+
+    $resenasModel = new ResenasModel();
+    $resena = $resenasModel->getResenaById($resena_id);
+    
+    // Verificar permisos
+    if (!$resena || $resena['user_id'] != session()->get('userId')) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['No tienes permiso para editar esta reseña']
+        ]);
+    }
+
+    $data = [
+        'rating' => $this->request->getPost('rating'),
+        'descripcion' => $this->request->getPost('descripcion'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+
+    if ($resenasModel->actualizarResena($resena_id, $data)) {
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Reseña actualizada exitosamente',
+            'resena' => $resenasModel->getResenaById($resena_id)
+        ]);
+    }
+
+    return $this->response->setJSON([
+        'success' => false,
+        'errors' => ['Error al actualizar la reseña']
+    ]);
+}
+
+public function eliminarResena($resena_id)
+{
+    if (!$this->request->isAJAX() || !session()->get('isLoggedIn')) {
+        return $this->response->setStatusCode(403);
+    }
+
+    $resenasModel = new ResenasModel();
+    $resena = $resenasModel->getResenaById($resena_id);
+    
+    // Verificar permisos
+    if (!$resena || $resena['user_id'] != session()->get('userId')) {
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => ['No tienes permiso para eliminar esta reseña']
+        ]);
+    }
+
+    if ($resenasModel->delete($resena_id)) {
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Reseña eliminada exitosamente'
+        ]);
+    }
+
+    return $this->response->setJSON([
+        'success' => false,
+        'errors' => ['Error al eliminar la reseña']
+    ]);
+}
+
+// EDITAR LIBRO
 
 public function editar($id)
     {

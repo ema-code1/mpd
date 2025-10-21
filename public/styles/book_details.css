@@ -43,8 +43,9 @@ body {
     padding: 40px;
     box-shadow: var(--shadow);
     margin-bottom: 30px;
-    transition: var(--transition);
+        transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 
 /* Sección de imágenes con slider */
 .book-images {
@@ -154,7 +155,7 @@ body {
     .options-btn {
         background: #ffffff;
         border: none;
-        border-radius: 10px;     /* Más border-radius como solicitaste */
+        border-radius: 15px;     /* Más border-radius como solicitaste */
         cursor: pointer;
         padding: 6px;
         width: 40px;
@@ -212,7 +213,6 @@ body {
         transition: all 0.2s ease;
         color: #333;
         text-decoration: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
     }
     
     .option-item:hover {
@@ -346,14 +346,14 @@ body {
     align-items: center;
     gap: 10px;
     padding: 12px 25px;
-    background: var(--white);
-    color: var(--primary);
-    text-decoration: none;
+    color: #f7f7f7;
+    text-decoration: none !important;
     border-radius: var(--radius);
     font-weight: 600;
     transition: all 0.5s ease;
-    border: 2px solid var(--primary);
     box-shadow: 0 4px 12px rgba(30, 30, 30, 0.069), inset 0 1px 2px #fffcf2;
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    margin: 0.5rem auto;
 }
 
 .btn-back:hover {
@@ -361,6 +361,7 @@ body {
   box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
     color: var(--white);
     border: none;
+    padding-bottom: calc(12px + 2px) 25px;
     transform: translateX(-5px);
 }
 
@@ -406,3 +407,754 @@ body {
         height: 300px;
     }
 }
+
+
+/* Estilos para la sección de reseñas */
+.reseñas-container {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    max-width: 1160px;
+    margin: 0 auto;
+    margin-bottom: 5rem;
+}
+
+.reseñas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.reseñas-header h2 {
+    font-size: 2em;
+    color: var(--text);
+    margin: 0;
+}
+
+/* Estadísticas de reseñas */
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100px;
+    height: 90px;
+    border-radius: 20px;
+    background-color: #f8f8f8;
+    box-shadow: 6px 6px 12px #e2e1e1, -6px -6px 12px #ffffff;
+    padding: 15px;
+}
+
+.stats-wrapper .heading {
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.bottom-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bottom-wrapper .star {
+    width: 30px;
+    fill: gold;
+}
+
+.bottom-wrapper .tag {
+    width: 27px;
+    fill: rgb(141, 214, 32);
+}
+
+.bottom-wrapper .thumb {
+    width: 27px;
+    fill: var(--primary);
+}
+
+.bottom-wrapper p {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Formulario de reseña */
+.agregar-resena-form {
+    background: var(--background);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+}
+
+.agregar-resena-form h3 {
+    margin-top: 0;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.rating-container {
+    margin-bottom: 20px;
+}
+
+.rating-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Estilos para el rating system */
+.radio {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    flex-direction: row-reverse;
+}
+
+.radio > input {
+    position: absolute;
+    appearance: none;
+}
+
+.radio > label {
+    cursor: pointer;
+    font-size: 30px;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.radio > label > svg {
+    fill: #666;
+    transition: fill 0.3s ease;
+    width: 35px;
+    height: 35px;
+}
+
+.radio > label::before,
+.radio > label::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #ff9e0b;
+    border-radius: 30%;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    animation: particle-explosion 1s ease-out;
+}
+
+.radio > label::before {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+}
+
+.radio > label::after {
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+}
+
+.radio > label:hover::before,
+.radio > label:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.5);
+}
+
+.radio > label:hover {
+    transform: scale(1.2);
+    animation: pulse 0.6s infinite alternate;
+}
+
+.radio > label:hover > svg,
+.radio > label:hover ~ label > svg {
+    fill: #ff9e0b;
+    filter: drop-shadow(0 0 15px rgba(255, 158, 11, 0.9));
+    animation: shimmer 1s ease infinite alternate;
+}
+
+.radio > input:checked + label > svg,
+.radio > input:checked + label ~ label > svg {
+    fill: #ff9e0b;
+    filter: drop-shadow(0 0 15px rgba(255, 158, 11, 0.9));
+    animation: pulse 0.8s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes particle-explosion {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(255, 158, 11, 0.5));
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(255, 158, 11, 1));
+    }
+}
+
+.radio > input:checked + label:hover > svg,
+.radio > input:checked + label:hover ~ label > svg {
+    fill: #e58e09;
+}
+
+.radio > label:hover > svg,
+.radio > label:hover ~ label > svg {
+    fill: #ff9e0b;
+}
+
+.radio input:checked ~ label svg {
+    fill: #ffa723;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 1em;
+    resize: vertical;
+    transition: var(--transition);
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(239, 141, 0, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #EF8D00, #ff7214);
+    box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+    color: var(--white);
+    border: none;
+    padding: 12px 25px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    transform: scale(1.02);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px 25px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background: var(--background);
+    border-color: var(--text-secondary);
+}
+
+/* Tarjetas de reseñas */
+.reseña-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.reseña-card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.reseña-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.reseña-date {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.reseña-rating {
+    display: flex;
+    gap: 2px;
+}
+
+.reseña-rating .star {
+    color: #ddd;
+    font-size: 1.8em;
+}
+
+.reseña-rating .star.filled {
+    color: gold;
+}
+
+.reseña-content p {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.no-resenas {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Estilos para avatar con imagen */
+.user-avatar {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-text {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* Badge de editado */
+.editado-badge {
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+/* Acciones de reseña */
+.reseña-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.reseña-actions .card-options {
+    position: relative;
+}
+
+/* Formulario de edición */
+.editar-resena-form {
+    background: var(--background);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid var(--border);
+}
+
+/* Opción de eliminar en rojo */
+.delete-option {
+    color: #e74c3c !important;
+}
+
+.delete-option:hover {
+    background-color: #fee !important;
+    color: #c0392b !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reseña-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .reseña-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reseñas-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .reseña-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .radio > label > svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reseñas-container {
+        padding: 20px;
+    }
+    
+    .agregar-resena-form {
+        padding: 20px;
+    }
+    
+    .stats-wrapper {
+        width: 90px;
+        height: 80px;
+        padding: 12px;
+    }
+}
+
+        /* Estilos para los popups */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active .popup {
+            transform: translateY(0);
+        }
+
+        .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup.success .popup-icon {
+            color: #22c55e;
+        }
+
+        .popup.error .popup-icon {
+            color: #ef4444;
+        }
+
+        .popup.warning .popup-icon {
+            color: #f59e0b;
+        }
+
+        .popup-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .popup-message {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .popup-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 100px;
+        }
+
+        .popup-btn.confirm {
+            background: linear-gradient(135deg, #EF8D00, #ff7214);
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+            color: white;
+        }
+
+        .popup-btn.confirm:hover {
+            transform: scale(1.02);
+        }
+
+        .popup-btn.cancel {
+            background: #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .popup-btn.cancel:hover {
+            background: #e5e7eb;
+            transform: scale(1.02);
+        }
+
+        /* Estilos para notificaciones toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left-color: #22c55e;
+        }
+
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+
+        .toast.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        .toast.success .toast-icon {
+            color: #22c55e;
+        }
+
+        .toast.error .toast-icon {
+            color: #ef4444;
+        }
+
+        .toast.warning .toast-icon {
+            color: #f59e0b;
+        }
+
+        .toast-message {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        /* Estilos para dropdowns */
+        .card-options {
+            position: relative;
+            display: inline-block;
+        }
+
+        .options-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .options-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+.options-menu {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 100;
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.options-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .option-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .option-item.delete-option {
+            color: #ef4444;
+        }
+
+        .option-item.delete-option:hover {
+            background: #fef2f2;
+        }
+
+        /* para el carrito */
+        .btn-add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }

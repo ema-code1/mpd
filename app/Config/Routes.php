@@ -91,6 +91,11 @@ $routes->get('/perfil', 'Perfil::index');
 $routes->post('/perfil/actualizar', 'Perfil::actualizar');
 $routes->post('/perfil/uploadTempImage', 'Perfil::uploadTempImage');
 
+$routes->post('libro/agregarResena', 'LibroController::agregarResena');
+$routes->get('libro/editarResena/(:num)', 'LibroController::editarResena/$1');
+$routes->post('libro/actualizarResena/(:num)', 'LibroController::actualizarResena/$1');
+$routes->post('libro/eliminarResena/(:num)', 'LibroController::eliminarResena/$1');
+
 
     // 🛠️ OTRAS RUTAS (p/futuro)
     // $routes->get('home', 'Home::index'); // ya está en (:any)
