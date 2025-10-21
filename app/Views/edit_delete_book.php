@@ -6,6 +6,7 @@
     <title>Editar Libro - MPD</title>
     <link href="<?= base_url('styles/edit_delete_book.css') ?>" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
     <div class="form-container">

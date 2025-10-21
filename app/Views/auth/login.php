@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="<?= base_url('styles/login.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
+<section>
+  <div class="wave">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 <body class="login-body">
 <div class="login-container">
     <div class="login-box">
@@ -48,6 +55,7 @@
         </form>
     </div>
 </div>
+</section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

@@ -16,7 +16,13 @@
     }
   </style>
 </head>
-<body>  
+<body> 
+  <section>
+  <div class="wave">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div> 
   <!-- Contenedor principal para centrado vertical -->
   <main class="main-container">
     <div class="register-container">
@@ -70,6 +76,8 @@
       </form>
     </div>
   </main>
+
+</section>
 
   <script>
     document.addEventListener('DOMContentLoaded', function(){
