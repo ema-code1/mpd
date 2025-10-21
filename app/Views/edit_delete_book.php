@@ -9,13 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
-
-<section>
-  <div class="wave">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
     <div class="form-container">
         <h1 class="form-title">Editar Publicación</h1>
         
@@ -117,8 +110,6 @@
             <input type="hidden" name="_method" value="DELETE">
         </form>
     </div>
-
-        </section>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
