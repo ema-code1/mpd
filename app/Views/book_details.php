@@ -145,39 +145,40 @@
 
     <!-- Formulario para agregar reseña (solo para usuarios logueados que no hayan reseñado) -->
     <?php if (session()->get('isLoggedIn') && !$user_ya_reseno): ?>
-    <!-- Formulario de edición (oculto inicialmente) -->
-<div class="editar-resena-form" id="editar-form-<?= $resena['id'] ?>" style="display: none;">
-    <form id="formEditarResena-<?= $resena['id'] ?>" method="POST">
-        <?= csrf_field() ?>
-        <input type="hidden" name="resena_id" value="<?= $resena['id'] ?>">
-        
-        <div class="rating-container">
-            <label>Calificación:</label>
-            <div class="rating mb-3">
-                <input value="5" name="rating" id="edit-star5-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 5 ? 'checked' : '' ?>>
-                <label for="edit-star5-<?= $resena['id'] ?>"></label>
-                <input value="4" name="rating" id="edit-star4-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 4 ? 'checked' : '' ?>>
-                <label for="edit-star4-<?= $resena['id'] ?>"></label>
-                <input value="3" name="rating" id="edit-star3-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 3 ? 'checked' : '' ?>>
-                <label for="edit-star3-<?= $resena['id'] ?>"></label>
-                <input value="2" name="rating" id="edit-star2-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 2 ? 'checked' : '' ?>>
-                <label for="edit-star2-<?= $resena['id'] ?>"></label>
-                <input value="1" name="rating" id="edit-star1-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 1 ? 'checked' : '' ?>>
-                <label for="edit-star1-<?= $resena['id'] ?>"></label>
+    <div class="agregar-resena-form">
+        <h3>Escribe tu reseña</h3>
+        <form id="formResena" method="POST">
+            <?= csrf_field() ?>
+            <input type="hidden" name="libro_id" value="<?= $libro['id'] ?>">
+            
+            <div class="rating-container">
+                <label>Calificación:</label>
+                <!-- Formulario de reseña -->
+                <div class="rating mb-3">
+                <input value="5" name="rating" id="star5" type="radio">
+                <label for="star5"></label>
+                <input value="4" name="rating" id="star4" type="radio">
+                <label for="star4"></label>
+                <input value="3" name="rating" id="star3" type="radio">
+                <label for="star3"></label>
+                <input value="2" name="rating" id="star2" type="radio">
+                <label for="star2"></label>
+                <input value="1" name="rating" id="star1" type="radio">
+                <label for="star1"></label>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="edit-descripcion-<?= $resena['id'] ?>">Reseña:</label>
-            <textarea name="descripcion" id="edit-descripcion-<?= $resena['id'] ?>" class="form-control" rows="3" required><?= htmlspecialchars($resena['descripcion']) ?></textarea>
-        </div>
+            <div class="form-group">
+                <label for="descripcion">Contanos tu experiencia:</label>
+                <textarea name="descripcion" id="descripcion" rows="4" placeholder="Escribe tu reseña aquí..." required></textarea>
+            </div>
 
-        <div class="form-actions">
-            <button type="button" onclick="cancelarEdicion(<?= $resena['id'] ?>)" class="btn btn-secondary">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Actualizar Reseña</button>
-        </div>
-    </form>
-</div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Publicar Reseña</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Cancelar</button>
+            </div>
+        </form>
+    </div>
     <?php endif; ?>
 
     <!-- Lista de reseñas existentes -->
