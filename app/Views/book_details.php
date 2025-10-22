@@ -59,7 +59,7 @@
                     <?php if (session()->get('isLoggedIn') && session()->get('role') === 'administrador'): ?>
                         <div class="card-options">
                             <button class="options-btn" title="Más opciones">
-                                <i class="ti ti-pencil"></i>
+                                <i class="ti ti-dots-vertical"></i>
                             </button>
                             <div class="options-menu">
                                 <a href="<?= site_url('libro/editar/' . $libro['id']) ?>" class="option-item">
@@ -145,63 +145,39 @@
 
     <!-- Formulario para agregar reseña (solo para usuarios logueados que no hayan reseñado) -->
     <?php if (session()->get('isLoggedIn') && !$user_ya_reseno): ?>
-    <div class="agregar-resena-form">
-        <h3>Escribe tu reseña</h3>
-        <form id="formResena" method="POST">
-            <?= csrf_field() ?>
-            <input type="hidden" name="libro_id" value="<?= $libro['id'] ?>">
-            
-            <div class="rating-container">
-                <label>Calificación:</label>
-                <div class="radio">
-                    <input id="rating-5" type="radio" name="rating" value="5" required />
-                    <label for="rating-5" title="5 stars">
-                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg>
-                    </label>
-
-                    <input id="rating-4" type="radio" name="rating" value="4" />
-                    <label for="rating-4" title="4 stars">
-                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg>
-                    </label>
-
-                    <input id="rating-3" type="radio" name="rating" value="3" />
-                    <label for="rating-3" title="3 stars">
-                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg>
-                    </label>
-
-                    <input id="rating-2" type="radio" name="rating" value="2" />
-                    <label for="rating-2" title="2 stars">
-                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg>
-                    </label>
-
-                    <input id="rating-1" type="radio" name="rating" value="1" />
-                    <label for="rating-1" title="1 star">
-                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg>
-                    </label>
-                </div>
+    <!-- Formulario de edición (oculto inicialmente) -->
+<div class="editar-resena-form" id="editar-form-<?= $resena['id'] ?>" style="display: none;">
+    <form id="formEditarResena-<?= $resena['id'] ?>" method="POST">
+        <?= csrf_field() ?>
+        <input type="hidden" name="resena_id" value="<?= $resena['id'] ?>">
+        
+        <div class="rating-container">
+            <label>Calificación:</label>
+            <div class="rating mb-3">
+                <input value="5" name="rating" id="edit-star5-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 5 ? 'checked' : '' ?>>
+                <label for="edit-star5-<?= $resena['id'] ?>"></label>
+                <input value="4" name="rating" id="edit-star4-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 4 ? 'checked' : '' ?>>
+                <label for="edit-star4-<?= $resena['id'] ?>"></label>
+                <input value="3" name="rating" id="edit-star3-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 3 ? 'checked' : '' ?>>
+                <label for="edit-star3-<?= $resena['id'] ?>"></label>
+                <input value="2" name="rating" id="edit-star2-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 2 ? 'checked' : '' ?>>
+                <label for="edit-star2-<?= $resena['id'] ?>"></label>
+                <input value="1" name="rating" id="edit-star1-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 1 ? 'checked' : '' ?>>
+                <label for="edit-star1-<?= $resena['id'] ?>"></label>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="descripcion">Contanos tu experiencia:</label>
-                <textarea name="descripcion" id="descripcion" rows="4" placeholder="Escribe tu reseña aquí..." required></textarea>
-            </div>
+        <div class="form-group">
+            <label for="edit-descripcion-<?= $resena['id'] ?>">Reseña:</label>
+            <textarea name="descripcion" id="edit-descripcion-<?= $resena['id'] ?>" class="form-control" rows="3" required><?= htmlspecialchars($resena['descripcion']) ?></textarea>
+        </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Publicar Reseña</button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">Cancelar</button>
-            </div>
-        </form>
-    </div>
+        <div class="form-actions">
+            <button type="button" onclick="cancelarEdicion(<?= $resena['id'] ?>)" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Actualizar Reseña</button>
+        </div>
+    </form>
+</div>
     <?php endif; ?>
 
     <!-- Lista de reseñas existentes -->
@@ -222,7 +198,7 @@
                         <div class="user-name"><?= esc($resena['user_name']) ?></div>
                         <div class="reseña-date">
                             <?= date('d/m/Y', strtotime($resena['created_at'])) ?>
-                            <?php if (!empty($resena['updated_at'])): ?>
+                            <?php if (!empty($resena['updated_at']) && $resena['updated_at'] != $resena['created_at']): ?>
                                 <span class="editado-badge">• Editado</span>
                             <?php endif; ?>
                         </div>
@@ -244,11 +220,11 @@
                         <div class="options-menu">
                             <a href="#" class="option-item" onclick="editarResena(<?= $resena['id'] ?>)">
                                 <i class="ti ti-edit"></i>
-                                <span>Editar reseña</span>
+                                <span>Editar</span>
                             </a>
                             <a href="#" class="option-item delete-option" onclick="eliminarResena(<?= $resena['id'] ?>)">
                                 <i class="ti ti-trash"></i>
-                                <span>Eliminar reseña</span>
+                                <span>Eliminar</span>
                             </a>
                         </div>
                     </div>
@@ -261,42 +237,38 @@
             </div>
             
             <!-- Formulario de edición (oculto inicialmente) -->
-            <div class="editar-resena-form" id="editar-form-<?= $resena['id'] ?>" style="display: none;">
-                <form id="formEditarResena-<?= $resena['id'] ?>" method="POST">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="resena_id" value="<?= $resena['id'] ?>">
-                    
-                    <div class="rating-container">
-                        <label>Calificación:</label>
-                        <div class="radio">
-                            <?php for ($i = 5; $i >= 1; $i--): ?>
-                                <input id="edit-rating-<?= $resena['id'] ?>-<?= $i ?>" type="radio" name="rating" value="<?= $i ?>" <?= $i == $resena['rating'] ? 'checked' : '' ?> />
-                                <label for="edit-rating-<?= $resena['id'] ?>-<?= $i ?>" title="<?= $i ?> stars">
-                                    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg>
-                                </label>
-                            <?php endfor; ?>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="edit-descripcion-<?= $resena['id'] ?>">Tu reseña:</label>
-                        <textarea name="descripcion" id="edit-descripcion-<?= $resena['id'] ?>" rows="4" required><?= esc($resena['descripcion']) ?></textarea>
-                        <small class="char-count"><?= strlen($resena['descripcion']) ?>/4000 caracteres</small>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="ti ti-check"></i> Actualizar Reseña
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelarEdicion(<?= $resena['id'] ?>)">
-                            <i class="ti ti-x"></i> Cancelar
-                        </button>
-                    </div>
-                </form>
+<div class="editar-resena-form" id="editar-form-<?= $resena['id'] ?>" style="display: none;">
+    <form id="formEditarResena-<?= $resena['id'] ?>" method="POST">
+        <?= csrf_field() ?>
+        <input type="hidden" name="resena_id" value="<?= $resena['id'] ?>">
+        
+        <div class="rating-container">
+            <label>Calificación:</label>
+            <div class="rating mb-3">
+                <input value="5" name="rating" id="edit-star5-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 5 ? 'checked' : '' ?>>
+                <label for="edit-star5-<?= $resena['id'] ?>"></label>
+                <input value="4" name="rating" id="edit-star4-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 4 ? 'checked' : '' ?>>
+                <label for="edit-star4-<?= $resena['id'] ?>"></label>
+                <input value="3" name="rating" id="edit-star3-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 3 ? 'checked' : '' ?>>
+                <label for="edit-star3-<?= $resena['id'] ?>"></label>
+                <input value="2" name="rating" id="edit-star2-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 2 ? 'checked' : '' ?>>
+                <label for="edit-star2-<?= $resena['id'] ?>"></label>
+                <input value="1" name="rating" id="edit-star1-<?= $resena['id'] ?>" type="radio" <?= $resena['rating'] == 1 ? 'checked' : '' ?>>
+                <label for="edit-star1-<?= $resena['id'] ?>"></label>
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="edit-descripcion-<?= $resena['id'] ?>">Reseña:</label>
+            <textarea name="descripcion" id="edit-descripcion-<?= $resena['id'] ?>" class="form-control" rows="3" required><?= htmlspecialchars($resena['descripcion']) ?></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" onclick="cancelarEdicion(<?= $resena['id'] ?>)" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Actualizar Reseña</button>
+        </div>
+    </form>
+</div>
         <?php endforeach; ?>
     <?php else: ?>
         <div class="no-resenas">
@@ -410,62 +382,98 @@ function resetForm() {
 }
 
 function editarResena(resenaId) {
+    // Guardar posición actual del scroll
+    const scrollPosition = window.scrollY;
+    
     document.getElementById(`resena-content-${resenaId}`).style.display = 'none';
     document.getElementById(`editar-form-${resenaId}`).style.display = 'block';
+    
+    // Restaurar posición del scroll después de un pequeño delay
+    setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+    }, 10);
 }
 
 function cancelarEdicion(resenaId) {
+    // Guardar posición actual del scroll
+    const scrollPosition = window.scrollY;
+    
     if (formChanged) {
         showPopup('¿Descartar cambios?', 'Tienes cambios sin guardar', 'warning', () => {
             document.getElementById(`editar-form-${resenaId}`).style.display = 'none';
             document.getElementById(`resena-content-${resenaId}`).style.display = 'block';
             formChanged = false;
+            // Restaurar posición del scroll
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 10);
         });
     } else {
         document.getElementById(`editar-form-${resenaId}`).style.display = 'none';
         document.getElementById(`resena-content-${resenaId}`).style.display = 'block';
+        // Restaurar posición del scroll
+        setTimeout(() => {
+            window.scrollTo(0, scrollPosition);
+        }, 10);
     }
 }
 
+// Función para actualizar reseña - CORREGIDA CON RUTA
 function actualizarResena(resenaId) {
     const form = document.getElementById(`formEditarResena-${resenaId}`);
+    
+    // DEBUG: Verificar que el formulario existe
+    console.log('Buscando formulario con ID:', `formEditarResena-${resenaId}`);
+    console.log('Formulario encontrado:', form);
+    
+    if (!form) {
+        console.error('Formulario no encontrado para reseña:', resenaId);
+        showNotification('Error: No se pudo encontrar el formulario', 'error');
+        return;
+    }
+    
     const formData = new FormData(form);
     
+    // DEBUG: Verificar datos
+    console.log('Actualizando reseña:', resenaId);
+    console.log('Datos del formulario:', {
+        rating: formData.get('rating'),
+        descripcion: formData.get('descripcion'),
+        resena_id: formData.get('resena_id')
+    });
+    
+    // USAR site_url() de CodeIgniter para la ruta correcta
     fetch(`<?= site_url('libro/actualizarResena/') ?>${resenaId}`, {
         method: 'POST',
         body: formData,
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showNotification('¡Reseña actualizada!', 'success');
-            setTimeout(() => location.reload(), 1000);
-        } else {
-            showNotification(data.errors ? Object.values(data.errors).join(', ') : 'Error al actualizar', 'error');
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .catch(() => showNotification('Error de conexión', 'error'));
-}
-
-function eliminarResena(resenaId) {
-    showPopup('¿Eliminar reseña?', 'Esta acción no se puede deshacer', 'warning', () => {
-        fetch(`<?= site_url('libro/eliminarResena/') ?>${resenaId}`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `<?= csrf_token() ?>=<?= csrf_hash() ?>`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showNotification('Reseña eliminada', 'success');
-                document.getElementById(`resena-${resenaId}`).remove();
-                setTimeout(() => location.reload(), 1000);
-            } else {
-                showNotification('Error al eliminar', 'error');
-            }
-        })
-        .catch(() => showNotification('Error de conexión', 'error'));
+    .then(response => {
+        console.log('Respuesta HTTP:', response.status, response.statusText);
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+        if (data.success) {
+            showNotification('¡Reseña actualizada!', 'success');
+            formChanged = false;
+            // Recargar después de un tiempo
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            const errorMsg = data.errors ? Object.values(data.errors).join(', ') : 'Error al actualizar la reseña';
+            showNotification(errorMsg, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error de conexión: ' + error.message, 'error');
     });
 }
 
@@ -501,17 +509,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Formularios edición reseñas
-    document.querySelectorAll('[id^="formEditarResena-"]').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const resenaId = this.id.split('-')[2];
-            actualizarResena(resenaId);
-        });
-        
-        // Detectar cambios en formularios de edición
-        form.addEventListener('input', () => formChanged = true);
+// Formularios edición reseñas - CORREGIDO
+document.querySelectorAll('form[id^="formEditarResena-"]').forEach(form => {
+    console.log('Configurando formulario:', form.id);
+    
+    // Extraer el ID de la reseña del ID del formulario
+    const formId = form.id;
+    const resenaId = formId.replace('formEditarResena-', '');
+    console.log('ID de reseña extraído:', resenaId);
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Enviando formulario de edición para reseña:', resenaId);
+        actualizarResena(resenaId);
     });
+    
+    // Detectar cambios en formularios de edición
+    form.addEventListener('input', function() {
+        formChanged = true;
+        console.log('Formulario cambiado');
+    });
+});
 
     // Dropdowns con transición
     document.querySelectorAll('.options-btn').forEach(btn => {
@@ -542,6 +560,77 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Función para mantener la posición al recargar
+function saveScrollPosition() {
+    sessionStorage.setItem('scrollPosition', window.scrollY);
+}
+
+function restoreScrollPosition() {
+    const scrollPosition = sessionStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition));
+        sessionStorage.removeItem('scrollPosition');
+    }
+}
+
+// Llamar esta función cuando la página cargue
+document.addEventListener('DOMContentLoaded', function() {
+    restoreScrollPosition();
+    
+    // Guardar posición antes de enviar formularios
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', saveScrollPosition);
+    });
+});
+
+function eliminarResena(resenaId) {
+    showPopup('¿Eliminar reseña?', 'Esta acción no se puede deshacer', 'warning', () => {
+        console.log('Eliminando reseña:', resenaId);
+        
+        // Crear FormData para incluir el CSRF token
+        const formData = new FormData();
+        formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+        
+        // USAR site_url() de CodeIgniter para la ruta correcta
+        fetch(`<?= site_url('libro/eliminarResena/') ?>${resenaId}`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            console.log('Respuesta HTTP eliminar:', response.status, response.statusText);
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta eliminar:', data);
+            if (data.success) {
+                showNotification('Reseña eliminada exitosamente', 'success');
+                // Eliminar la tarjeta de reseña del DOM
+                const resenaElement = document.getElementById(`resena-${resenaId}`);
+                if (resenaElement) {
+                    resenaElement.remove();
+                }
+                // Recargar estadísticas después de un tiempo
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                const errorMsg = data.errors ? Object.values(data.errors).join(', ') : 'Error al eliminar la reseña';
+                showNotification(errorMsg, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar:', error);
+            showNotification('Error de conexión: ' + error.message, 'error');
+        });
+    });
+}
 </script>
 </body>
 </html>

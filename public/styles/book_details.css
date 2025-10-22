@@ -472,7 +472,7 @@ body {
 
 .bottom-wrapper .star {
     width: 30px;
-    fill: gold;
+    fill: #EF8D00;
 }
 
 .bottom-wrapper .tag {
@@ -507,140 +507,42 @@ body {
 }
 
 .rating-container {
-    margin-bottom: 20px;
-}
-
-.rating-container label {
-    display: block;
     margin-bottom: 10px;
-    font-weight: 600;
-    color: var(--text);
-}
-
-/* Estilos para el rating system */
-.radio {
     display: flex;
-    justify-content: flex-start;
-    gap: 5px;
-    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.radio > input {
-    position: absolute;
-    appearance: none;
+.rating {
+  display: inline-block;
+  direction: rtl;
 }
 
-.radio > label {
-    cursor: pointer;
-    font-size: 30px;
-    position: relative;
-    display: inline-block;
-    transition: transform 0.3s ease;
+.rating input {
+  display: none;
 }
 
-.radio > label > svg {
-    fill: #666;
-    transition: fill 0.3s ease;
-    width: 35px;
-    height: 35px;
+.rating label {
+  float: right;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+  font-size: 2rem;
 }
 
-.radio > label::before,
-.radio > label::after {
-    content: "";
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background-color: #ff9e0b;
-    border-radius: 30%;
-    opacity: 0;
-    transform: scale(0);
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    animation: particle-explosion 1s ease-out;
+.rating label:before {
+  content: '\2605';
 }
 
-.radio > label::before {
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+  color: #ef8b0071;
+  transition: color 0.3s;
 }
 
-.radio > label::after {
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
-}
-
-.radio > label:hover::before,
-.radio > label:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.5);
-}
-
-.radio > label:hover {
-    transform: scale(1.2);
-    animation: pulse 0.6s infinite alternate;
-}
-
-.radio > label:hover > svg,
-.radio > label:hover ~ label > svg {
-    fill: #ff9e0b;
-    filter: drop-shadow(0 0 15px rgba(255, 158, 11, 0.9));
-    animation: shimmer 1s ease infinite alternate;
-}
-
-.radio > input:checked + label > svg,
-.radio > input:checked + label ~ label > svg {
-    fill: #ff9e0b;
-    filter: drop-shadow(0 0 15px rgba(255, 158, 11, 0.9));
-    animation: pulse 0.8s infinite alternate;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-}
-
-@keyframes particle-explosion {
-    0% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        filter: drop-shadow(0 0 10px rgba(255, 158, 11, 0.5));
-    }
-    100% {
-        filter: drop-shadow(0 0 20px rgba(255, 158, 11, 1));
-    }
-}
-
-.radio > input:checked + label:hover > svg,
-.radio > input:checked + label:hover ~ label > svg {
-    fill: #e58e09;
-}
-
-.radio > label:hover > svg,
-.radio > label:hover ~ label > svg {
-    fill: #ff9e0b;
-}
-
-.radio input:checked ~ label svg {
-    fill: #ffa723;
+.rating:not(:hover) input:checked ~ label {
+  color: #EF8D00;
 }
 
 .form-group {
@@ -778,7 +680,7 @@ body {
 }
 
 .reseña-rating .star.filled {
-    color: gold;
+    color: #EF8D00;
 }
 
 .reseña-content p {
@@ -1095,23 +997,42 @@ body {
 .options-menu {
     position: absolute;
     top: 0;
-    right: 20px;
+    left: -500%;
+    margin-right: 50px;
     background: white;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 160px;
-    z-index: 100;
-    display: none;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius); /* ← border radius md */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    z-index: 10;
+    opacity: 0; /* ← empezar invisible */
+    transform: scale(0.95) translateY(-5px); /* ← efecto de escala */
+    visibility: hidden;
+    transition: all 0.2s ease-in-out; /* ← transition suave */
+    min-width: 120px;
 }
 
 .options-menu.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1; /* ← hacer visible */
+    transform: scale(1) translateY(0); /* ← escala normal */
+    visibility: visible;
+}
+
+.options-menu button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s;
+}
+
+.options-menu button:hover {
+    background-color: #f3f4f6;
 }
 
         .option-item {
@@ -1123,8 +1044,9 @@ body {
             text-decoration: none;
             transition: var(--transition);
             border: none;
+            border-radius: var(--radius);
             background: none;
-            width: 100%;
+            width: auto;
             text-align: left;
             cursor: pointer;
         }
