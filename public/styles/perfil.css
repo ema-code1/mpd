@@ -87,19 +87,11 @@ section .wave span:nth-child(3) {
     --warning: #ffc107;
 }
 
-/* ESTILOS BASE - CORREGIDOS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
     background-color: var(--background);
     color: var(--text);
     line-height: 1.6;
-    font-weight: 400;
     min-height: 100vh;
 }
 
@@ -197,7 +189,7 @@ body {
     transition: var(--transition);
     color: var(--text);
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 .dropdown-toggle:hover {
@@ -240,7 +232,7 @@ body {
     width: 100%;
     text-align: left;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
@@ -394,7 +386,7 @@ body {
 
 .form-input::placeholder {
     color: var(--text-tertiary);
-    font-size: 0.85rem;
+    font-size: 0.95rem;
 }
 
 /* Botones */
@@ -408,7 +400,7 @@ body {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: var(--radius);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition);
@@ -514,7 +506,7 @@ body {
 
 .popup-message {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     margin-bottom: 1.5rem;
     line-height: 1.4;
 }
@@ -528,7 +520,7 @@ body {
     padding: 0.75rem 1.25rem;
     border: none;
     border-radius: var(--radius);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition);
