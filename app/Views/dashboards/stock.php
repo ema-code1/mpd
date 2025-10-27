@@ -37,6 +37,12 @@
           <i class="ti ti-plus"></i>
           <span>Agregar Ingreso</span>
         </button>
+
+        <!-- Botón nuevo para EGRESO (está a la derecha) -->
+        <button class="add-column-btn add-egreso-btn" id="add-egreso-btn" style="margin-left:8px;">
+          <i class="ti ti-minus"></i>
+          <span>Agregar Egreso</span>
+        </button>
       </div>
 
       <div class="table-container">
@@ -281,6 +287,31 @@
         });
       }
     });
+
+    // Listener para "Agregar Egreso"
+document.getElementById('add-egreso-btn').addEventListener('click', function() {
+  const name = prompt('Nombre del egreso:', 'Egreso ' + new Date().toLocaleDateString());
+  if (!name) return;
+
+  fetch('<?= site_url('stock/createColumn') ?>', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `name=${encodeURIComponent(name)}&tipo=egreso`
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'ok') {
+      location.reload();
+    } else {
+      alert('Error al crear la columna: ' + (data.message || 'error desconocido'));
+    }
+  })
+  .catch(err => {
+    console.error('Create egreso error:', err);
+    alert('Error de conexión al crear la columna (egreso)');
+  });
+});
+
 
     // Eliminar columna
     function deleteColumn(columnId) {

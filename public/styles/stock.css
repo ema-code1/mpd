@@ -337,6 +337,17 @@ body {
     box-shadow: 0 6px 16px rgba(239, 140, 0, 0.3);
 }
 
+/* Botón rojo para egresos (hermano del add-column-btn) */
+.add-egreso-btn {
+  background: linear-gradient(135deg, #fe2a2a, #be0f0f);
+  box-shadow: 0 4px 12px rgba(190, 15, 15, 0.15);
+}
+.add-egreso-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(190, 15, 15, 0.25);
+}
+
+
 /* Asegurar que los headers se mantengan fijos */
 .excel-table thead {
     position: sticky;
