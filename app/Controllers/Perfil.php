@@ -37,124 +37,100 @@ public function actualizar()
     $userId = $session->get('userId');
     $userModel = new UserModel();
 
-    // Validaciones
-    $rules = [
-        'name' => "required|min_length[2]|max_length[150]|is_unique[users.name,id,{$userId}]",
-        'email' => "required|valid_email|is_unique[users.email,id,{$userId}]"
-    ];
-
-    if ($this->request->getPost('password')) {
-        $rules['password'] = 'min_length[6]';
-        $rules['password_confirm'] = 'matches[password]';
-    }
-
-    if (!$this->validate($rules)) {
-        return $this->response->setJSON([
-            'success' => false,
-            'errors' => $this->validator->getErrors()
-        ]);
-    }
-
-    // Preparar datos
     $data = [
-        'name' => $this->request->getPost('name'),
+        'name'  => $this->request->getPost('name'),
         'email' => $this->request->getPost('email')
     ];
 
-    // Actualizar contraseña si se proporcionó
-    if ($this->request->getPost('password')) {
-        $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+    $password = $this->request->getPost('password');
+    if (!empty($password)) {
+        $data['password'] = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    // Procesar imagen temporal si existe
-    $tempFile = $this->request->getPost('foto_temp');
-    if ($tempFile && file_exists(ROOTPATH . 'public/ppimages/temp/' . $tempFile)) {
-        $newFilename = $userId . '_' . bin2hex(random_bytes(8)) . '.' . pathinfo($tempFile, PATHINFO_EXTENSION);
-        $tempPath = ROOTPATH . 'public/ppimages/temp/' . $tempFile;
-        $finalPath = ROOTPATH . 'public/ppimages/' . $newFilename;
-        
-        // Mover de temp a final
-        if (rename($tempPath, $finalPath)) {
-            $data['foto_perfil'] = $newFilename;
-            // Limpiar archivos temporales viejos
-            $this->cleanTempFiles();
+    $tempFile = $this->request->getPost('foto_temp'); // el nombre que vino del JS
+    $tempDir = FCPATH . 'ppimages/temp/';
+    $finalDir = FCPATH . 'ppimages/';
+
+    if ($tempFile && file_exists($tempDir . $tempFile)) {
+        // borrar todo lo que haya en temp primero
+        $files = glob($tempDir . '*');
+        foreach ($files as $f) {
+            if (is_file($f)) @unlink($f);
+        }
+
+        // crear nombre random y mover
+        $ext = pathinfo($tempFile, PATHINFO_EXTENSION);
+        $newName = 'perfil_' . $userId . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+        $tempPath = $tempDir . $tempFile;
+        $finalPath = $finalDir . $newName;
+
+        if (!is_dir($finalDir)) mkdir($finalDir, 0755, true);
+
+        $moved = @rename($tempPath, $finalPath);
+        if (!$moved) {
+            $moved = @copy($tempPath, $finalPath);
+            if ($moved) @unlink($tempPath);
+        }
+
+        if ($moved) {
+            // borrar foto anterior del usuario
+            $oldPhoto = $session->get('foto_perfil');
+            if ($oldPhoto && file_exists($finalDir . $oldPhoto)) {
+                @unlink($finalDir . $oldPhoto);
+            }
+            $data['foto_perfil'] = $newName;
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Error moviendo imagen desde temp'
+            ]);
         }
     }
 
-    // Actualizar usuario
-    if ($userModel->update($userId, $data)) {
-        // Actualizar sesión
-        $session->set('name', $data['name']);
-        $session->set('email', $data['email']);
-        if (isset($data['foto_perfil'])) {
-            $session->set('foto_perfil', $data['foto_perfil']);
-        }
-
-        return $this->response->setJSON([
-            'success' => true,
-            'message' => 'Perfil actualizado correctamente'
-        ]);
-    }
+    $userModel->update($userId, $data);
+    $session->set($data);
 
     return $this->response->setJSON([
-        'success' => false,
-        'message' => 'Error al actualizar el perfil'
+        'success' => true,
+        'message' => 'Perfil actualizado correctamente'
     ]);
 }
 
+
 public function uploadTempImage()
 {
-    $session = session();
-    if (!$session->get('isLoggedIn')) {
-        return $this->response->setJSON(['success' => false, 'message' => 'No autorizado']);
+    $file = $this->request->getFile('foto');
+    if (!$file || !$file->isValid()) {
+        return $this->response->setJSON(['success' => false, 'message' => 'Archivo inválido']);
     }
 
-    $file = $this->request->getFile('foto_perfil');
-    
-    if (!$file->isValid()) {
-        return $this->response->setJSON(['success' => false, 'message' => $file->getErrorString()]);
+    $allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!in_array($file->getMimeType(), $allowed)) {
+        return $this->response->setJSON(['success' => false, 'message' => 'Tipo no permitido']);
     }
 
-    // Validaciones
-    if (!in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
-        return $this->response->setJSON(['success' => false, 'message' => 'Solo se permiten imágenes JPEG, PNG, GIF o WebP']);
-    }
+    $newName = 'temp_' . time() . '.' . $file->getExtension();
+    $dir = FCPATH . 'ppimages/temp/';
+    if (!is_dir($dir)) mkdir($dir, 0755, true);
 
-    if ($file->getSize() > 5 * 1024 * 1024) {
-        return $this->response->setJSON(['success' => false, 'message' => 'La imagen no debe superar los 5MB']);
-    }
+    $file->move($dir, $newName, true);
 
-    // Crear directorio temp si no existe
-    $tempPath = ROOTPATH . 'public/ppimages/temp';
-    if (!is_dir($tempPath)) {
-        mkdir($tempPath, 0755, true);
-    }
-
-    // Generar nombre único para archivo temporal
-    $tempFilename = 'temp_' . bin2hex(random_bytes(16)) . '.' . $file->getExtension();
-    
-    // Mover a temp
-    if ($file->move($tempPath, $tempFilename)) {
-        return $this->response->setJSON([
-            'success' => true,
-            'temp_filename' => $tempFilename
-        ]);
-    }
-
-    return $this->response->setJSON(['success' => false, 'message' => 'Error al subir la imagen']);
+    return $this->response->setJSON([
+        'success' => true,
+        'temp_filename' => $newName
+    ]);
 }
 
-private function cleanTempFiles()
+public function cleanTempFiles()
 {
-    $tempPath = ROOTPATH . 'public/ppimages/temp/';
-    if (is_dir($tempPath)) {
-        $files = glob($tempPath . 'temp_*');
-        $now = time();
-        foreach ($files as $file) {
-            if (is_file($file) && ($now - filemtime($file)) > 3600) { // 1 hora
-                unlink($file);
-            }
+    $dir = FCPATH . 'ppimages/temp/';
+    $files = glob($dir . '*');
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            @unlink($file);
         }
     }
+
+    return $this->response->setJSON(['success' => true, 'message' => 'Temp limpiado']);
 }
 }
