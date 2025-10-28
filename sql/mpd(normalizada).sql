@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2025 a las 19:13:54
+-- Tiempo de generación: 28-10-2025 a las 23:53:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -62,6 +62,7 @@ CREATE TABLE `carrito` (
 INSERT INTO `carrito` (`user_id`, `libro_id`, `cantidad`, `seleccionado`, `created_at`) VALUES
 (12, 1, 3, 1, '2025-10-22 16:22:19'),
 (12, 5, 1, 1, '2025-10-22 16:22:15'),
+(13, 10, 1, 1, '2025-10-28 19:51:17'),
 (15, 2, 1, 1, '2025-10-22 16:26:38'),
 (15, 7, 2, 1, '2025-10-22 16:26:34'),
 (15, 8, 2, 1, '2025-10-22 16:26:30');
@@ -96,35 +97,8 @@ INSERT INTO `libros` (`id`, `titulo`, `descripcion`, `autor`, `edicion`, `precio
 (3, 'Black Label', 'En algun lugar de la mancha', 'Juan Jose Paso', 'Tapa de madera', 4000.00, 'cp', 'imgs/1757697583_a30de170b3c1ccfec668.jpg', 'imgs/1757697583_275ad732509d2300e1ce.jpg', '2025-09-05 22:47:50', '2025-10-17 15:58:18'),
 (5, 'asdas', 'asdasdada', 'asdad', 'sad', 23423.00, '2342356etzegzfdgzgfzdg', 'imgs/1757369912_aa4d20de5e518e9db20e.jpg', NULL, '2025-09-08 22:18:32', '2025-10-17 15:50:14'),
 (7, 'juancho', 'juancho', 'juancho', 'juancho', 123.00, 'juancho', 'imgs/1757698850_fa8014dc015cd3b02086.png', NULL, '2025-09-12 17:40:50', '2025-10-14 20:27:09'),
-(8, 'LIibro', 'HOla descricopj cono te va', 'Lionel MESSI CUCCITINI', 'de boldisioo', 123345.00, 'videojuegos', 'imgs/1757714194_9a39a53fb0ab1b4dbc3b.jpg', 'imgs/1757714194_e08337e6baf7b039a114.jpg', '2025-09-12 21:56:34', '2025-10-14 20:27:12');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `montos`
---
-
-CREATE TABLE `montos` (
-  `id` int(11) NOT NULL,
-  `monto_enpesos` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `montos`
---
-
-INSERT INTO `montos` (`id`, `monto_enpesos`) VALUES
-(1, 17123.00),
-(2, 15200.00),
-(3, 23700.50),
-(4, 19800.75),
-(5, 34100.25),
-(6, 28950.00),
-(7, 41200.00),
-(8, 37850.00),
-(9, 25100.00),
-(10, 29500.00),
-(11, 54246.00);
+(8, 'LIibro', 'HOla descricopj cono te va', 'Lionel MESSI CUCCITINI', 'de boldisioo', 123345.00, 'videojuegos', 'imgs/1757714194_9a39a53fb0ab1b4dbc3b.jpg', 'imgs/1757714194_e08337e6baf7b039a114.jpg', '2025-09-12 21:56:34', '2025-10-14 20:27:12'),
+(10, 'Harry Potterrrrrr', 'El mejoprrr', 'JKRowlin', '', 40000.00, 'Niños', 'imgs/1761691780_47f3092329fb3fb02f31.png', 'imgs/1761691780_53f71907c25957285efd.png', '2025-10-28 22:49:40', '2025-10-28 22:50:52');
 
 -- --------------------------------------------------------
 
@@ -148,7 +122,9 @@ CREATE TABLE `resenas` (
 
 INSERT INTO `resenas` (`id`, `libro_id`, `user_id`, `rating`, `descripcion`, `created_at`, `updated_at`) VALUES
 (1, 3, 6, 3, 'asdadadad{<sdkfj<ñoidfjh<iosfdujh<spoifhj<spoifj<spofij<sadf', '2025-10-21 17:34:09', NULL),
-(5, 2, 6, 2, '<ñkjflñ<kjh.<kjfh.zskdjfhnzskljdfnskdjfnsdfjnskfjnslfknslfsfsfsfsfsfsfs', '2025-10-21 18:53:57', NULL);
+(5, 2, 6, 2, '<ñkjflñ<kjh.<kjfh.zskdjfhnzskljdfnskdjfnsdfjnskfjnslfknslfsfsfsfsfsfsfs', '2025-10-21 18:53:57', NULL),
+(6, 2, 13, 4, 'Hellooooo. Es la mejorr.', '2025-10-28 19:15:36', NULL),
+(7, 10, 14, 5, 'jota Ka Rowlin', '2025-10-28 19:50:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -173,7 +149,8 @@ INSERT INTO `stock_columns` (`id`, `name`, `tipo`, `created_at`) VALUES
 (18, 'Ingreso 17/10/2025', 'ingreso', '2025-10-17 17:38:40'),
 (21, 'Ingreso 17/10/2025', 'ingreso', '2025-10-17 17:38:45'),
 (23, 'Ingreso 17/10/2025', 'ingreso', '2025-10-17 17:38:49'),
-(25, 'Ingreso 17/10/2025', 'ingreso', '2025-10-17 17:39:17');
+(25, 'Ingreso 17/10/2025', 'ingreso', '2025-10-17 17:39:17'),
+(26, 'Egreso 28/10/2025', 'egreso', '2025-10-28 22:47:14');
 
 -- --------------------------------------------------------
 
@@ -221,8 +198,8 @@ INSERT INTO `stock_values` (`id`, `column_id`, `libro_id`, `cantidad`, `created_
 (112, 21, 8, 0, '2025-10-17 17:38:45', '2025-10-17 17:38:45'),
 (119, 23, 1, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
 (120, 23, 2, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
-(121, 23, 3, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
-(122, 23, 5, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
+(121, 23, 3, 1, '2025-10-17 17:38:49', '2025-10-28 22:46:01'),
+(122, 23, 5, 2, '2025-10-17 17:38:49', '2025-10-28 22:45:59'),
 (123, 23, 7, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
 (124, 23, 8, 0, '2025-10-17 17:38:49', '2025-10-17 17:38:49'),
 (131, 25, 1, 0, '2025-10-17 17:39:17', '2025-10-17 17:39:17'),
@@ -230,7 +207,13 @@ INSERT INTO `stock_values` (`id`, `column_id`, `libro_id`, `cantidad`, `created_
 (133, 25, 3, 6, '2025-10-17 17:39:17', '2025-10-17 17:39:34'),
 (134, 25, 5, 5, '2025-10-17 17:39:17', '2025-10-17 17:39:30'),
 (135, 25, 7, 0, '2025-10-17 17:39:17', '2025-10-17 17:39:17'),
-(136, 25, 8, 0, '2025-10-17 17:39:17', '2025-10-17 17:39:17');
+(136, 25, 8, 0, '2025-10-17 17:39:17', '2025-10-17 17:39:17'),
+(137, 26, 1, 0, '2025-10-28 22:47:14', '2025-10-28 22:47:14'),
+(138, 26, 2, 0, '2025-10-28 22:47:14', '2025-10-28 22:47:14'),
+(139, 26, 3, 0, '2025-10-28 22:47:14', '2025-10-28 22:47:14'),
+(140, 26, 5, 3, '2025-10-28 22:47:14', '2025-10-28 22:47:29'),
+(141, 26, 7, 0, '2025-10-28 22:47:14', '2025-10-28 22:47:14'),
+(142, 26, 8, 0, '2025-10-28 22:47:14', '2025-10-28 22:47:14');
 
 -- --------------------------------------------------------
 
@@ -270,7 +253,8 @@ CREATE TABLE `ventas` (
   `comprador_id` int(11) NOT NULL,
   `nombre_comprador` varchar(100) NOT NULL,
   `libro_id` int(11) NOT NULL,
-  `monto_id` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 1,
+  `monto_venta` decimal(10,2) DEFAULT NULL,
   `fecha_de_pago` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -278,18 +262,18 @@ CREATE TABLE `ventas` (
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`venta_id`, `comprador_id`, `nombre_comprador`, `libro_id`, `monto_id`, `fecha_de_pago`) VALUES
-(1, 6, 'pepe honguito', 1, 1, '2025-10-09'),
-(2, 12, 'holacomote', 2, 2, '2025-01-10'),
-(3, 12, 'holacomote', 5, 3, '2025-02-14'),
-(4, 12, 'holacomote', 7, 4, '2025-03-07'),
-(5, 12, 'holacomote', 8, 5, '2025-05-21'),
-(6, 12, 'holacomote', 1, 6, '2025-06-11'),
-(7, 12, 'holacomote', 2, 7, '2025-07-19'),
-(8, 12, 'holacomote', 3, 8, '2025-08-05'),
-(9, 12, 'holacomote', 5, 9, '2025-09-23'),
-(10, 12, 'holacomote', 7, 10, '2025-10-02'),
-(11, 12, 'holacomote', 8, 11, '2025-11-15');
+INSERT INTO `ventas` (`venta_id`, `comprador_id`, `nombre_comprador`, `libro_id`, `cantidad`, `monto_venta`, `fecha_de_pago`) VALUES
+(1, 6, 'pepe honguito', 1, 1, 17123.00, '2025-10-09'),
+(2, 12, 'holacomote', 2, 1, 15200.00, '2025-01-10'),
+(3, 12, 'holacomote', 5, 1, 23700.50, '2025-02-14'),
+(4, 12, 'holacomote', 7, 1, 19800.75, '2025-03-07'),
+(5, 12, 'holacomote', 8, 1, 34100.25, '2025-05-21'),
+(6, 12, 'holacomote', 1, 1, 28950.00, '2025-06-11'),
+(7, 12, 'holacomote', 2, 1, 41200.00, '2025-07-19'),
+(8, 12, 'holacomote', 3, 1, 37850.00, '2025-08-05'),
+(9, 12, 'holacomote', 5, 1, 25100.00, '2025-09-23'),
+(10, 12, 'holacomote', 7, 1, 29500.00, '2025-10-02'),
+(11, 12, 'holacomote', 8, 1, 54246.00, '2025-11-15');
 
 --
 -- Índices para tablas volcadas
@@ -312,12 +296,6 @@ ALTER TABLE `carrito`
 -- Indices de la tabla `libros`
 --
 ALTER TABLE `libros`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `montos`
---
-ALTER TABLE `montos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -355,8 +333,7 @@ ALTER TABLE `users`
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`venta_id`),
   ADD KEY `comprador_id` (`comprador_id`),
-  ADD KEY `libro_id` (`libro_id`),
-  ADD KEY `monto_id` (`monto_id`);
+  ADD KEY `libro_id` (`libro_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -372,31 +349,25 @@ ALTER TABLE `admin_keys`
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `montos`
---
-ALTER TABLE `montos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `resenas`
 --
 ALTER TABLE `resenas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `stock_columns`
 --
 ALTER TABLE `stock_columns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `stock_values`
 --
 ALTER TABLE `stock_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
@@ -440,8 +411,7 @@ ALTER TABLE `stock_values`
 --
 ALTER TABLE `ventas`
   ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`comprador_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`libro_id`) REFERENCES `libros` (`id`),
-  ADD CONSTRAINT `ventas_ibfk_3` FOREIGN KEY (`monto_id`) REFERENCES `montos` (`id`);
+  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`libro_id`) REFERENCES `libros` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

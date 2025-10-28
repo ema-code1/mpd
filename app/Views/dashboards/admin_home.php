@@ -77,8 +77,8 @@ try {
 
   $sql = "
     SELECT 
-      MONTH(v.fecha_de_pago) AS mes,
-      COALESCE(SUM(m.monto_enpesos), 0) AS total_mes
+      meses.mes,
+      COALESCE(SUM(v.monto_venta * v.cantidad), 0) AS total_mes
     FROM 
       (
         SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION 
@@ -88,11 +88,9 @@ try {
     LEFT JOIN ventas v 
       ON meses.mes = MONTH(v.fecha_de_pago)
       AND YEAR(v.fecha_de_pago) = YEAR(CURDATE())
-    LEFT JOIN montos m 
-      ON v.monto_id = m.id
     GROUP BY meses.mes
     ORDER BY meses.mes;
-  ";
+";
 
   $sentencia = $conexion->prepare($sql);
   $sentencia->execute();
