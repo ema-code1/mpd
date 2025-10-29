@@ -21,7 +21,7 @@
       <i class="ti ti-x"></i>
     </button>
     <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
-    <a href="#"><i class="ti ti-chart-bar"></i> Gráficos</a>
+    <a href="<?= base_url('index.php/panel')?>"><i class="ti ti-chart-bar"></i> Gráficos</a>
     <a href="<?= site_url('stock')?>"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>

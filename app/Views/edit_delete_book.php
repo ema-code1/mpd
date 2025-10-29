@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
+  <!-- BOTON MENU -->
+  <i class="ti ti-menu-2 menu-btn" id="menu-btn"></i>
+  
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" id="close-btn">
+      <i class="ti ti-x"></i>
+    </button>
+    <h3><i class="ti ti-dashboard"></i> Dashboard</h3>
+    <a href="<?= base_url('index.php/panel')?>"><i class="ti ti-chart-bar"></i> Gráficos</a>
+    <a href="<?= site_url('stock_spreadsheet')?>"><i class="ti ti-books"></i> Stock</a>
+    <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
+    <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
+    <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
+  </div>
+  
     <div class="form-container">
         <h1 class="form-title">Editar Publicación</h1>
         

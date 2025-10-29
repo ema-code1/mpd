@@ -1,5 +1,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* --- MENU BUTTON - SOLO PARA MÓVILES --- */
+.menu-btn {
+  position: fixed;
+  font-size: 24px;
+  left: 1rem;
+  cursor: pointer;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  top: calc(var(--header-h) + 1.6rem);
+  display: none; /* Oculto por defecto */   
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+}
+
+.menu-btn:hover {
+  transform: scale(1.05);
+}
+
+/* --- SIDEBAR FIJADO PERMANENTE --- */
+.sidebar {
+  position: absolute;
+  top: calc(150px + 1rem); /* Mismo padding que el card */
+  left: 1rem; /* Mismo padding que el card */
+  width: var(--sidebar-width);
+  padding: 1.5rem 1rem;
+  z-index: 200;
+  overflow-y: auto;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  box-shadow: 0 8px 25px rgba(30, 30, 30, 0.15), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.3),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .close-btn {
+  display: none; /* Oculto en desktop/tablet */
+}
+
+.sidebar h3 {
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 1rem 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  margin: 0.8rem 0;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a i {
+  font-size: 1.2rem;
+  width: 24px;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 section {
   position: relative;
   width: 100%;
@@ -629,7 +712,95 @@ body {
     transform: scale(1.02);
 }
 
-/* Responsive */
+/* --- RESPONSIVE --- */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .sidebar {
+    padding: 1rem;
+    height: auto;
+  }
+  
+  .content {
+    padding: 1rem 2rem 1rem calc(var(--sidebar-width) + 2rem);
+  }
+
+
+}
+
+/* MÓVILES - Aquí activamos el comportamiento toggle */
+@media (max-width: 768px) {
+  :root {
+    --header-h: 130px;
+  }
+  
+  /* Mostrar botón menú */
+  .menu-btn {
+    display: flex;
+    top: calc(var(--header-h) + 0.2rem);
+    left: 0.8rem;
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Sidebar oculto por defecto en móviles */
+  .sidebar {
+    left: -280px;
+    top: calc(var(--header-h) + 0.2rem);
+    height: auto;
+    border-radius: 0 12px 12px 0;
+    transition: left 0.4s ease;
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+  /* Mostrar botón cerrar en móviles */
+  .sidebar .close-btn {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.3s ease;
+    z-index: 201;
+  }
+  
+  .sidebar .close-btn:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+@media (max-width: 525px) {
+  .sidebar {
+    width: 220px;
+  }
+  
+  .sidebar a {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .menu-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    left: 0.5rem;
+  }
+}
+
+
 @media (max-width: 768px) {
     .form-container {
         margin: 1rem;

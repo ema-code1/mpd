@@ -98,226 +98,253 @@
 </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('profileForm');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const submitBtn = document.getElementById('submitBtn');
-            const warningPopup = document.getElementById('warningPopup');
-            const cancelLeave = document.getElementById('cancelLeave');
-            const confirmLeave = document.getElementById('confirmLeave');
-            const fotoInput = document.getElementById('fotoInput');
-            const profileImage = document.getElementById('profileImage');
-            const pictureOverlay = document.getElementById('pictureOverlay');
-            const fotoTemp = document.getElementById('fotoTemp');
+// Estado global
+const profileState = {
+    initialData: {},
+    hasChanges: false,
+    tempImageFile: null
+};
 
-            // Estado inicial del formulario
-            const initialData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                password: '',
-                password_confirm: '',
-                foto: profileImage.src
-            };
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    initializeProfileForm();
+});
 
-            let hasChanges = false;
-            let tempImageFile = null;
+function initializeProfileForm() {
+    const form = document.getElementById('profileForm');
+    if (!form) return;
 
-            // Detectar cambios en los inputs
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('input', checkForChanges);
-            });
+    // Elementos del DOM
+    const elements = {
+        form: form,
+        cancelBtn: document.getElementById('cancelBtn'),
+        submitBtn: document.getElementById('submitBtn'),
+        warningPopup: document.getElementById('warningPopup'),
+        cancelLeave: document.getElementById('cancelLeave'),
+        confirmLeave: document.getElementById('confirmLeave'),
+        fotoInput: document.getElementById('fotoInput'),
+        profileImage: document.getElementById('profileImage'),
+        pictureOverlay: document.getElementById('pictureOverlay')
+    };
 
-            // Subida de imagen temporal
-            pictureOverlay.addEventListener('click', function(e) {
-                e.stopPropagation();
-                fotoInput.click();
-            });
+    // Estado inicial
+    profileState.initialData = getFormData();
+    
+    // Event listeners
+    setupEventListeners(elements);
+}
 
-            fotoInput.addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    const file = e.target.files[0];
-                    
-                    // Validaciones
-                    if (file.size > 5 * 1024 * 1024) {
-                        showPopup('Error', 'La imagen no debe superar los 5MB', 'error');
-                        return;
-                    }
+function getFormData() {
+    return {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        password_confirm: document.getElementById('password_confirm').value,
+        foto: document.getElementById('profileImage').src
+    };
+}
 
-                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                    if (!validTypes.includes(file.type)) {
-                        showPopup('Error', 'Solo se permiten imágenes JPEG, PNG, GIF o WebP', 'error');
-                        return;
-                    }
+function setupEventListeners(elements) {
+    // Detectar cambios en inputs
+    elements.form.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', handleFormChange);
+    });
 
-                    // Guardar archivo temporalmente
-                    tempImageFile = file;
+    // Subida de imagen
+    elements.pictureOverlay.addEventListener('click', handleImageUploadClick);
+    elements.fotoInput.addEventListener('change', handleImageSelect);
 
-                    // Mostrar preview
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        profileImage.src = e.target.result;
-                        hasChanges = true;
-                        updateSubmitButton();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+    // Botones
+    elements.form.addEventListener('submit', handleFormSubmit);
+    elements.cancelBtn.addEventListener('click', handleCancel);
+    elements.cancelLeave.addEventListener('click', hideWarningPopup);
+    elements.confirmLeave.addEventListener('click', confirmLeave);
 
-            // Verificar cambios
-            function checkForChanges() {
-                const currentData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    password: document.getElementById('password').value,
-                    password_confirm: document.getElementById('password_confirm').value,
-                    foto: profileImage.src
-                };
+    // Prevenir salida con cambios
+    window.addEventListener('beforeunload', handleBeforeUnload);
+}
 
-                hasChanges = 
-                    currentData.name !== initialData.name ||
-                    currentData.email !== initialData.email ||
-                    currentData.password !== initialData.password ||
-                    currentData.password_confirm !== initialData.password_confirm ||
-                    currentData.foto !== initialData.foto;
+// Manejo de cambios en el formulario
+function handleFormChange() {
+    const currentData = getFormData();
+    profileState.hasChanges = hasFormChanged(currentData);
+    updateSubmitButton();
+}
 
-                updateSubmitButton();
-            }
+function hasFormChanged(currentData) {
+    return Object.keys(profileState.initialData).some(key => 
+        currentData[key] !== profileState.initialData[key]
+    );
+}
 
-            // Actualizar estado del botón Guardar
-            function updateSubmitButton() {
-                submitBtn.disabled = !hasChanges;
-            }
+function updateSubmitButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = !profileState.hasChanges;
+    }
+}
 
-            // Validación del formulario
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+// Manejo de imágenes
+function handleImageUploadClick(e) {
+    e.stopPropagation();
+    document.getElementById('fotoInput').click();
+}
 
-                const password = document.getElementById('password').value;
-                const passwordConfirm = document.getElementById('password_confirm').value;
+function handleImageSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-                // Validar contraseñas
-                if (password && password !== passwordConfirm) {
-                    showPopup('Error', 'Las contraseñas no coinciden', 'error');
-                    return;
-                }
+    if (!validateImage(file)) return;
 
-                // Si hay imagen nueva, subirla primero
-                if (tempImageFile) {
-                    uploadTempImage().then(() => {
-                        submitForm();
-                    }).catch(error => {
-                        showPopup('Error', 'Error al subir la imagen', 'error');
-                    });
-                } else {
-                    submitForm();
-                }
-            });
+    profileState.tempImageFile = file;
+    displayImagePreview(file);
+    profileState.hasChanges = true;
+    updateSubmitButton();
+}
 
-            // Subir imagen temporal
-            function uploadTempImage() {
-                return new Promise((resolve, reject) => {
-                    const formData = new FormData();
-                    formData.append('foto_perfil', tempImageFile);
+function validateImage(file) {
+    if (file.size > 5 * 1024 * 1024) {
+        showPopup('Error', 'La imagen no debe superar los 5MB', 'error');
+        return false;
+    }
 
-                    fetch('<?= base_url('perfil/uploadTempImage') ?>', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            fotoTemp.value = data.temp_filename;
-                            resolve();
-                        } else {
-                            reject(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        reject(error);
-                    });
-                });
-            }
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+        showPopup('Error', 'Solo se permiten imágenes JPEG, PNG, GIF o WebP', 'error');
+        return false;
+    }
 
-            // Enviar formulario
-            function submitForm() {
-                const formData = new FormData(form);
-                
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showPopup('Éxito', data.message, 'success');
-                        // Resetear estado
-                        hasChanges = false;
-                        tempImageFile = null;
-                        initialData.name = document.getElementById('name').value;
-                        initialData.email = document.getElementById('email').value;
-                        updateSubmitButton();
-                    } else {
-                        if (data.errors) {
-                            let errorMessage = '';
-                            for (const error in data.errors) {
-                                errorMessage += data.errors[error] + '\n';
-                            }
-                            showPopup('Error', errorMessage, 'error');
-                        } else {
-                            showPopup('Error', data.message, 'error');
-                        }
-                    }
-                })
-                .catch(error => {
-                    showPopup('Error', 'Error al guardar los cambios', 'error');
-                });
-            }
+    return true;
+}
 
-            // Manejar cancelación
-            cancelBtn.addEventListener('click', function() {
-                if (hasChanges) {
-                    warningPopup.style.display = 'flex';
-                } else {
-                    window.location.href = '<?= base_url('panel') ?>';
-                }
-            });
+function displayImagePreview(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('profileImage').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 
-            cancelLeave.addEventListener('click', function() {
-                warningPopup.style.display = 'none';
-            });
+// Envío del formulario
+async function handleFormSubmit(e) {
+    e.preventDefault();
 
-            confirmLeave.addEventListener('click', function() {
-                window.location.href = '<?= base_url('panel') ?>';
-            });
+    if (!validatePasswords()) return;
 
-            // Función para mostrar popup
-            function showPopup(title, message, type) {
-                const popup = document.createElement('div');
-                popup.className = 'popup-overlay';
-                popup.innerHTML = `
-                    <div class="popup-container">
-                        <div class="popup-icon ${type}">
-                            <i class="ri-${type === 'success' ? 'check' : 'error-warning'}-line"></i>
-                        </div>
-                        <h3 class="popup-title">${title}</h3>
-                        <p class="popup-message">${message}</p>
-                        <button class="popup-button success" onclick="this.closest('.popup-overlay').remove()">
-                            Aceptar
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(popup);
-            }
+    try {
+        await submitForm();
+    } catch (error) {
+        showPopup('Error', 'Error al procesar la solicitud', 'error');
+    }
+}
 
-            // Prevenir salida con cambios sin guardar
-            window.addEventListener('beforeunload', function(e) {
-                if (hasChanges) {
-                    e.preventDefault();
-                    e.returnValue = '';
-                }
-            });
-        });
+function validatePasswords() {
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password_confirm').value;
+
+    if (password && password !== passwordConfirm) {
+        showPopup('Error', 'Las contraseñas no coinciden', 'error');
+        return false;
+    }
+    return true;
+}
+
+// Operaciones con API
+function submitForm() {
+    const form = document.getElementById('profileForm');
+    const formData = new FormData(form);
+    
+    // Agregar la imagen al FormData si existe
+    if (profileState.tempImageFile) {
+        formData.append('foto_perfil', profileState.tempImageFile);
+    }
+
+    return fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            handleSuccess(data);
+        } else {
+            handleError(data);
+        }
+    });
+}
+
+function handleSuccess(data) {
+    showPopup('Éxito', data.message, 'success');
+    resetFormState();
+}
+
+function handleError(data) {
+    let errorMessage = data.message;
+    
+    if (data.errors) {
+        errorMessage = Object.values(data.errors).join('\n');
+    }
+    
+    showPopup('Error', errorMessage, 'error');
+}
+
+function resetFormState() {
+    profileState.hasChanges = false;
+    profileState.tempImageFile = null;
+    profileState.initialData = getFormData();
+    updateSubmitButton();
+}
+
+// Manejo de navegación
+function handleCancel() {
+    if (profileState.hasChanges) {
+        showWarningPopup();
+    } else {
+        redirectToPanel();
+    }
+}
+
+function showWarningPopup() {
+    document.getElementById('warningPopup').style.display = 'flex';
+}
+
+function hideWarningPopup() {
+    document.getElementById('warningPopup').style.display = 'none';
+}
+
+function confirmLeave() {
+    redirectToPanel();
+}
+
+function redirectToPanel() {
+    window.location.href = '<?= base_url('panel') ?>';
+}
+
+function handleBeforeUnload(e) {
+    if (profileState.hasChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+}
+
+// Utilidades
+function showPopup(title, message, type) {
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+    popup.innerHTML = `
+        <div class="popup-container">
+            <div class="popup-icon ${type}">
+                <i class="ri-${type === 'success' ? 'check' : 'error-warning'}-line"></i>
+            </div>
+            <h3 class="popup-title">${title}</h3>
+            <p class="popup-message">${message}</p>
+            <button class="popup-button success" onclick="this.closest('.popup-overlay').remove()">
+                Aceptar
+            </button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
     </script>
 </body>
 </html>
