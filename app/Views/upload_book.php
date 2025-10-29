@@ -99,6 +99,18 @@
     </div>
 </div>
 
+<!-- Popup de confirmación para CANCELAR -->
+<div id="cancelPopupOverlay" class="popup-overlay" style="display: none;">
+  <div class="popup warning">
+    <div class="popup-icon">⚠️</div>
+    <h3 class="popup-title">¿Descartar cambios?</h3>
+    <p class="popup-message">Perderás los datos cargados si salís sin guardar.</p>
+    <div class="popup-buttons">
+      <button id="cancelConfirm" class="popup-btn confirm">Sí, salir</button>
+      <button id="cancelAbort" class="popup-btn cancel">Volver</button>
+    </div>
+  </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const dragDropArea = document.getElementById('dragDropArea');
@@ -291,6 +303,54 @@ function redirectToHome() {
     const form = document.getElementById('bookForm');
     form.submit();
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.querySelector('form'); // tu formulario principal
+  const cancelBtn = document.querySelector('.btn-cancel');
+  const overlay = document.getElementById('cancelPopupOverlay');
+  const confirmExit = document.getElementById('cancelConfirm');
+  const abortExit = document.getElementById('cancelAbort');
+
+  let formChanged = false;
+
+  // Detecta si el usuario modifica algo en el formulario
+  if (form) {
+    form.addEventListener('input', () => {
+      const inputs = form.querySelectorAll('input, textarea, select');
+      // Revisa si hay al menos un campo con contenido
+      formChanged = Array.from(inputs).some(input => input.value.trim() !== '');
+    });
+  }
+
+  // Intercepta el click en "Cancelar"
+  cancelBtn.addEventListener('click', function (e) {
+    if (formChanged) {
+      e.preventDefault(); // evita redirigir
+      overlay.style.display = 'flex'; // muestra el popup
+      overlay.classList.add('active');
+    }
+  });
+
+  // Si confirma salir → redirige al href original
+  confirmExit.addEventListener('click', function () {
+    window.location.href = cancelBtn.getAttribute('href');
+  });
+
+  // Si cancela → cierra el popup
+  abortExit.addEventListener('click', function () {
+    overlay.classList.remove('active');
+    setTimeout(() => overlay.style.display = 'none', 300);
+  });
+
+  // Cierra si hace clic fuera del popup
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+      setTimeout(() => overlay.style.display = 'none', 300);
+    }
+  });
+});
+
 </script>
 
 </body>

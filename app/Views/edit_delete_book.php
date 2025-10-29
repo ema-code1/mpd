@@ -113,7 +113,7 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
+                <button type="button" class="btn-delete" onclick="confirmDelete('<?= base_url('libros/delete/' . $libro['id']) ?>')">Borrar Libro</button>
                 <div>
                     <a href="<?= site_url('libro/' . $libro['id']) ?>" class="btn-cancel">Cancelar</a>
                     <button type="submit" class="btn-submit">Guardar Cambios</button>
@@ -343,6 +343,63 @@ function redirectToHome() {
     const form = document.getElementById('bookForm');
     form.submit();
 }
+
+// ===============================
+// POPUP BORRAR LIBRO
+// ===============================
+window.confirmDelete = function (deleteUrl) {
+  const overlay = document.getElementById('deletePopupOverlay');
+  const confirmBtn = document.getElementById('deleteConfirm');
+  const cancelBtn = document.getElementById('deleteCancel');
+
+  overlay.classList.add('active');
+
+  confirmBtn.onclick = () => {
+    window.location.href = deleteUrl; // redirige a tu ruta base_url('delete/id')
+  };
+
+  cancelBtn.onclick = () => overlay.classList.remove('active');
+
+  overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  };
+};
+
+// ===============================
+// POPUP CANCELAR EDICIÓN
+// ===============================
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.querySelector('form'); // tu formulario principal
+  const cancelBtn = document.querySelector('.btn-cancel');
+  const overlay = document.getElementById('cancelPopupOverlay');
+  const confirmExit = document.getElementById('cancelConfirm');
+  const abortExit = document.getElementById('cancelAbort');
+
+  let formChanged = false;
+
+  // Detecta si el usuario cambió algo
+  form.addEventListener('input', () => {
+    formChanged = true;
+  });
+
+  cancelBtn.addEventListener('click', (e) => {
+    if (formChanged) {
+      e.preventDefault();
+      overlay.classList.add('active');
+    } // Si no cambió nada, deja que el link funcione normal
+  });
+
+  confirmExit.addEventListener('click', () => {
+    window.location.href = cancelBtn.getAttribute('href');
+  });
+
+  abortExit.addEventListener('click', () => overlay.classList.remove('active'));
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+});
+
 </script>
 <div id="successPopup" class="popup-overlay" style="display: none;">
     <div class="popup-container">
@@ -353,6 +410,31 @@ function redirectToHome() {
         <p class="popup-message">Libro subido correctamente</p>
         <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
     </div>
+</div>
+<!-- Popup para BORRAR -->
+<div id="deletePopupOverlay" class="popup-overlay">
+  <div class="popup error">
+    <div class="popup-icon">🗑️</div>
+    <h3 class="popup-title">¿Eliminar libro?</h3>
+    <p class="popup-message">Esta acción no se puede deshacer. ¿Querés continuar?</p>
+    <div class="popup-buttons">
+      <button id="deleteConfirm" class="popup-btn delete">Sí, borrar</button>
+      <button id="deleteCancel" class="popup-btn cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Popup para CANCELAR -->
+<div id="cancelPopupOverlay" class="popup-overlay">
+  <div class="popup warning">
+    <div class="popup-icon">⚠️</div>
+    <h3 class="popup-title">¿Descartar cambios?</h3>
+    <p class="popup-message">Perderás los cambios que hiciste si salís sin guardar.</p>
+    <div class="popup-buttons">
+      <button id="cancelConfirm" class="popup-btn confirm">Sí, salir</button>
+      <button id="cancelAbort" class="popup-btn cancel">Volver</button>
+    </div>
+  </div>
 </div>
 
 </body>

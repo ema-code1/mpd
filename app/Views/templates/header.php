@@ -48,7 +48,7 @@
         <i class="ti ti-user-circle"></i> Cuenta
       </a>
       <div class="dropdown-divider"></div>
-      <a href="<?= site_url('logout') ?>" class="dropdown-item">
+      <a href="<?= site_url('logout') ?>" class="dropdown-item" id="logoutBtn">
         <i class="ti ti-logout"></i> Cerrar sesión
       </a>
     </div>
@@ -93,7 +93,21 @@
     </div>
   </nav>
 
-  <div class="container">
+<!-- Popup genérico reutilizable -->
+<div id="confirmPopupOverlay" class="popup-overlay">
+    <div class="popup warning"> <!-- Podés cambiar la clase 'warning' por 'success' o 'error' -->
+        <div class="popup-icon">⚠️</div>
+        <h3 id="confirmPopupTitle" class="popup-title">¿Cerrar sesión?</h3> <!-- Cambiá el título -->
+        <p id="confirmPopupMessage" class="popup-message">
+            Estás por salir de tu cuenta. ¿Seguro que quieres hacerlo?
+        </p> <!-- Cambiá el mensaje -->
+        <div class="popup-buttons">
+            <button id="confirmPopupConfirm" class="popup-btn confirm">Sí, cerrar sesión</button> <!-- Botón que ejecuta la acción -->
+            <button id="confirmPopupCancel" class="popup-btn cancel">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -139,4 +153,46 @@
         });
       }
     });
+
+// =============================
+// CONFIGURACIÓN DEL POPUP
+// =============================
+
+// El botón original (con el href de base_url)
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Elementos del popup
+const popupOverlay = document.getElementById('confirmPopupOverlay');
+const popupConfirm = document.getElementById('confirmPopupConfirm');
+const popupCancel = document.getElementById('confirmPopupCancel');
+
+// =============================
+// FUNCIONALIDAD
+// =============================
+
+// Abrir popup cuando se clickea el botón original
+logoutBtn.addEventListener('click', function (e) {
+    e.preventDefault(); // Evita que se ejecute la ruta automáticamente
+    popupOverlay.classList.add('active'); // Muestra el popup
+});
+
+// Confirmar acción: usar el href original del botón
+popupConfirm.addEventListener('click', function () {
+    // Obtiene la ruta original del botón
+    const logoutUrl = logoutBtn.getAttribute('href');
+
+    // Redirige a esa ruta (usa la función original del botón)
+    window.location.href = logoutUrl;
+});
+
+// Cancelar: cierra el popup
+popupCancel.addEventListener('click', function () {
+    popupOverlay.classList.remove('active');
+});
+
+// Cerrar si clickea fuera
+popupOverlay.addEventListener('click', function (e) {
+    if (e.target === popupOverlay) popupOverlay.classList.remove('active');
+});
+
   </script>
