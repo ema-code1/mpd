@@ -13,7 +13,6 @@ class Auth extends Controller
     {
         echo view('templates/header');
         echo view('auth/register');
-        echo view('templates/footer');
     }
 
     public function registerPost()
@@ -63,7 +62,6 @@ class Auth extends Controller
     {
         echo view('templates/header');
         echo view('auth/login');
-        echo view('templates/footer');
     }
 
     public function loginPost()

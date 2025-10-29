@@ -16,7 +16,6 @@ class Admin extends Controller
         $data['name'] = $session->get('name');
         echo view('templates/header');
         echo view('dashboards/admin_home', $data);
-        echo view('templates/footer');
     }
 
     public function admincasa(){
