@@ -21,7 +21,7 @@
     <a href="<?= site_url('stock_spreadsheet')?>"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
-    <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
+    <a href="<?= site_url('movimientos') ?>"><i class="ti ti-transfer"></i> Movimientos</a>
   </div>
     <div class="form-container">
         <h1 class="form-title">Cargar Nuevo Libro</h1>

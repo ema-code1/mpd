@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --header-h: 150px;
+  --sidebar-width: 260px;
+  --primary-color: #f28c00;
+  --hover-color: #ffaf3e;
+  --text-color: #333;
+  --bg-color: #f6f6f6;
+  --border-radius: 15px;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+
+body {
+    font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* --- MENU BUTTON - SOLO PARA MÓVILES --- */
+.menu-btn {
+  position: fixed;
+  font-size: 24px;
+  left: 1rem;
+  cursor: pointer;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  top: calc(var(--header-h) + 1.6rem);
+  display: none; /* Oculto por defecto */   
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2), inset 0 1px 2px #fffcf2;
+}
+
+.menu-btn:hover {
+  transform: scale(1.05);
+}
+
+/* --- SIDEBAR FIJADO PERMANENTE --- */
+.sidebar {
+  position: absolute;
+  top: calc(150px + 1rem); /* Mismo padding que el card */
+  left: 1rem; /* Mismo padding que el card */
+  width: var(--sidebar-width);
+  padding: 1.5rem 1rem;
+  z-index: 200;
+  overflow-y: auto;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  box-shadow: 0 8px 25px rgba(30, 30, 30, 0.15), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.3),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .close-btn {
+  display: none; /* Oculto en desktop/tablet */
+}
+
+.sidebar h3 {
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 1rem 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  margin: 0.8rem 0;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a i {
+  font-size: 1.2rem;
+  width: 24px;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.content {
+  width: 100%;
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1rem;
+  padding-left: calc(var(--sidebar-width) + 2rem);
+  padding-right: 2rem;
+  min-height: calc(100vh - var(--header-h));
+}
+
+.card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 1400px;
+  animation: fadeIn 0.5s ease forwards;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.card h1 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-size: 2rem;
+  text-align: center;
+}
+
+.card .subtitle {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Estadísticas */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Tabla de movimientos */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.1);
+  background: white;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 800px;
+}
+
+.excel-table th {
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.excel-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.excel-table tr:hover td {
+  background-color: #f8f9fa;
+  transform: scale(1.01);
+}
+
+.excel-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Estilos para diferentes columnas */
+.col-id { width: 80px; }
+.col-comprador { width: 200px; }
+.col-libro { width: 250px; }
+.col-cantidad { width: 100px; text-align: center; }
+.col-monto { width: 120px; text-align: right; }
+.col-fecha { width: 120px; }
+
+.monto-positivo {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #d1fae5;
+  color: var(--success-color);
+}
+
+/* Filtros con diseño de gota de agua naranja */
+.search-group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 350px;
+  width: 100%;
+}
+
+.filter-input {
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  height: 45px;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 25px;
+  outline: none;
+  color: #7c2d12;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: text;
+  z-index: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  
+  /* Efecto gota de agua naranja - simulando transparencia */
+  background: linear-gradient(135deg, 
+    rgba(255, 237, 213, 0.95) 0%,
+    rgba(254, 215, 170, 0.9) 50%,
+    rgba(253, 186, 116, 0.85) 100%);
+  
+  /* Borde sutil que simula reflexión de agua */
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  box-shadow: 
+    /* Sombra exterior suave */
+    0 8px 32px rgba(194, 65, 12, 0.15),
+    /* Highlight superior simulando reflexión de agua */
+    inset 0 2px 4px rgba(255, 255, 255, 0.7),
+    /* Sombra interior inferior para profundidad */
+    inset 0 -2px 4px rgba(194, 65, 12, 0.1),
+    /* Borde luminoso interno */
+    0 0 0 1px rgba(251, 146, 60, 0.1);
+}
+
+.filter-input::placeholder {
+  color: rgba(194, 65, 12, 0.6);
+  font-weight: 400;
+}
+
+.filter-input:hover {
+  /* Efecto de agua moviéndose suavemente */
+  background: linear-gradient(135deg, 
+    rgba(255, 237, 213, 0.98) 0%,
+    rgba(254, 215, 170, 0.93) 50%,
+    rgba(253, 186, 116, 0.88) 100%);
+  
+  box-shadow: 
+    0 12px 40px rgba(194, 65, 12, 0.2),
+    inset 0 2px 6px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 6px rgba(194, 65, 12, 0.15),
+    0 0 0 1.5px rgba(251, 146, 60, 0.2);
+  
+  transform: translateY(-2px);
+}
+
+.filter-input:active {
+  transform: scale(0.99) translateY(0px);
+  transition: all 0.1s ease;
+}
+
+.filter-input:focus {
+  /* Efecto de gota de agua activa - más intenso */
+  background: linear-gradient(135deg, 
+    rgba(255, 247, 237, 0.98) 0%,
+    rgba(254, 230, 200, 0.95) 50%,
+    rgba(253, 206, 150, 0.92) 100%);
+  
+  box-shadow: 
+    0 16px 48px rgba(194, 65, 12, 0.25),
+    inset 0 3px 8px rgba(255, 255, 255, 0.9),
+    inset 0 -3px 8px rgba(194, 65, 12, 0.2),
+    0 0 0 3px rgba(251, 146, 60, 0.3),
+    0 0 20px rgba(251, 146, 60, 0.4);
+  
+  transform: translateY(-3px);
+  animation: water-ripple 3s ease-in-out infinite;
+  color: #7c2d12;
+}
+
+@keyframes water-ripple {
+  0%, 100% {
+    box-shadow: 
+      0 16px 48px rgba(194, 65, 12, 0.25),
+      inset 0 3px 8px rgba(255, 255, 255, 0.9),
+      inset 0 -3px 8px rgba(194, 65, 12, 0.2),
+      0 0 0 3px rgba(251, 146, 60, 0.3),
+      0 0 20px rgba(251, 146, 60, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 16px 52px rgba(194, 65, 12, 0.3),
+      inset 0 3px 8px rgba(255, 255, 255, 0.95),
+      inset 0 -3px 8px rgba(194, 65, 12, 0.25),
+      0 0 0 3px rgba(251, 146, 60, 0.4),
+      0 0 25px rgba(251, 146, 60, 0.5);
+  }
+}
+
+/* Efecto de "ondas" cuando se escribe */
+.filter-input:not(:placeholder-shown) {
+  background: linear-gradient(135deg, 
+    rgba(255, 247, 237, 0.98) 0%,
+    rgba(254, 230, 200, 0.96) 50%,
+    rgba(253, 206, 150, 0.94) 100%);
+  
+  box-shadow: 
+    0 12px 40px rgba(194, 65, 12, 0.22),
+    inset 0 2px 6px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 6px rgba(194, 65, 12, 0.18),
+    0 0 0 2px rgba(251, 146, 60, 0.25);
+}
+
+/* Contenedor de filtros */
+.filters-bar {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Scrollbar personalizado */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #EF8D00, #ff7214);
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #e58600, #e6680e);
+}
+
+
+/* menu btn y sidebar responsive*/
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-group {
+    justify-content: space-between;
+  }
+  
+  .excel-table th,
+  .excel-table td {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+  
+  .card h1 {
+    font-size: 1.5rem;
+  }
+  
+  .excel-table th,
+  .excel-table td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease forwards;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

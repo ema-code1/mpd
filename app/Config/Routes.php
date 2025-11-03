@@ -97,6 +97,10 @@ $routes->post('libro/actualizarResena/(:num)', 'LibroController::actualizarResen
 $routes->post('libro/eliminarResena/(:num)', 'LibroController::eliminarResena/$1');
 
 
+// ir a movimientos
+$routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
+
+
     // 🛠️ OTRAS RUTAS (p/futuro)
     // $routes->get('home', 'Home::index'); // ya está en (:any)
 
