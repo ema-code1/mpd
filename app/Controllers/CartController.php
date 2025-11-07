@@ -173,6 +173,8 @@ public function delete()
 //API
 public function checkout()
 {
+    require_once ROOTPATH . 'vendor/autoload.php';
+    
     if (!session()->get('isLoggedIn') || session()->get('role') !== 'comprador') {
         return redirect()->to('/login')->with('error', 'Debes iniciar sesión como comprador.');
     }
@@ -189,12 +191,26 @@ public function checkout()
     }
 
     try {
-        // Configurar Mercado Pago
-        SDK::setAccessToken(env('MERCADOPAGO_ACCESS_TOKEN'));
+        // **CORRECCIÓN: Obtener token desde .env**
+        $accessToken = env('MERCADOPAGO_ACCESS_TOKEN');
+        
+        // Verificar que el token esté configurado
+        if (empty($accessToken)) {
+            throw new Exception('Access Token de Mercado Pago no configurado en el archivo .env');
+        }
+        
+        // Verificar que no sea el token de ejemplo
+        if (strpos($accessToken, 'TU_ACCESS_TOKEN') !== false || $accessToken === 'TEST-4024146922493343-102915-6cfd5101854ec6d62ef2caee4a406ddd-321482737') {
+            throw new Exception('Por favor, configura tu Access Token real de Mercado Pago en el archivo .env');
+        }
+
+        // **CORRECCIÓN 2: Configurar Mercado Pago correctamente**
+        SDK::setAccessToken($accessToken);
         
         // Crear preferencia
         $preference = new Preference();
         $items = [];
+        $orderData = []; // Inicializar array
 
         foreach ($cartItems as $cartItem) {
             $libro = $libroModel->find($cartItem['libro_id']);
@@ -233,41 +249,48 @@ public function checkout()
         ];
         
         $preference->auto_return = 'approved';
-        $preference->binary_mode = true; // Importante para evitar pagos pendientes
+        $preference->binary_mode = true;
 
         // Configurar datos adicionales
         $preference->external_reference = 'ORDER_' . $userId . '_' . time();
-        $preference->notification_url = base_url('cart/ipn'); // Opcional: para webhooks
+        $preference->notification_url = base_url('cart/ipn');
 
         // Guardar info de la orden en sesión
         session()->set('pending_order', [
             'user_id' => $userId,
             'items' => $orderData,
-            'external_reference' => $preference->external_reference
+            'external_reference' => $preference->external_reference,
+            'total' => array_reduce($orderData, function($sum, $item) {
+                return $sum + ($item['precio_unitario'] * $item['cantidad']);
+            }, 0)
         ]);
 
         // Guardar preferencia
         $preference->save();
 
-        // DEBUG: Verificar que la preferencia se creó
-        if (empty($preference->id)) {
-            log_message('error', 'MP Preference ID vacío');
-            throw new Exception('No se pudo crear la preferencia de pago');
-        }
+        // DEBUG: Verificar respuesta
+        log_message('info', 'MP Preference creada: ' . ($preference->id ?? 'No ID'));
+        log_message('info', 'MP Access Token usado: ' . substr($accessToken, 0, 10) . '...');
 
-        if (empty($preference->init_point)) {
-            log_message('error', 'MP init_point vacío. Preference ID: ' . ($preference->id ?? 'N/A'));
+        // **CORRECCIÓN 3: Redirigir al punto de pago correcto**
+        $redirectUrl = null;
+        
+        if (!empty($preference->sandbox_init_point)) {
+            $redirectUrl = $preference->sandbox_init_point;
+        } elseif (!empty($preference->init_point)) {
+            $redirectUrl = $preference->init_point;
+        } else {
             throw new Exception('No se generó la URL de pago');
         }
 
         // Redirigir a Mercado Pago
-        return redirect()->to($preference->init_point);
+        return redirect()->to($redirectUrl);
 
     } catch (Exception $e) {
         log_message('error', 'MP Error: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Error al procesar el pago: ' . $e->getMessage());
     }
-}
+} // ← AQUÍ FALTABA ESTA LLAVE DE CIERRE DEL MÉTODO
 
 /**
  * URL de retorno: /cart/success
