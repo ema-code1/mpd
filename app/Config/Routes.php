@@ -1,4 +1,5 @@
     <?php
+
     use CodeIgniter\Router\RouteCollection;
 
     /**
@@ -9,12 +10,12 @@
     // 🔐 RUTA PRINCIPAL: /panel
     // -----------------------------
     // Aquí llegan todos los usuarios autenticados (admin o comprador)
-    $routes->get('/panel', function() {
+    $routes->get('/panel', function () {
         $session = session();
         if (! $session->get('isLoggedIn')) {
             return redirect()->to('/login');
         }
-        
+
         if ($session->get('role') === 'administrador') {
             $controller = new \App\Controllers\Admin();
             return $controller->index();
@@ -27,10 +28,10 @@
     // -----------------------------
     // 🔒 BLOQUEO DE RUTAS OBSOLETAS
     // -----------------------------
-    $routes->get('/admin', function() {
+    $routes->get('/admin', function () {
         return redirect()->to('/panel');
     });
-    $routes->get('/home', function() {
+    $routes->get('/home', function () {
         return redirect()->to('/panel');
     });
 
@@ -66,10 +67,10 @@
     // Ruta para editar libros
     $routes->get('libro/editar/(:num)', 'LibroController::editar/$1', ['filter' => 'admin']);
     $routes->post('libro/actualizar/(:num)', 'LibroController::actualizar/$1', ['filter' => 'admin']);
-    $routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1' , ['filter' => 'admin']);
+    $routes->match(['delete', 'post'], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', ['filter' => 'admin']);
 
 
-    $routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1' , ['filter' => 'admin']);
+    $routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1', ['filter' => 'admin']);
 
     // Rutas para el carrito
     $routes->get('cart', 'CartController::index');
@@ -79,26 +80,26 @@
 
     $routes->get('stock_spreadsheet', 'StockController::index', ['filter' => 'admin']);
 
-   // funciones para crear y modificar columnas de ingresos y egresos
-   
+    // funciones para crear y modificar columnas de ingresos y egresos
+
     $routes->get('stock', 'StockController::index');
-$routes->post('stock/createColumn', 'StockController::createColumn');
-$routes->post('stock/updateCell', 'StockController::updateCell');
-$routes->post('stock/getStock', 'StockController::getStock');
-$routes->post('stock/deleteColumn', 'StockController::deleteColumn');
+    $routes->post('stock/createColumn', 'StockController::createColumn');
+    $routes->post('stock/updateCell', 'StockController::updateCell');
+    $routes->post('stock/getStock', 'StockController::getStock');
+    $routes->post('stock/deleteColumn', 'StockController::deleteColumn');
 
-$routes->get('/perfil', 'Perfil::index');
-$routes->post('/perfil/actualizar', 'Perfil::actualizar');
-$routes->post('/perfil/uploadTempImage', 'Perfil::uploadTempImage');
+    $routes->get('/perfil', 'Perfil::index');
+    $routes->post('/perfil/actualizar', 'Perfil::actualizar');
+    $routes->post('/perfil/uploadTempImage', 'Perfil::uploadTempImage');
 
-$routes->post('libro/agregarResena', 'LibroController::agregarResena');
-$routes->get('libro/editarResena/(:num)', 'LibroController::editarResena/$1');
-$routes->post('libro/actualizarResena/(:num)', 'LibroController::actualizarResena/$1');
-$routes->post('libro/eliminarResena/(:num)', 'LibroController::eliminarResena/$1');
+    $routes->post('libro/agregarResena', 'LibroController::agregarResena');
+    $routes->get('libro/editarResena/(:num)', 'LibroController::editarResena/$1');
+    $routes->post('libro/actualizarResena/(:num)', 'LibroController::actualizarResena/$1');
+    $routes->post('libro/eliminarResena/(:num)', 'LibroController::eliminarResena/$1');
 
 
-// ir a movimientos
-$routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
+    // ir a movimientos
+    $routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
 
 
     // 🛠️ OTRAS RUTAS (p/futuro)
@@ -108,3 +109,7 @@ $routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin'
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------
     $routes->get('(:any)', 'Home::index/$1');
+    //API
+    $routes->post('cart/checkout', 'CartController::checkout');      // crea preference y redirige a MP
+    $routes->get('cart/success', 'CartController::success');         // URL de retorno (back_url success)
+    $routes->post('cart/webhook', 'CartController::webhook');        // (opcional) webhook notifications
