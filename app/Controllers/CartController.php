@@ -45,9 +45,9 @@ class CartController extends BaseController
     }
 
     // Acción para añadir un libro al carrito (llamada desde book_details y cart.php)
-    public function add($libro) //$libro trae valor de cambio de stock
+    public function add($libro)
 {
-    $debug = []; // array para debug
+    $debug = [];
 
     $debug['add_iniciado'] = true;
     $debug['libro'] = $libro;
@@ -73,21 +73,22 @@ class CartController extends BaseController
             $newCantidad = $existing['cantidad'] + $change;
         
             if ($newCantidad <= 0) {
-                // Si la cantidad llega a 0 o menos, eliminamos el item usando la PK compuesta: $cartModel->where('user_id', $userId)->where('libro_id', $libro)->delete();
+                // Eliminar si la cantidad llega a 0 o menos: $cartModel->where('user_id', $userId)->where('libro_id', $libro)->delete();
             } else {
-                // Actualizamos la cantidad usando WHERE (no usamos update($id,...) porque no hay id único)
+                // Actualizar cantidad
                 $cartModel->set('cantidad', $newCantidad)
                           ->where('user_id', $userId)
                           ->where('libro_id', $libro)
                           ->update();
             }
         }
-         else if ($change > 0) {
+        else if ($change > 0) {
+            // CAMBIO IMPORTANTE: Insertar con seleccionado = 0
             $cartModel->insert([
                 'user_id' => $userId,
                 'libro_id' => $libro,
                 'cantidad' => $change,
-                'seleccionado' => 1
+                'seleccionado' => 0  // Cambiado de 1 a 0
             ]);
             $debug['insertado'] = true;
         }
@@ -99,7 +100,6 @@ class CartController extends BaseController
     $debug['success'] = true;
     return $this->response->setJSON($debug);
 }
-
 
     // Acción para actualizar cantidad o selección (llamada por AJAX desde la vista)
     public function update()
