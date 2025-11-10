@@ -13,63 +13,62 @@
     <div class="cart-container">
         <h1 class="cart-title">Mi carrito</h1>
         <div class="cart-layout">
-
             <!-- LISTA DE ITEMS -->
             <div class="cart-items">
-                <?php if (!empty($cartItems)): ?>
-                    <?php foreach ($cartItems as $item): ?>
-                        <div class="cart-item <?= ($item['seleccionado'] ?? 0) ? 'selected' : '' ?>"
-                            data-price="<?= $item['precio'] ?>"
-                            data-libro-id="<?= $item['libro_id'] ?>">
+            <?php if (!empty($cartItems)): ?>
+                <?php foreach ($cartItems as $item): ?>
+                <div class="cart-item <?= ($item['seleccionado'] ?? 0) ? 'selected' : '' ?>"
+                    data-price="<?= $item['precio'] ?>"
+                    data-libro-id="<?= $item['libro_id'] ?>">
 
-                            <div class="item-image">
-                                <img src="<?= base_url($item['foto1'] ?? 'imgs/noimageavailable.jpg') ?>"
-                                    alt="<?= esc($item['titulo']) ?>">
-                            </div>
+                    <div class="item-image">
+                    <img src="<?= base_url($item['foto1'] ?? 'imgs/noimageavailable.jpg') ?>"
+                        alt="<?= esc($item['titulo']) ?>">
+                    </div>
 
-                            <div class="item-details">
-                                <h2 class="item-title"><?= htmlspecialchars($item['titulo']) ?></h2>
-                                <p class="item-price-unit">$<?= number_format($item['precio'], 2) ?></p>
+                    <div class="item-details">
+                    <h2 class="item-title"><?= htmlspecialchars($item['titulo']) ?></h2>
+                    <p class="item-price-unit">$<?= number_format($item['precio'], 2) ?></p>
 
-                                <div class="item-controls">
-                                    <div class="quantity-control">
-                                        <button type="button"
-                                            class="btn-quantity"
-                                            data-libro-id="<?= $item['libro_id'] ?>"
-                                            data-action="minus">-</button>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                        <button type="button" class="btn-quantity"
+                                data-libro-id="<?= $item['libro_id'] ?>"
+                                data-action="minus">-</button>
 
-                                        <input type="number" class="quantity-input"
-                                            value="<?= $item['cantidad'] ?>" min="1" readonly>
+                        <input type="number" class="quantity-input"
+                                value="<?= $item['cantidad'] ?>" min="1" readonly>
 
-                                        <button type="button"
-                                            class="btn-quantity"
-                                            data-libro-id="<?= $item['libro_id'] ?>"
-                                            data-action="plus">+</button>
-                                    </div>
-
-                                    <div>
-                                        <p>Subtotal:</p>
-                                        <p class="item-price-total">
-                                            $<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="item-actions">
-                                    <button class="btn-select <?= ($item['seleccionado'] ?? 0) ? 'active' : '' ?>">
-                                        <?= ($item['seleccionado'] ?? 0) ? 'Deseleccionar' : 'Seleccionar' ?>
-                                    </button>
-                                    <button class="btn-remove">Eliminar</button>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="empty-cart">
-                            <i class="fas fa-shopping-cart"></i>
-                            <p>No hay productos en el carrito</p>
+                        <button type="button" class="btn-quantity"
+                                data-libro-id="<?= $item['libro_id'] ?>"
+                                data-action="plus">+</button>
                         </div>
-                    <?php endif; ?>
+
+                        <div>
+                        <p>Subtotal:</p>
+                        <p class="item-price-total">
+                            $<?= number_format($item['precio'] * ($item['cantidad'] ?? 1), 2) ?>
+                        </p>
                         </div>
+                    </div>
+
+                    <div class="item-actions">
+                        <button class="btn-select <?= ($item['seleccionado'] ?? 0) ? 'selected' : '' ?>">
+                        <?= ($item['seleccionado'] ?? 0) ? 'Deseleccionar' : 'Seleccionar' ?>
+                        </button>
+                        <button class="btn-remove">Eliminar</button>
+                    </div>
+                    </div> <!-- .item-details -->
+
+                </div> <!-- .cart-item -->
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>No hay productos en el carrito</p>
+                </div>
+            <?php endif; ?>
+            </div> <!-- FIN .cart-items -->
 
                         <!-- RESUMEN -->
                         <div class="cart-summary">
@@ -113,257 +112,166 @@
                                 </div>
                                 <form method="post" action="<?= site_url('cart/checkout') ?>">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="btn btn-primary">Comprar</button>
+                                    <button type="submit" class="btn btn-buy">Comprar</button>
                                 </form>
                             </div>
                         </div>
             </div>
         </div>
 
-        <script>
-            // Actualizar cantidad (+/-)
-            function addToCart(libro, change = 1) {
-                fetch('<?= site_url('cart/add/') ?>' + libro, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `change=${change}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) location.reload();
-                        else alert('Error: ' + (data.error || 'No se pudo actualizar el carrito.'));
-                    })
-                    .catch(() => alert('Error de conexión.'));
+<script>
+    // Actualizar cantidad (+/-)
+    function addToCart(libro, change = 1) {
+        fetch('<?= site_url('cart/add/') ?>' + libro, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `change=${change}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) location.reload();
+                else alert('Error: ' + (data.error || 'No se pudo actualizar el carrito.'));
+            })
+            .catch(() => alert('Error de conexión.'));
+    }
+
+    // Función para actualizar el resumen
+    function updateSummary() {
+        let total = 0;
+        let count = 0;
+        
+        document.querySelectorAll('.cart-item').forEach(item => {
+            if (item.classList.contains('selected')) {
+                const price = parseFloat(item.dataset.price) || 0;
+                const qty = parseInt(item.querySelector('.quantity-input').value) || 1;
+                total += price * qty;
+                count += qty;
             }
+        });
+        
+        document.getElementById('selected-count').textContent = count;
+        document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+        
+        // Actualizar estado del botón comprar
+        const buyBtn = document.querySelector('.btn-buy');
+        if (buyBtn) {
+            buyBtn.disabled = count === 0;
+        }
+    }
 
-            // Actualizar selección (toggle entre 0 y 1)
-            function updateSelection(libroId, newState) {
-                fetch('<?= base_url('cart/update') ?>', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `libro_id=${libroId}&action=seleccionado&value=${newState}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.success) {
-                            alert('Error al actualizar selección: ' + (data.error || 'Error desconocido'));
-                            // Revertir visualmente si hay error
-                            location.reload();
-                        }
-                    })
-                    .catch(() => {
-                        alert('Error de conexión');
-                        location.reload();
-                    });
+    // Evento principal cuando carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar resumen
+        updateSummary();
+
+        // Manejar botones de cantidad
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-quantity');
+            if (!btn) return;
+            
+            const libroId = btn.dataset.libroId;
+            const action = btn.dataset.action;
+            
+            if (libroId && (action === 'plus' || action === 'minus')) {
+                const change = (action === 'plus') ? 1 : -1;
+                addToCart(parseInt(libroId), change);
             }
+        });
 
-            // Manejador de botones de cantidad
-            document.addEventListener('click', e => {
-                const btn = e.target.closest('.btn-quantity');
-                if (!btn) return;
-                const libroId = btn.dataset.libroId;
-                const action = btn.dataset.action;
-                if (libroId && (action === 'plus' || action === 'minus')) {
-                    const change = (action === 'plus') ? 1 : -1;
-                    addToCart(parseInt(libroId), change);
-                }
-            });
+        // Manejar botón eliminar
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-remove');
+            if (!btn) return;
+            
+            const item = btn.closest('.cart-item');
+            const libroId = item.dataset.libroId;
 
-            // Control del carrito (selección, borrado, totales)
-            document.addEventListener('DOMContentLoaded', () => {
-                const container = document.querySelector('.cart-items');
-                const buyBtn = document.querySelector('.btn-primary');
+            if (!confirm('¿Querés borrar este producto del carrito?')) return;
 
-                function updateSummary() {
-                    let total = 0,
-                        count = 0;
-                    document.querySelectorAll('.cart-item').forEach(item => {
-                        const price = parseFloat(item.dataset.price) || 0;
-                        const qty = parseInt(item.querySelector('.quantity-input').value) || 0;
-                        const isSelected = item.classList.contains('selected');
-
-                        if (isSelected) {
-                            total += price * qty;
-                            count += qty;
-                        }
-
-                        const subtotal = item.querySelector('.item-price-total');
-                        if (subtotal) subtotal.textContent = '$' + (price * qty).toFixed(2);
-                    });
-
-                    document.getElementById('selected-count').textContent = count;
-                    document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
-                    if (buyBtn) {
-                        buyBtn.disabled = count === 0;
-                    }
-                }
-
-                // Eventos de selección y eliminación
-                container.addEventListener('click', e => {
-                    const btn = e.target.closest('button');
-                    if (!btn) return;
-                    const item = btn.closest('.cart-item');
-                    const libroId = item.dataset.libroId;
-
-                    // Seleccionar/Deseleccionar
-                    if (btn.classList.contains('btn-select')) {
-                        const isCurrentlySelected = item.classList.contains('selected');
-                        const newState = isCurrentlySelected ? 0 : 1;
-
-                        // Cambiar visualmente inmediatamente
-                        btn.classList.toggle('active');
-                        item.classList.toggle('selected');
+            fetch('<?= base_url('cart/delete') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `libro_id=${libroId}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
+                })
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        item.remove();
                         updateSummary();
-
-                        // Actualizar en base de datos
-                        updateSelection(libroId, newState);
+                        
+                        // Si no quedan items, mostrar carrito vacío
+                        if (document.querySelectorAll('.cart-item').length === 0) {
+                            document.querySelector('.cart-items').innerHTML = `
+                                <div class="empty-cart">
+                                    <i class="ti ti-shopping-cart"></i>
+                                    <p>No hay productos en el carrito</p>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        alert(json.error || 'No se pudo borrar el item');
                     }
+                })
+                .catch(() => alert('Error de red.'));
+        });
 
-                    // Eliminar
-                    if (btn.classList.contains('btn-remove')) {
-                        if (!confirm('¿Querés borrar este producto del carrito?')) return;
+        // MANEJADOR CORREGIDO para el botón seleccionar/deseleccionar
+        document.addEventListener('click', async function(e) {
+            const btn = e.target.closest('.btn-select');
+            if (!btn) return;
 
-                        fetch('<?= base_url('cart/delete') ?>', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                },
-                                body: `libro_id=${libroId}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
-                            })
-                            .then(res => res.json())
-                            .then(json => {
-                                if (json.success) {
-                                    alert('Producto eliminado correctamente');
-                                    location.reload();
-                                } else {
-                                    alert(json.error || 'No se pudo borrar el item');
-                                }
-                            })
-                            .catch(() => alert('Error de red.'));
-                    }
+            e.preventDefault();
+            
+            const item = btn.closest('.cart-item');
+            const libroId = item.dataset.libroId;
+            
+            // Estado actual y nuevo estado
+            const isCurrentlySelected = item.classList.contains('selected');
+            const newState = isCurrentlySelected ? 0 : 1;
+
+            // Cambio visual inmediato
+            item.classList.toggle('selected');
+            btn.classList.toggle('selected');
+            btn.textContent = isCurrentlySelected ? 'Seleccionar' : 'Deseleccionar';
+            
+            // Actualizar resumen
+            updateSummary();
+
+            // Actualizar en base de datos
+            try {
+                const response = await fetch('<?= base_url('cart/update') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `libro_id=${libroId}&action=seleccionado&value=${newState}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
                 });
 
+                const data = await response.json();
+                
+                if (!data.success) {
+                    // Si falla, revertir cambios visuales
+                    item.classList.toggle('selected');
+                    btn.classList.toggle('selected');
+                    btn.textContent = isCurrentlySelected ? 'Deseleccionar' : 'Seleccionar';
+                    updateSummary();
+                    alert('Error al actualizar selección: ' + (data.error || 'Error desconocido'));
+                }
+            } catch (error) {
+                // Si hay error de conexión, revertir cambios visuales
+                item.classList.toggle('selected');
+                btn.classList.toggle('selected');
+                btn.textContent = isCurrentlySelected ? 'Deseleccionar' : 'Seleccionar';
                 updateSummary();
-            });
-
-
-            // Control de métodos de pago
-            document.addEventListener('DOMContentLoaded', function() {
-                const efectivoCheckbox = document.getElementById('efectivo');
-                const transferenciaCheckbox = document.getElementById('transferencia');
-                const mercadopagoTooltip = document.getElementById('mercadopago-tooltip');
-                const btnComprar = document.getElementById('btn-comprar');
-
-                // Control de checkboxes exclusivos
-                efectivoCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        transferenciaCheckbox.checked = false;
-                        mercadopagoTooltip.classList.remove('show');
-                    }
-                    updateBuyButton();
-                });
-
-                transferenciaCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        efectivoCheckbox.checked = false;
-                        mercadopagoTooltip.classList.add('show');
-                    } else {
-                        mercadopagoTooltip.classList.remove('show');
-                    }
-                    updateBuyButton();
-                });
-
-                // Función para actualizar estado del botón comprar
-                function updateBuyButton() {
-                    const hasPaymentMethod = efectivoCheckbox.checked || transferenciaCheckbox.checked;
-                    const hasSelectedItems = parseInt(document.getElementById('selected-count').textContent) > 0;
-
-                    btnComprar.disabled = !(hasPaymentMethod && hasSelectedItems);
-                }
-
-                // Event listener para el botón comprar
-                btnComprar.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    if (!efectivoCheckbox.checked && !transferenciaCheckbox.checked) {
-                        showToast('Por favor, selecciona un método de pago');
-                        return;
-                    }
-
-                    // Obtener método de pago seleccionado
-                    const paymentMethod = efectivoCheckbox.checked ? 'efectivo' : 'transferencia';
-
-                    // Guardar en pre_venta (solo si es efectivo)
-                    if (paymentMethod === 'efectivo') {
-                        savePreVenta();
-                    }
-
-                    // Aquí continuar con el proceso de compra normal
-                    processPurchase(paymentMethod);
-                });
-
-                // Función para mostrar toast
-                function showToast(message) {
-                    // Crear toast si no existe
-                    let toast = document.getElementById('payment-toast');
-                    if (!toast) {
-                        toast = document.createElement('div');
-                        toast.id = 'payment-toast';
-                        toast.className = 'toast';
-                        toast.innerHTML = `
-                <div class="toast-content">
-                    <span class="toast-icon">⚠️</span>
-                    <span class="toast-message">${message}</span>
-                </div>
-            `;
-                        document.body.appendChild(toast);
-                    } else {
-                        toast.querySelector('.toast-message').textContent = message;
-                    }
-
-                    // Mostrar toast
-                    toast.classList.add('show');
-
-                    // Ocultar después de 4 segundos
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 4000);
-                }
-
-                // Función para guardar en pre_venta
-                function savePreVenta() {
-                    // Aquí va tu código AJAX para guardar en la tabla pre_venta
-                    // Solo los elementos del carrito que están seleccionados
-                    fetch('guardar_preventa.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                payment_method: 'efectivo',
-                                // otros datos necesarios
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Pre-venta guardada:', data);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                }
-
-                // Función para procesar la compra
-                function processPurchase(paymentMethod) {
-                    // Tu código existente para procesar la compra
-                    console.log('Procesando compra con método:', paymentMethod);
-                }
-            });
-        </script>
+                alert('Error de conexión');
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -41,7 +41,6 @@ class CartController extends BaseController
         $data['cartItems'] = $cartItems;
         echo view('templates/header');
         echo view('cart', $data);
-        echo view('templates/footer');
     }
 
     // Acción para añadir un libro al carrito (llamada desde book_details y cart.php)
