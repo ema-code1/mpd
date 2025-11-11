@@ -53,26 +53,29 @@
                         <tr>
                             <th class="col-id">ID Venta</th>
                             <th class="col-comprador">Comprador</th>
-                            <th class="col-libro">Libro</th>
-                            <th class="col-cantidad">Cantidad</th>
+                            <th class="col-metodo">Método de Pago</th> <!-- NUEVA COLUMNA -->
                             <th class="col-monto">Monto</th>
                             <th class="col-fecha">Fecha Pago</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($movimientos as $movimiento): ?>
-                        <tr class="slide-in">
+                        <tr class="slide-in" 
+                            data-libro="<?= esc($movimiento['libro_titulo']) ?>" 
+                            data-cantidad="<?= $movimiento['cantidad'] ?>"
+                            data-libro-id="<?= $movimiento['libro_id'] ?>">
                             <td>#<?= $movimiento['venta_id'] ?></td>
                             <td>
-                                <strong><?= esc($movimiento['nombre_comprador']) ?></strong>
+                                <strong><?= esc($movimiento['comprador_nombre']) ?></strong>
                                 <br><small>ID: <?= $movimiento['comprador_id'] ?></small>
                             </td>
-                            <td>
-                                <?= esc($movimiento['libro_titulo']) ?>
-                                <br><small>ID: <?= $movimiento['libro_id'] ?></small>
-                            </td>
-                            <td class="col-cantidad">
-                                <span class="badge badge-success"><?= $movimiento['cantidad'] ?> und</span>
+                            <td class="col-metodo">
+                                <?php 
+                                $metodo = $movimiento['metodo_pago'] ?? 'efectivo';
+                                $badgeClass = $metodo === 'transferencia' ? 'badge-info' : 'badge-warning';
+                                $text = $metodo === 'transferencia' ? 'Transferencia' : 'Efectivo';
+                                ?>
+                                <span class="badge <?= $badgeClass ?>"><?= $text ?></span>
                             </td>
                             <td class="col-monto monto-positivo">
                                 $<?= number_format($movimiento['monto_venta'], 2) ?>
@@ -85,6 +88,9 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Tooltip que sigue al cursor -->
+            <div id="row-tooltip" class="row-tooltip"></div>
 
             <?php if (empty($movimientos)): ?>
                 <div style="text-align: center; padding: 3rem; color: #666;">
@@ -129,6 +135,13 @@
             });
         });
     });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    const tooltip = document.getElementById('row-tooltip');
+    const rows = document.querySelectorAll('.excel-table tbody tr');
+    
+
+});
 </script>
 </body>
 </html>

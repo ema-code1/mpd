@@ -411,6 +411,82 @@ body {
   background: linear-gradient(135deg, #e58600, #e6680e);
 }
 
+/* Tooltip compacto para filas de movimientos */
+.row-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 280px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    line-height: 1.4;
+}
+
+.row-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.row-tooltip .tooltip-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #EF8D00;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 4px;
+}
+
+.row-tooltip .tooltip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row-tooltip .tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row-tooltip .tooltip-label {
+    color: #ccc;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.row-tooltip .tooltip-value {
+    color: white;
+    font-weight: 600;
+    text-align: right;
+    flex: 1;
+}
+
+/* Posicionamiento del tooltip */
+.excel-table tbody tr {
+    position: relative;
+}
+
+/* Tabla compacta - ajustar anchos */
+.col-id { width: 70px; }
+.col-comprador { width: 180px; }
+.col-metodo { width: 110px; text-align: center; }
+.col-monto { width: 100px; text-align: right; }
+.col-fecha { width: 100px; text-align: center; }
+
+.excel-table th,
+.excel-table td {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+}
 
 /* menu btn y sidebar responsive*/
 @media (max-width: 768px) {

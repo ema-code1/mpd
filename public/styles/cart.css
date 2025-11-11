@@ -392,6 +392,56 @@ body {
     margin: 0;
 }
 
+/* Estilos para radio buttons de pago */
+.payment-option .ui-radio {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.payment-option label {
+    margin-left: 0.75rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.payment-option:hover label {
+    color: var(--primary);
+}
+
+/* Estilos para badges en movimientos */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Columna método de pago */
+.col-metodo {
+    width: 120px;
+    text-align: center;
+}
+
 
 /* Animations */
 @keyframes popIn {

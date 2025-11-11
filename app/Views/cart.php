@@ -84,32 +84,32 @@
                                 </div>
 
                                 <!-- Métodos de pago -->
-                                <div class="payment-methods">
-                                    <h4>Método de pago</h4>
-                                    <div class="payment-option">
-                                        <input type="checkbox" id="efectivo" name="payment_method" value="efectivo" class="ui-checkbox">
-                                        <label for="efectivo">En efectivo (presencial)</label>
-                                    </div>
-                                    <div class="payment-option">
-                                        <input type="checkbox" id="transferencia" name="payment_method" value="transferencia" class="ui-checkbox">
-                                        <label for="transferencia">Transferencia</label>
+                            <div class="payment-methods">
+                                <h4>Método de pago</h4>
+                                <div class="payment-option">
+                                    <input type="radio" id="efectivo" name="payment_method" value="efectivo" class="ui-radio" required>
+                                    <label for="efectivo">En efectivo (presencial)</label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="transferencia" name="payment_method" value="transferencia" class="ui-radio" required>
+                                    <label for="transferencia">Transferencia</label>
 
-                                        <!-- Tooltip de Mercado Pago (inicialmente oculto) -->
-                                        <div id="mercadopago-tooltip" class="mercadopago-tooltip">
-                                            <div class="tooltip-content">
-                                                <div class="mp-icon">
-                                                    <svg viewBox="0 0 24 24" width="20" height="20">
-                                                        <path fill="#00a1e1" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.066 17.28c-2.36 0-3.72-1.65-3.72-4.05v-.48c0-2.34 1.36-4.05 3.72-4.05 1.92 0 3.18 1.26 3.18 3.12v.66H9.894v.78c0 1.38.72 2.22 1.98 2.22.84 0 1.5-.36 1.86-1.02l1.32.78c-.66 1.14-1.86 1.86-3.24 1.86zm7.212 0c-2.16 0-3.54-1.44-3.54-3.6v-.48c0-2.16 1.38-3.6 3.54-3.6s3.54 1.44 3.54 3.6v.48c0 2.16-1.38 3.6-3.54 3.6zm0-1.56c1.08 0 1.74-.84 1.74-2.04v-.48c0-1.2-.66-2.04-1.74-2.04s-1.74.84-1.74 2.04v.48c0 1.2.66 2.04 1.74 2.04z" />
-                                                    </svg>
-                                                </div>
-                                                <div class="tooltip-info">
-                                                    <div class="tooltip-alias">Alias: <strong>mpd.rio3</strong></div>
-                                                    <div class="tooltip-titular">Titular: <strong>Hernán Mangold</strong></div>
-                                                </div>
+                                    <!-- Tooltip de Mercado Pago (inicialmente oculto) -->
+                                    <div id="mercadopago-tooltip" class="mercadopago-tooltip">
+                                        <div class="tooltip-content">
+                                            <div class="mp-icon">
+                                                <svg viewBox="0 0 24 24" width="20" height="20">
+                                                    <path fill="#00a1e1" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.066 17.28c-2.36 0-3.72-1.65-3.72-4.05v-.48c0-2.34 1.36-4.05 3.72-4.05 1.92 0 3.18 1.26 3.18 3.12v.66H9.894v.78c0 1.38.72 2.22 1.98 2.22.84 0 1.5-.36 1.86-1.02l1.32.78c-.66 1.14-1.86 1.86-3.24 1.86zm7.212 0c-2.16 0-3.54-1.44-3.54-3.6v-.48c0-2.16 1.38-3.6 3.54-3.6s3.54 1.44 3.54 3.6v.48c0 2.16-1.38 3.6-3.54 3.6zm0-1.56c1.08 0 1.74-.84 1.74-2.04v-.48c0-1.2-.66-2.04-1.74-2.04s-1.74.84-1.74 2.04v.48c0 1.2.66 2.04 1.74 2.04z" />
+                                                </svg>
+                                            </div>
+                                            <div class="tooltip-info">
+                                                <div class="tooltip-alias">Alias: <strong>mpd.rio3</strong></div>
+                                                <div class="tooltip-titular">Titular: <strong>Hernán Mangold</strong></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                                 <form method="post" action="<?= site_url('cart/checkout') ?>">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="btn btn-buy">Comprar</button>
@@ -166,17 +166,65 @@
         // Inicializar resumen
         updateSummary();
 
-        // Manejar botones de cantidad
-        document.addEventListener('click', e => {
+                // Manejar botones de cantidad - VERSIÓN RÁPIDA
+        document.addEventListener('click', async function(e) {
             const btn = e.target.closest('.btn-quantity');
             if (!btn) return;
             
             const libroId = btn.dataset.libroId;
             const action = btn.dataset.action;
+            const item = btn.closest('.cart-item');
+            const input = item.querySelector('.quantity-input');
+            const subtotalEl = item.querySelector('.item-price-total');
+            const price = parseFloat(item.dataset.price);
             
-            if (libroId && (action === 'plus' || action === 'minus')) {
-                const change = (action === 'plus') ? 1 : -1;
-                addToCart(parseInt(libroId), change);
+            if (!libroId || !action) return;
+            
+            // Calcular nueva cantidad
+            let newQty = parseInt(input.value);
+            if (action === 'plus') {
+                newQty++;
+            } else if (action === 'minus' && newQty > 1) {
+                newQty--;
+            } else {
+                return; // No hacer nada si es menor a 1
+            }
+            
+            // Cambio visual inmediato (UI optimista)
+            input.value = newQty;
+            const newSubtotal = price * newQty;
+            subtotalEl.textContent = '$' + newSubtotal.toFixed(2);
+            updateSummary();
+            
+            // Actualizar en base de datos
+            try {
+                const response = await fetch('<?= base_url('cart/update') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `libro_id=${libroId}&action=cantidad&value=${newQty}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
+                });
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    // Si falla, revertir cambios visuales
+                    const currentQty = parseInt(input.value);
+                    const revertQty = action === 'plus' ? currentQty - 1 : currentQty + 1;
+                    input.value = revertQty;
+                    subtotalEl.textContent = '$' + (price * revertQty).toFixed(2);
+                    updateSummary();
+                    alert('Error al actualizar cantidad');
+                }
+            } catch (error) {
+                // Si hay error de conexión, revertir cambios
+                const currentQty = parseInt(input.value);
+                const revertQty = action === 'plus' ? currentQty - 1 : currentQty + 1;
+                input.value = revertQty;
+                subtotalEl.textContent = '$' + (price * revertQty).toFixed(2);
+                updateSummary();
+                alert('Error de conexión');
             }
         });
 
