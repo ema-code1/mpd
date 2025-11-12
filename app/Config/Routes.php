@@ -109,7 +109,3 @@
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------
     $routes->get('(:any)', 'Home::index/$1');
-    //API
-    $routes->post('cart/checkout', 'CartController::checkout');      // crea preference y redirige a MP
-    $routes->get('cart/success', 'CartController::success');         // URL de retorno (back_url success)
-    $routes->post('cart/webhook', 'CartController::webhook');        // (opcional) webhook notifications
