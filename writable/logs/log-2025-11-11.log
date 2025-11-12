@@ -1,0 +1,565 @@
+WARNING - 2025-11-11 23:09:37 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:37 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:37 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:37 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:09:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-11-11 23:09:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-11-11 23:09:38 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:38 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:09:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-11-11 23:09:45 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:45 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:09:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-11-11 23:09:46 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:46 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:09:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-11-11 23:09:47 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:09:47 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:09:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-11-11 23:09:47 --> mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list' in C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`...', 0)
+#1 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`...')
+#2 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`...')
+#3 C:\xampp\htdocs\mpd\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`...', Array, false)
+#4 C:\xampp\htdocs\mpd\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\mpd\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\mpd\app\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\mpd\app\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+#8 C:\xampp\htdocs\mpd\system\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+#9 C:\xampp\htdocs\mpd\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+#10 C:\xampp\htdocs\mpd\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\mpd\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\mpd\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\mpd\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-11-11 23:09:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+[Method: GET, Route: movimientos]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:09:47 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:09:47 --> [Caused by] mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:56:51 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:56:51 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:56:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-11-11 23:56:51 --> mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list' in C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`...', 0)
+#1 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`...')
+#2 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`...')
+#3 C:\xampp\htdocs\mpd\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`...', Array, false)
+#4 C:\xampp\htdocs\mpd\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\mpd\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\mpd\app\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\mpd\app\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+#8 C:\xampp\htdocs\mpd\system\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+#9 C:\xampp\htdocs\mpd\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+#10 C:\xampp\htdocs\mpd\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\mpd\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\mpd\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\mpd\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-11-11 23:56:51 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+[Method: GET, Route: movimientos]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:56:51 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:56:51 --> [Caused by] mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:59:54 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:59:54 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:59:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-11-11 23:59:54 --> mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list' in C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`...', 0)
+#1 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`...')
+#2 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`...')
+#3 C:\xampp\htdocs\mpd\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`...', Array, false)
+#4 C:\xampp\htdocs\mpd\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\mpd\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\mpd\app\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\mpd\app\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+#8 C:\xampp\htdocs\mpd\system\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+#9 C:\xampp\htdocs\mpd\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+#10 C:\xampp\htdocs\mpd\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\mpd\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\mpd\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\mpd\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-11-11 23:59:54 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+[Method: GET, Route: movimientos]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:59:54 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:59:54 --> [Caused by] mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:59:54 --> [DEPRECATED] Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "delete" is deprecated. Use uppercase HTTP method like "DELETE".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-11 23:59:54 --> [DEPRECATED] Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST". in SYSTEMPATH\Router\RouteCollection.php on line 1026.
+ 1 SYSTEMPATH\Router\RouteCollection.php(1026): trigger_error('Passing lowercase HTTP method "post" is deprecated. Use uppercase HTTP method like "POST".', 16384)
+ 2 APPPATH\Config\Routes.php(70): CodeIgniter\Router\RouteCollection->match([...], 'libro/eliminar/(:num)', 'LibroController::eliminar/$1', [...])
+ 3 SYSTEMPATH\Router\RouteCollection.php(339): require('C:\\xampp\\htdocs\\mpd\\app\\Config\\Routes.php')
+ 4 SYSTEMPATH\CodeIgniter.php(821): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 5 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-11-11 23:59:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-11-11 23:59:54 --> mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list' in C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\mpd\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`...', 0)
+#1 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`...')
+#2 C:\xampp\htdocs\mpd\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`...')
+#3 C:\xampp\htdocs\mpd\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`...', Array, false)
+#4 C:\xampp\htdocs\mpd\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\mpd\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\mpd\app\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\mpd\app\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+#8 C:\xampp\htdocs\mpd\system\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+#9 C:\xampp\htdocs\mpd\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+#10 C:\xampp\htdocs\mpd\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\mpd\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\mpd\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\mpd\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-11-11 23:59:54 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+[Method: GET, Route: movimientos]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:59:54 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-11 23:59:54 --> [Caused by] mysqli_sql_exception: Unknown column 'ventas.met_pago' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `ventas`.*, `users`.`name` as `comprador_nombre`, `libros`.`titulo` as `libro_titulo`, `ventas`.`met_pago`
+FROM `ventas`
+LEFT JOIN `users` ON `users`.`id` = `ventas`.`comprador_id`
+LEFT JOIN `libros` ON `libros`.`id` = `ventas`.`libro_id`
+ORDER BY `ventas`.`fecha_de_pago` DESC, `ventas`.`venta_id` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\MovimientosModel.php(22): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\MovimientosController.php(21): App\Models\MovimientosModel->getMovimientos()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MovimientosController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MovimientosController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
