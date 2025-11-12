@@ -116,7 +116,7 @@
             <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
                 <div>
                     <a href="<?= site_url('libro/' . $libro['id']) ?>" class="btn-cancel">Cancelar</a>
-                    <button type="submit" class="btn-submit">Guardar Cambios</button>
+                    <button type="button" class="btn-submit" onclick="confirmSave()">Guardar Cambios</button>
                 </div>
             </div>
         </form>
@@ -326,9 +326,22 @@ window.confirmDelete = function() {
 // ===============================
 // POPUP ÉXITO AL GUARDAR
 // ===============================
+window.confirmSave = function() {
+    const overlay = document.getElementById('successPopupOverlay');
+    const confirmBtn = document.getElementById('saveConfirm');
+
+    overlay.classList.add('active');
+
+    confirmBtn.onclick = () => {
+        // Enviar el formulario
+        document.getElementById('bookForm').submit();
+    };
+};
+
+// Interceptar el submit del formulario para mostrar el popup
 document.getElementById('bookForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    showSuccessPopup();
+    confirmSave();
 });
 
 function showSuccessPopup() {
@@ -338,8 +351,8 @@ function showSuccessPopup() {
 }
 
 function redirectToHome() {
-    const form = document.getElementById('bookForm');
-    form.submit();
+    // Ya no necesitamos esta función porque la redirección es automática
+    window.location.href = '<?= base_url('/') ?>';
 }
 
 // ===============================
@@ -376,15 +389,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-<div id="successPopup" class="popup-overlay" style="display: none;">
-    <div class="popup-container">
-        <div class="popup-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <h2 class="popup-title">¡Éxito!</h2>
-        <p class="popup-message">Libro subido correctamente</p>
-        <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
+<!-- Popup para GUARDAR CAMBIOS -->
+<div id="successPopupOverlay" class="popup-overlay">
+  <div class="popup success">
+    <div class="popup-icon">✅</div>
+    <h3 class="popup-title">¡Libro actualizado!</h3>
+    <p class="popup-message">Los cambios se guardaron correctamente.</p>
+    <div class="popup-buttons">
+      <button id="saveConfirm" class="popup-btn confirm">Aceptar</button>
     </div>
+  </div>
 </div>
 <!-- Popup para BORRAR -->
 <div id="deletePopupOverlay" class="popup-overlay">

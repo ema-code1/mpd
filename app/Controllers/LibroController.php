@@ -383,11 +383,25 @@ public function actualizar($id)
     }
 
     // Actualizar el libro
-    if ($libroModel->update($id, $data)) {
-        return redirect()->to('/')->with('success', 'Libro actualizado correctamente');
-    } else {
-        return redirect()->back()->with('error', 'Error al actualizar el libro')->withInput();
+if ($libroModel->update($id, $data)) {
+    // Si es una petición AJAX, devolver JSON
+    if ($this->request->isAJAX()) {
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Libro actualizado correctamente'
+        ]);
     }
+    // Si no es AJAX, redirigir normalmente
+    return redirect()->to('/')->with('success', 'Libro actualizado correctamente');
+} else {
+    if ($this->request->isAJAX()) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Error al actualizar el libro'
+        ]);
+    }
+    return redirect()->back()->with('error', 'Error al actualizar el libro')->withInput();
+}
 }
 
     // Función para eliminar el libro
