@@ -113,7 +113,7 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" class="btn-delete" onclick="confirmDelete('<?= base_url('libros/delete/' . $libro['id']) ?>')">Borrar Libro</button>
+            <button type="button" class="btn-delete" onclick="confirmDelete()">Borrar Libro</button>
                 <div>
                     <a href="<?= site_url('libro/' . $libro['id']) ?>" class="btn-cancel">Cancelar</a>
                     <button type="submit" class="btn-submit">Guardar Cambios</button>
@@ -128,205 +128,204 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dragDropArea = document.getElementById('dragDropArea');
-        const browseButton = document.getElementById('browseButton');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-        let uploadedFiles = [];
-        let fileCounter = 0;
+document.addEventListener('DOMContentLoaded', function() {
+    const dragDropArea = document.getElementById('dragDropArea');
+    const browseButton = document.getElementById('browseButton');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    let uploadedFiles = [];
+    let fileCounter = 0;
 
-        // Configurar el input file para selección múltiple
-        fileInput.setAttribute('multiple', 'multiple');
+    fileInput.setAttribute('multiple', 'multiple');
 
-        // Solo el botón de "Buscar" abre el file explorer
-        browseButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            fileInput.click();
-        });
+    browseButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        fileInput.click();
+    });
 
-        // Configurar eventos de drag and drop
-        dragDropArea.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.classList.add('dragover');
-        });
+    dragDropArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.add('dragover');
+    });
 
-        dragDropArea.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.classList.remove('dragover');
-        });
+    dragDropArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('dragover');
+    });
 
-        dragDropArea.addEventListener('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.classList.remove('dragover');
-            
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                processFiles(files);
-            }
-        });
-
-        // Manejar selección de archivos desde el input
-        fileInput.addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (files.length > 0) {
-                processFiles(files);
-            }
-            // Resetear el input
-            this.value = '';
-        });
-
-        function processFiles(files) {
-            // Convertir FileList a array
-            const newFiles = Array.from(files);
-            
-            // Verificar límite de archivos
-            if (uploadedFiles.length + newFiles.length > 2) {
-                alert('Solo puedes subir hasta 2 fotos');
-                return;
-            }
-
-            newFiles.forEach(file => {
-                // Validaciones
-                if (file.size > 20 * 1024 * 1024) {
-                    alert(`El archivo ${file.name} excede el tamaño máximo de 20MB`);
-                    return;
-                }
-
-                if (!file.type.startsWith('image/')) {
-                    alert(`El archivo ${file.name} no es una imagen válida`);
-                    return;
-                }
-
-                // Agregar archivo
-                uploadedFiles.push(file);
-                displayFile(file);
-            });
-
-            updateHiddenInputs();
-        }
-
-        function displayFile(file) {
-            const fileId = `file-${fileCounter++}`;
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            fileItem.id = fileId;
-
-            const fileSize = formatFileSize(file.size);
-            
-            fileItem.innerHTML = `
-                <div class="file-icon">
-                    <i class="fas fa-file-image"></i>
-                </div>
-                <div class="file-info">
-                    <div class="file-name">${file.name}</div>
-                    <div class="file-size">${fileSize}</div>
-                    <div class="file-progress">
-                        <div class="progress-bar"></div>
-                    </div>
-                </div>
-                <button type="button" class="file-remove" data-file-id="${fileId}" data-file-name="${file.name}">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            fileList.appendChild(fileItem);
-
-            // Event listener para eliminar
-            const removeButton = fileItem.querySelector('.file-remove');
-            removeButton.addEventListener('click', function() {
-                removeFile(fileId, this.getAttribute('data-file-name'));
-            });
-
-            // Simular progreso
-            simulateUploadProgress(fileItem);
-        }
-
-        function simulateUploadProgress(fileItem) {
-            const progressBar = fileItem.querySelector('.progress-bar');
-            let width = 0;
-            
-            const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    fileItem.querySelector('.file-progress').style.display = 'none';
-                } else {
-                    width += Math.random() * 20;
-                    progressBar.style.width = Math.min(width, 100) + '%';
-                }
-            }, 100);
-        }
-
-        function removeFile(fileId, fileName) {
-            // Remover de la vista
-            const fileElement = document.getElementById(fileId);
-            if (fileElement) {
-                fileElement.remove();
-            }
-
-            // Remover del array
-            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-            
-            // Actualizar inputs ocultos
-            updateHiddenInputs();
-        }
-
-        function updateHiddenInputs() {
-            // Crear nuevos DataTransfer objects
-            const dt1 = new DataTransfer();
-            const dt2 = new DataTransfer();
-
-            // Agregar archivos a los DataTransfer objects
-            if (uploadedFiles.length > 0) dt1.items.add(uploadedFiles[0]);
-            if (uploadedFiles.length > 1) dt2.items.add(uploadedFiles[1]);
-
-            // Asignar los files a los inputs ocultos
-            document.getElementById('hiddenfoto1').files = dt1.files;
-            document.getElementById('hiddenfoto2').files = dt2.files;
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(1024));
-            return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    dragDropArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            processFiles(files);
         }
     });
 
-    // FUNCIONES GLOBALES - Fuera del DOMContentLoaded
-    function eliminarImagen(index) {
-        console.log('Eliminando imagen índice:', index);
-        
-        // Ocultar la imagen inmediatamente
-        const previews = document.querySelectorAll('.image-preview');
-        if (previews[index]) {
-            previews[index].style.display = 'none';
-            console.log('Imagen ocultada');
+    fileInput.addEventListener('change', function(e) {
+        const files = e.target.files;
+        if (files.length > 0) {
+            processFiles(files);
         }
+        this.value = '';
+    });
+
+    function processFiles(files) {
+        const newFiles = Array.from(files);
         
-        // Crear input hidden para indicar al servidor qué imagen eliminar
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'eliminarImagenes[]';
-        hiddenInput.value = index;
-        
-        // Agregar el input al formulario
-        document.getElementById('bookForm').appendChild(hiddenInput);
-        console.log('Input hidden creado con valor:', index);
+        if (uploadedFiles.length + newFiles.length > 2) {
+            alert('Solo puedes subir hasta 2 fotos');
+            return;
+        }
+
+        newFiles.forEach(file => {
+            if (file.size > 20 * 1024 * 1024) {
+                alert(`El archivo ${file.name} excede el tamaño máximo de 20MB`);
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert(`El archivo ${file.name} no es una imagen válida`);
+                return;
+            }
+
+            uploadedFiles.push(file);
+            displayFile(file);
+        });
+
+        updateHiddenInputs();
     }
 
-    function confirmDelete() {
-        if (confirm('¿Estás seguro de que deseas eliminar este libro? Esta acción no se puede deshacer.')) {
-            document.getElementById('deleteForm').submit();
-        }
+    function displayFile(file) {
+        const fileId = `file-${fileCounter++}`;
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.id = fileId;
+
+        const fileSize = formatFileSize(file.size);
+        
+        fileItem.innerHTML = `
+            <div class="file-icon">
+                <i class="fas fa-file-image"></i>
+            </div>
+            <div class="file-info">
+                <div class="file-name">${file.name}</div>
+                <div class="file-size">${fileSize}</div>
+                <div class="file-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <button type="button" class="file-remove" data-file-id="${fileId}" data-file-name="${file.name}">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        fileList.appendChild(fileItem);
+
+        const removeButton = fileItem.querySelector('.file-remove');
+        removeButton.addEventListener('click', function() {
+            removeFile(fileId, this.getAttribute('data-file-name'));
+        });
+
+        simulateUploadProgress(fileItem);
     }
 
+    function simulateUploadProgress(fileItem) {
+        const progressBar = fileItem.querySelector('.progress-bar');
+        let width = 0;
+        
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                fileItem.querySelector('.file-progress').style.display = 'none';
+            } else {
+                width += Math.random() * 20;
+                progressBar.style.width = Math.min(width, 100) + '%';
+            }
+        }, 100);
+    }
 
-// SOLO ESTO en el script
+    function removeFile(fileId, fileName) {
+        const fileElement = document.getElementById(fileId);
+        if (fileElement) {
+            fileElement.remove();
+        }
+
+        uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+        updateHiddenInputs();
+    }
+
+    function updateHiddenInputs() {
+        const dt1 = new DataTransfer();
+        const dt2 = new DataTransfer();
+
+        if (uploadedFiles.length > 0) dt1.items.add(uploadedFiles[0]);
+        if (uploadedFiles.length > 1) dt2.items.add(uploadedFiles[1]);
+
+        document.getElementById('hiddenfoto1').files = dt1.files;
+        document.getElementById('hiddenfoto2').files = dt2.files;
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    }
+});
+
+// ===============================
+// FUNCIONES GLOBALES
+// ===============================
+function eliminarImagen(index) {
+    console.log('Eliminando imagen índice:', index);
+    
+    const previews = document.querySelectorAll('.image-preview');
+    if (previews[index]) {
+        previews[index].style.display = 'none';
+        console.log('Imagen ocultada');
+    }
+    
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'eliminarImagenes[]';
+    hiddenInput.value = index;
+    
+    document.getElementById('bookForm').appendChild(hiddenInput);
+    console.log('Input hidden creado con valor:', index);
+}
+
+// ===============================
+// POPUP BORRAR LIBRO - VERSIÓN CORRECTA
+// ===============================
+window.confirmDelete = function() {
+    const overlay = document.getElementById('deletePopupOverlay');
+    const confirmBtn = document.getElementById('deleteConfirm');
+    const cancelBtn = document.getElementById('deleteCancel');
+
+    overlay.classList.add('active');
+
+    confirmBtn.onclick = () => {
+        // Usar el formulario oculto para hacer POST
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.submit();
+    };
+
+    cancelBtn.onclick = () => overlay.classList.remove('active');
+
+    overlay.onclick = (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+    };
+};
+
+// ===============================
+// POPUP ÉXITO AL GUARDAR
+// ===============================
 document.getElementById('bookForm').addEventListener('submit', function(e) {
     e.preventDefault();
     showSuccessPopup();
@@ -339,67 +338,43 @@ function showSuccessPopup() {
 }
 
 function redirectToHome() {
-    // Enviar formulario de forma tradicional
     const form = document.getElementById('bookForm');
     form.submit();
 }
 
 // ===============================
-// POPUP BORRAR LIBRO
-// ===============================
-window.confirmDelete = function (deleteUrl) {
-  const overlay = document.getElementById('deletePopupOverlay');
-  const confirmBtn = document.getElementById('deleteConfirm');
-  const cancelBtn = document.getElementById('deleteCancel');
-
-  overlay.classList.add('active');
-
-  confirmBtn.onclick = () => {
-    window.location.href = deleteUrl; // redirige a tu ruta base_url('delete/id')
-  };
-
-  cancelBtn.onclick = () => overlay.classList.remove('active');
-
-  overlay.onclick = (e) => {
-    if (e.target === overlay) overlay.classList.remove('active');
-  };
-};
-
-// ===============================
 // POPUP CANCELAR EDICIÓN
 // ===============================
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.querySelector('form'); // tu formulario principal
-  const cancelBtn = document.querySelector('.btn-cancel');
-  const overlay = document.getElementById('cancelPopupOverlay');
-  const confirmExit = document.getElementById('cancelConfirm');
-  const abortExit = document.getElementById('cancelAbort');
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const cancelBtn = document.querySelector('.btn-cancel');
+    const overlay = document.getElementById('cancelPopupOverlay');
+    const confirmExit = document.getElementById('cancelConfirm');
+    const abortExit = document.getElementById('cancelAbort');
 
-  let formChanged = false;
+    let formChanged = false;
 
-  // Detecta si el usuario cambió algo
-  form.addEventListener('input', () => {
-    formChanged = true;
-  });
+    form.addEventListener('input', () => {
+        formChanged = true;
+    });
 
-  cancelBtn.addEventListener('click', (e) => {
-    if (formChanged) {
-      e.preventDefault();
-      overlay.classList.add('active');
-    } // Si no cambió nada, deja que el link funcione normal
-  });
+    cancelBtn.addEventListener('click', (e) => {
+        if (formChanged) {
+            e.preventDefault();
+            overlay.classList.add('active');
+        }
+    });
 
-  confirmExit.addEventListener('click', () => {
-    window.location.href = cancelBtn.getAttribute('href');
-  });
+    confirmExit.addEventListener('click', () => {
+        window.location.href = cancelBtn.getAttribute('href');
+    });
 
-  abortExit.addEventListener('click', () => overlay.classList.remove('active'));
+    abortExit.addEventListener('click', () => overlay.classList.remove('active'));
 
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.remove('active');
-  });
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+    });
 });
-
 </script>
 <div id="successPopup" class="popup-overlay" style="display: none;">
     <div class="popup-container">
