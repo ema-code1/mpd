@@ -70,6 +70,7 @@ $servidor="localhost";
 $user="root";
 $password="";
 $db="mpd";
+$data="";
 
 try {
   $conexion = new PDO("mysql:host=$servidor;dbname=$db;charset=utf8", $user, $password);

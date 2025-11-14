@@ -686,3 +686,10 @@ body {
 .dynamic-column.locked th {
   background-color: #ffebee;
 }
+
+/* P/botones + sin stock */
+.btn-quantity.no-stock {
+  background-color: #e0e0e0 !important;
+  cursor: not-allowed !important;
+  opacity: 0.4 !important;
+}
