@@ -98,8 +98,18 @@
     $routes->post('libro/eliminarResena/(:num)', 'LibroController::eliminarResena/$1');
 
 
-    // ir a movimientos
-    $routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
+
+// Movimientos - Ver listado (solo admin)
+$routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
+
+// Movimientos - Procesar compra (compradores)
+$routes->post('movimientos/procesarCompra', 'MovimientosController::procesarCompra');
+
+// Movimientos - Detalles AJAX (admin)
+$routes->get('movimientos/detalles/(:num)', 'MovimientosController::detalles/$1', ['filter' => 'admin']);
+
+// Movimientos - Set payment method (compradores)
+$routes->post('movimientos/set_payment_method', 'MovimientosController::set_payment_method');
 
 
     // 🛠️ OTRAS RUTAS (p/futuro)

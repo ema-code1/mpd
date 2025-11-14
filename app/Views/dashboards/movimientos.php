@@ -22,7 +22,7 @@
     <a href="<?= site_url('stock_spreadsheet')?>"><i class="ti ti-books"></i> Stock</a>
     <a href="<?= site_url('upload_book') ?>"><i class="ti ti-book-upload"></i> Cargar nuevo libro</a>
     <a href="#"><i class="ti ti-shopping-cart"></i> Actividad de compras</a>
-    <a href="#"><i class="ti ti-transfer"></i> Movimientos</a>
+    <a href="<?= site_url('movimientos') ?>"><i class="ti ti-transfer"></i> Movimientos</a>
   </div>
 
     <div class="content">
@@ -33,15 +33,15 @@
             <!-- Estadísticas -->
             <div class="stats-container">
                 <div class="stat-card slide-in">
-                    <div class="stat-value">$<?= number_format($totalVentas, 2) ?></div>
+                    <div class="stat-value">$<?= number_format($totalVentas ?? 0, 2) ?></div>
                     <div class="stat-label">Total en Ventas</div>
                 </div>
                 <div class="stat-card slide-in" style="animation-delay: 0.1s">
-                    <div class="stat-value"><?= count($movimientos) ?></div>
+                    <div class="stat-value"><?= count($movimientos ?? []) ?></div>
                     <div class="stat-label">Transacciones Totales</div>
                 </div>
                 <div class="stat-card slide-in" style="animation-delay: 0.2s">
-                    <div class="stat-value"><?= count($ventasPorMes) ?></div>
+                    <div class="stat-value"><?= count($ventasPorMes ?? []) ?></div>
                     <div class="stat-label">Meses con Actividad</div>
                 </div>
             </div>
@@ -53,35 +53,43 @@
                         <tr>
                             <th class="col-id">ID Venta</th>
                             <th class="col-comprador">Comprador</th>
-                            <th class="col-metodo">Método de Pago</th> <!-- NUEVA COLUMNA -->
+                            <th class="col-metodo">Método de Pago</th>
+                            <th class="col-estado">Estado</th>
                             <th class="col-monto">Monto</th>
                             <th class="col-fecha">Fecha Pago</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($movimientos as $movimiento): ?>
-                        <tr class="slide-in" 
-                            data-libro="<?= esc($movimiento['libro_titulo']) ?>" 
-                            data-cantidad="<?= $movimiento['cantidad'] ?>"
-                            data-libro-id="<?= $movimiento['libro_id'] ?>">
-                            <td>#<?= $movimiento['venta_id'] ?></td>
+                        <?php 
+                        $movimientos = $movimientos ?? [];
+                        foreach ($movimientos as $mov): 
+                        ?>
+                        <tr class="slide-in venta-row" data-venta-id="<?= $mov['venta_id'] ?>">
+                            <td>#<?= $mov['venta_id'] ?></td>
                             <td>
-                                <strong><?= esc($movimiento['comprador_nombre']) ?></strong>
-                                <br><small>ID: <?= $movimiento['comprador_id'] ?></small>
+                                <strong><?= esc($mov['comprador']) ?></strong>
+                                <br><small>ID: <?= $mov['comprador_id'] ?></small>
                             </td>
                             <td class="col-metodo">
                                 <?php 
-                                $metodo = $movimiento['metodo_pago'] ?? 'efectivo';
+                                $metodo = $mov['met_pago'] ?? 'efectivo';
                                 $badgeClass = $metodo === 'transferencia' ? 'badge-info' : 'badge-warning';
                                 $text = $metodo === 'transferencia' ? 'Transferencia' : 'Efectivo';
                                 ?>
                                 <span class="badge <?= $badgeClass ?>"><?= $text ?></span>
                             </td>
+                            <td>
+                                <?php 
+                                $estado = $mov['estado'] ?? 'completada';
+                                $estadoBadge = $estado === 'completada' ? 'badge-success' : 'badge-warning';
+                                ?>
+                                <span class="badge <?= $estadoBadge ?>"><?= ucfirst($estado) ?></span>
+                            </td>
                             <td class="col-monto monto-positivo">
-                                $<?= number_format($movimiento['monto_venta'], 2) ?>
+                                $<?= number_format($mov['total_venta'], 2) ?>
                             </td>
                             <td class="col-fecha">
-                                <?= date('d/m/Y', strtotime($movimiento['fecha_de_pago'])) ?>
+                                <?= date('d/m/Y', strtotime($mov['fecha_de_pago'])) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -101,6 +109,7 @@
             <?php endif; ?>
         </div>
     </div>
+    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const rows = document.querySelectorAll('.excel-table tr');
@@ -134,14 +143,94 @@
                 row.style.display = text.includes(searchTerm) ? '' : 'none';
             });
         });
-    });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-    const tooltip = document.getElementById('row-tooltip');
-    const rows = document.querySelectorAll('.excel-table tbody tr');
-    
 
-});
-</script>
+        // ============================================
+        // TOOLTIP CON DETALLES DE LA VENTA (AJAX)
+        // ============================================
+        const tooltip = document.getElementById('row-tooltip');
+        const ventaRows = document.querySelectorAll('.venta-row');
+        let currentVentaId = null;
+        let tooltipTimeout = null;
+
+        ventaRows.forEach(row => {
+            row.addEventListener('mouseenter', function(e) {
+                const ventaId = this.dataset.ventaId;
+                
+                // Cancelar timeout anterior
+                if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                
+                // Mostrar tooltip con "Cargando..."
+                tooltip.innerHTML = '<div class="tooltip-title">Detalles de la venta #' + ventaId + '</div><div class="tooltip-loading">Cargando...</div>';
+                tooltip.classList.add('active');
+                
+                // Posicionar tooltip
+                positionTooltip(e);
+                
+                // Cargar detalles si es necesario
+                if (currentVentaId !== ventaId) {
+                    currentVentaId = ventaId;
+                    loadDetalles(ventaId);
+                }
+            });
+
+            row.addEventListener('mousemove', function(e) {
+                positionTooltip(e);
+            });
+
+            row.addEventListener('mouseleave', function() {
+                // Delay para ocultar tooltip
+                tooltipTimeout = setTimeout(() => {
+                    tooltip.classList.remove('active');
+                    currentVentaId = null;
+                }, 300);
+            });
+        });
+
+        function positionTooltip(e) {
+            const offsetX = 15;
+            const offsetY = 15;
+            
+            let left = e.pageX + offsetX;
+            let top = e.pageY + offsetY;
+            
+            // Evitar que se salga de la pantalla
+            const tooltipRect = tooltip.getBoundingClientRect();
+            if (left + tooltipRect.width > window.innerWidth) {
+                left = e.pageX - tooltipRect.width - offsetX;
+            }
+            if (top + tooltipRect.height > window.innerHeight) {
+                top = e.pageY - tooltipRect.height - offsetY;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        function loadDetalles(ventaId) {
+            fetch('<?= base_url('movimientos/detalles') ?>/' + ventaId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        let html = '<div class="tooltip-title">Detalles de la venta #' + ventaId + '</div>';
+                        data.forEach(item => {
+                            html += '<div class="tooltip-item">';
+                            html += '<strong>' + item.titulo + '</strong><br>';
+                            html += 'Cantidad: ' + item.cantidad + ' | ';
+                            html += 'Precio unitario: $' + parseFloat(item.precio_unitario).toFixed(2) + '<br>';
+                            html += 'Subtotal: $' + parseFloat(item.subtotal).toFixed(2);
+                            html += '</div>';
+                        });
+                        tooltip.innerHTML = html;
+                    } else {
+                        tooltip.innerHTML = '<div class="tooltip-title">Detalles de la venta #' + ventaId + '</div><div class="tooltip-error">No se encontraron detalles</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error cargando detalles:', error);
+                    tooltip.innerHTML = '<div class="tooltip-title">Detalles de la venta #' + ventaId + '</div><div class="tooltip-error">Error al cargar detalles</div>';
+                });
+        }
+    });
+    </script>
 </body>
 </html>
