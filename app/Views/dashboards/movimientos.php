@@ -57,6 +57,7 @@
                             <th class="col-estado">Estado</th>
                             <th class="col-monto">Monto</th>
                             <th class="col-fecha">Fecha Pago</th>
+                            <th class="col-detalles">Detalles</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,6 +92,11 @@
                             <td class="col-fecha">
                                 <?= date('d/m/Y', strtotime($mov['fecha_de_pago'])) ?>
                             </td>
+                            <td class="col-detalles">
+                                <button class="btn-detalles" data-venta-id="<?= $mov['venta_id'] ?>">
+                                    <i class="fas fa-eye"></i> Ver Detalles
+                                </button>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -99,6 +105,19 @@
 
             <!-- Tooltip que sigue al cursor -->
             <div id="row-tooltip" class="row-tooltip"></div>
+
+            <!-- Modal para detalles de compra -->
+            <div id="modal-detalles" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Detalles de la Compra</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body" id="modal-detalles-body">
+                        <!-- Los detalles se cargarán aquí via AJAX -->
+                    </div>
+                </div>
+            </div>
 
             <?php if (empty($movimientos)): ?>
                 <div style="text-align: center; padding: 3rem; color: #666;">
@@ -143,6 +162,109 @@
                 row.style.display = text.includes(searchTerm) ? '' : 'none';
             });
         });
+
+        // ============================================
+        // MODAL PARA DETALLES DE COMPRA
+        // ============================================
+        const modal = document.getElementById('modal-detalles');
+        const modalBody = document.getElementById('modal-detalles-body');
+        const closeModal = document.querySelector('.close-modal');
+        const detallesButtons = document.querySelectorAll('.btn-detalles');
+
+        // Abrir modal al hacer clic en botón de detalles
+        detallesButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const ventaId = this.dataset.ventaId;
+                cargarDetallesModal(ventaId);
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Cerrar modal
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Función para cargar detalles en el modal
+        function cargarDetallesModal(ventaId) {
+            modalBody.innerHTML = `
+                <div class="loading-details">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Cargando detalles de la compra...</p>
+                </div>
+            `;
+
+            fetch('<?= base_url('movimientos/detalles') ?>/' + ventaId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        let html = `
+                            <div class="detalles-header">
+                                <h3>Venta #${ventaId}</h3>
+                                <p class="detalles-subtitle">${data.length} producto(s) en esta compra</p>
+                            </div>
+                            <div class="detalles-lista">
+                        `;
+                        
+                        let totalCompra = 0;
+                        
+                        data.forEach(item => {
+                            const subtotal = parseFloat(item.subtotal);
+                            totalCompra += subtotal;
+                            
+                            html += `
+                                <div class="detalle-item">
+                                    <div class="detalle-info">
+                                        <strong class="detalle-titulo">${item.titulo}</strong>
+                                        <div class="detalle-datos">
+                                            <span>Cantidad: ${item.cantidad}</span>
+                                            <span>Precio unitario: $${parseFloat(item.precio_unitario).toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="detalle-subtotal">
+                                        $${subtotal.toFixed(2)}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `
+                            </div>
+                            <div class="detalles-total">
+                                <strong>Total de la compra: $${totalCompra.toFixed(2)}</strong>
+                            </div>
+                        `;
+                        
+                        modalBody.innerHTML = html;
+                    } else {
+                        modalBody.innerHTML = `
+                            <div class="detalles-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <p>No se encontraron detalles para esta compra.</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error cargando detalles:', error);
+                    modalBody.innerHTML = `
+                        <div class="detalles-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error al cargar los detalles de la compra.</p>
+                        </div>
+                    `;
+                });
+        }
 
         // ============================================
         // TOOLTIP CON DETALLES DE LA VENTA (AJAX)

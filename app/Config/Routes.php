@@ -113,9 +113,21 @@ $routes->get('movimientos/detalles/(:num)', 'MovimientosController::detalles/$1'
 $routes->post('movimientos/set_payment_method', 'MovimientosController::set_payment_method');
 
 
-    // 🛠️ OTRAS RUTAS (p/futuro)
-    // $routes->get('home', 'Home::index'); // ya está en (:any)
+// ===== CHECKOUT =====
+$routes->get('checkout', 'CheckoutController::index');
+$routes->post('cart/checkout', 'CheckoutController::procesar');
+$routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
 
+// ===== CHECKOUT (GET) =====
+$routes->get('checkout', 'CheckoutController::index');
+$routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
+
+// ===== CART CHECKOUT (POST) =====
+$routes->post('cart/checkout', 'CheckoutController::procesar');
+
+// ===== API CHECKOUT =====
+$routes->post('api/checkout/crear', 'ApiCheckoutController::crear');
+$routes->get('api/checkout/detalle/(:num)', 'ApiCheckoutController::detalle/$1');
     // -----------------------------
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------
