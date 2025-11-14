@@ -123,6 +123,39 @@ class StockController extends Controller
             ]);
         }
 
+        // 📦 VALIDACIÓN DE STOCK PARA EGRESOS
+        if ($columna['tipo'] === 'egreso' && $delta > 0) {
+            // Calcular el stock actual del libro
+            $stockActual = $this->recalcularStockTotal($libroId);
+            
+            // Verificar si hay suficiente stock para el egreso
+            if ($stockActual <= 0) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'No hay stock disponible para este libro. Stock actual: 0'
+                ]);
+            }
+            
+            // Si intentamos agregar un egreso, verificar que no exceda el stock disponible
+            $row = $this->db->table('stock_values')
+                ->where(['column_id' => $colId, 'libro_id' => $libroId])
+                ->get()
+                ->getRowArray();
+            
+            $valorActualEgreso = $row ? (int)$row['cantidad'] : 0;
+            $nuevoValorEgreso = $valorActualEgreso + $delta;
+            
+            // Calcular el stock resultante si aplicamos este egreso
+            $stockResultante = $stockActual - $delta;
+            
+            if ($stockResultante < 0) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => "No se puede agregar este egreso. Stock disponible: {$stockActual}"
+                ]);
+            }
+        }
+
         // Leer fila actual
         $svTable = $this->db->table('stock_values');
         $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();

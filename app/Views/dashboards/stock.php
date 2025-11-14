@@ -159,9 +159,24 @@
           </tbody>
         </table>
       </div>
-
     </div>
   </div>
+
+  // Bloquear botones + de egresos
+  <?php 
+$esEgreso = $col['tipo'] === 'egreso';
+$stockDisponible = (int)$libro['stock'];
+$deshabilitarMas = $esEgreso && $stockDisponible <= 0;
+?>
+
+<button ... 
+    class="btn-quantity plus-btn <?= $deshabilitarMas ? 'no-stock' : '' ?>"
+    data-tipo="<?= $col['tipo'] ?>"
+    data-stock="<?= $stockDisponible ?>"
+    <?= ($col['bloqueado'] || $deshabilitarMas) ? 'disabled' : '' ?>
+    title="<?= $deshabilitarMas ? 'Sin stock disponible' : '' ?>">
++
+</button>
 
   <script>
     // DEBUG: Verificar que el JavaScript se carga
@@ -469,6 +484,31 @@
         }, 100);
       }
     });
+
+    //Botones sin Stock
+    function updateEgresoButtons(libroId, nuevoStock) {
+  const egresoButtons = document.querySelectorAll(
+    `.plus-btn[data-libro-id="${libroId}"][data-tipo="egreso"]`
+  );
+  
+  egresoButtons.forEach(btn => {
+    if (nuevoStock <= 0) {
+      btn.disabled = true;
+      btn.classList.add('no-stock');
+      btn.title = 'Sin stock disponible';
+    } else {
+      // Habilitar solo si la columna no está bloqueada
+      const column = btn.closest('.dynamic-column');
+      const isBloqueada = column.getAttribute('data-bloqueado') === '1';
+      
+      if (!isBloqueada) {
+        btn.disabled = false;
+        btn.classList.remove('no-stock');
+        btn.title = '';
+      }
+    }
+  });
+}
   </script>
 
 </body>
