@@ -85,18 +85,19 @@
         </form>
         <div class="form-buttons">
             <a href="<?= site_url('admin') ?>" class="btn-cancel">Cancelar</a>
-            <button type="submit" class="btn-submit">Guardar Libro</button>
+            <button type="button" class="btn-submit" onclick="confirmSave()">Guardar Libro</button>
         </div>
     </div>
-    <div id="successPopup" class="popup-overlay" style="display: none;">
-    <div class="popup-container">
-        <div class="popup-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <h2 class="popup-title">¡Éxito!</h2>
-        <p class="popup-message">Libro subido correctamente</p>
-        <button class="popup-button" onclick="redirectToHome()">Ir al inicio</button>
+    <!-- Popup para GUARDAR LIBRO -->
+<div id="successPopupOverlay" class="popup-overlay" style="display: none;">
+  <div class="popup success">
+    <div class="popup-icon">✅</div>
+    <h3 class="popup-title">¡Libro cargado!</h3>
+    <p class="popup-message">El libro se guardará en la base de datos.</p>
+    <div class="popup-buttons">
+      <button id="saveConfirm" class="popup-btn confirm">Guardar</button>
     </div>
+  </div>
 </div>
 
 <!-- Popup de confirmación para CANCELAR -->
@@ -286,23 +287,27 @@
         }
     });
 
-// SOLO ESTO en el script
+// ===============================
+// POPUP ÉXITO AL GUARDAR
+// ===============================
+window.confirmSave = function() {
+    const overlay = document.getElementById('successPopupOverlay');
+    const confirmBtn = document.getElementById('saveConfirm');
+
+    overlay.style.display = 'flex';
+    overlay.classList.add('active');
+
+    confirmBtn.onclick = () => {
+        // Enviar el formulario
+        document.getElementById('bookForm').submit();
+    };
+};
+
+// Interceptar el submit del formulario para mostrar el popup
 document.getElementById('bookForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    showSuccessPopup();
+    confirmSave();
 });
-
-function showSuccessPopup() {
-    const popup = document.getElementById('successPopup');
-    popup.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function redirectToHome() {
-    // Enviar formulario de forma tradicional
-    const form = document.getElementById('bookForm');
-    form.submit();
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('form'); // tu formulario principal

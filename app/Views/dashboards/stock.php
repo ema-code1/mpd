@@ -9,6 +9,7 @@
     <title>Libros - Tabla tipo Excel</title>
     <link rel="stylesheet" href="<?= base_url('styles/stock.css') ?>">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
 </head>
 <body>
 
@@ -73,7 +74,9 @@
           <div class="scrollable-columns" id="scrollable-columns">
             <?php if (!empty($cols)): ?>
               <?php foreach ($cols as $col): ?>
-                <table class="excel-table dynamic-column <?= $col['tipo'] ?>-column" data-column-id="<?= $col['id'] ?>">
+                <table class="excel-table dynamic-column <?= $col['tipo'] ?>-column <?= $col['bloqueado'] ? 'locked' : '' ?>" 
+                       data-column-id="<?= $col['id'] ?>" 
+                       data-bloqueado="<?= $col['bloqueado'] ?>">
                   <thead>
                     <tr>
                       <th>
@@ -82,6 +85,13 @@
                             <?= htmlspecialchars($col['name']) ?>
                           </span>
                           <div class="column-actions">
+                            <!-- 🔒 BOTÓN DE CANDADO -->
+                            <button class="lock-btn <?= $col['bloqueado'] ? 'locked' : '' ?>" 
+                                    data-column-id="<?= $col['id'] ?>"
+                                    title="<?= $col['bloqueado'] ? 'Desbloquear columna' : 'Bloquear columna' ?>">
+                              <i class="<?= $col['bloqueado'] ? 'ti ti-lock' : 'ti ti-lock-open' ?>"></i>
+                            </button>
+                            
                             <button class="column-menu-btn" data-column-id="<?= $col['id'] ?>">
                               <i class="ti ti-dots-vertical"></i>
                             </button>
@@ -106,12 +116,14 @@
                           <div class="quantity-control">
                             <button type="button" class="btn-quantity minus-btn" 
                                     data-column-id="<?= $col['id'] ?>" 
-                                    data-libro-id="<?= $libro['id'] ?>">-</button>
+                                    data-libro-id="<?= $libro['id'] ?>"
+                                    <?= $col['bloqueado'] ? 'disabled' : '' ?>>-</button>
                             <input type="number" class="quantity-input" 
                                    value="<?= $valor ?>" min="0" readonly>
                             <button type="button" class="btn-quantity plus-btn" 
                                     data-column-id="<?= $col['id'] ?>" 
-                                    data-libro-id="<?= $libro['id'] ?>">+</button>
+                                    data-libro-id="<?= $libro['id'] ?>"
+                                    <?= $col['bloqueado'] ? 'disabled' : '' ?>>+</button>
                           </div>
                         </td>
                       </tr>
@@ -158,6 +170,16 @@
     // Manejar botones de cantidad - VERSIÓN SIMPLIFICADA
     document.addEventListener('click', function(e) {
       console.log('Click detected:', e.target);
+      
+      // 🔒 BOTÓN DE CANDADO
+      if (e.target.closest('.lock-btn')) {
+        const lockBtn = e.target.closest('.lock-btn');
+        const columnId = lockBtn.dataset.columnId;
+        
+        toggleColumnLock(columnId, lockBtn);
+        e.stopPropagation();
+        return;
+      }
       
       // Botones de cantidad
       if (e.target.classList.contains('btn-quantity')) {
@@ -212,34 +234,119 @@
       }
     });
 
-    // Actualizar cantidad en la base de datos
-    function updateQuantity(columnId, libroId, delta) {
-    fetch('<?= site_url('stock/updateCell') ?>', {
+    // 🔒 FUNCIÓN PARA BLOQUEAR/DESBLOQUEAR COLUMNA
+    function toggleColumnLock(columnId, lockBtn) {
+      fetch('<?= site_url('stock/toggleLock') ?>', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `column_id=${columnId}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'ok') {
+          const column = document.querySelector(`.dynamic-column[data-column-id="${columnId}"]`);
+          const icon = lockBtn.querySelector('i');
+          
+          if (data.bloqueado === 1) {
+            // Bloquear
+            lockBtn.classList.add('locked');
+            icon.className = 'ti ti-lock';
+            lockBtn.title = 'Desbloquear columna';
+            column.classList.add('locked');
+            column.setAttribute('data-bloqueado', '1');
+            
+            // Deshabilitar botones
+            column.querySelectorAll('.btn-quantity').forEach(btn => {
+              btn.disabled = true;
+            });
+          } else {
+            // Desbloquear
+            lockBtn.classList.remove('locked');
+            icon.className = 'ti ti-lock-open';
+            lockBtn.title = 'Bloquear columna';
+            column.classList.remove('locked');
+            column.setAttribute('data-bloqueado', '0');
+            
+            // Habilitar botones
+            column.querySelectorAll('.btn-quantity').forEach(btn => {
+              btn.disabled = false;
+            });
+          }
+          
+          // Mostrar mensaje
+          showToast(data.message);
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Lock toggle error:', error);
+        alert('Error al cambiar el estado de bloqueo');
+      });
+    }
+
+    // Función auxiliar para mostrar mensajes toast
+    function showToast(message) {
+      // Crear elemento toast si no existe
+      let toast = document.getElementById('toast-message');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-message';
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #333;
+          color: white;
+          padding: 12px 24px;
+          border-radius: 4px;
+          z-index: 10000;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+      }
+      
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2500);
+    }
+
+    // Actualizar cantidad en la base de datos
+    function updateQuantity(columnId, libroId, delta) {
+      fetch('<?= site_url('stock/updateCell') ?>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: `column_id=${columnId}&libro_id=${libroId}&delta=${delta}`
-    })
-    .then(response => response.json())
-    .then(data => {
+      })
+      .then(response => response.json())
+      .then(data => {
         if (data.status === 'ok') {
-            // 1. Actualizar el input de la celda modificada
-            const inputs = document.querySelectorAll(`.btn-quantity[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
-            inputs.forEach(btn => {
-                const input = btn.closest('.quantity-control').querySelector('.quantity-input');
-                input.value = data.new_value;
-            });
-            
-            // 2. 🔥 ACTUALIZAR EL STOCK EN TIEMPO REAL (usando el valor del backend)
-            const stockElements = document.querySelectorAll(`.stock-value[data-libro-id="${libroId}"]`);
-            stockElements.forEach(element => {
-                element.textContent = data.nuevo_stock; // ← Usar el stock recalculado
-            });
+          // 1. Actualizar el input de la celda modificada
+          const inputs = document.querySelectorAll(`.btn-quantity[data-column-id="${columnId}"][data-libro-id="${libroId}"]`);
+          inputs.forEach(btn => {
+            const input = btn.closest('.quantity-control').querySelector('.quantity-input');
+            input.value = data.new_value;
+          });
+          
+          // 2. ACTUALIZAR EL STOCK EN TIEMPO REAL (usando el valor del backend)
+          const stockElements = document.querySelectorAll(`.stock-value[data-libro-id="${libroId}"]`);
+          stockElements.forEach(element => {
+            element.textContent = data.nuevo_stock;
+          });
+        } else if (data.status === 'error') {
+          alert(data.message);
         }
-    })
-    .catch(error => console.error('Error:', error));
-}
+      })
+      .catch(error => console.error('Error:', error));
+    }
 
     // Actualizar display del stock
     function updateStockDisplay(libroId) {
@@ -289,29 +396,28 @@
     });
 
     // Listener para "Agregar Egreso"
-document.getElementById('add-egreso-btn').addEventListener('click', function() {
-  const name = prompt('Nombre del egreso:', 'Egreso ' + new Date().toLocaleDateString());
-  if (!name) return;
+    document.getElementById('add-egreso-btn').addEventListener('click', function() {
+      const name = prompt('Nombre del egreso:', 'Egreso ' + new Date().toLocaleDateString());
+      if (!name) return;
 
-  fetch('<?= site_url('stock/createColumn') ?>', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `name=${encodeURIComponent(name)}&tipo=egreso`
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'ok') {
-      location.reload();
-    } else {
-      alert('Error al crear la columna: ' + (data.message || 'error desconocido'));
-    }
-  })
-  .catch(err => {
-    console.error('Create egreso error:', err);
-    alert('Error de conexión al crear la columna (egreso)');
-  });
-});
-
+      fetch('<?= site_url('stock/createColumn') ?>', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${encodeURIComponent(name)}&tipo=egreso`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'ok') {
+          location.reload();
+        } else {
+          alert('Error al crear la columna: ' + (data.message || 'error desconocido'));
+        }
+      })
+      .catch(err => {
+        console.error('Create egreso error:', err);
+        alert('Error de conexión al crear la columna (egreso)');
+      });
+    });
 
     // Eliminar columna
     function deleteColumn(columnId) {
