@@ -87,6 +87,7 @@
     $routes->post('stock/updateCell', 'StockController::updateCell');
     $routes->post('stock/getStock', 'StockController::getStock');
     $routes->post('stock/deleteColumn', 'StockController::deleteColumn');
+    $routes->post('stock/toggleLock', 'StockController::toggleLock'); // 🔒 NUEVA RUTA
 
     $routes->get('/perfil', 'Perfil::index');
     $routes->post('/perfil/actualizar', 'Perfil::actualizar');

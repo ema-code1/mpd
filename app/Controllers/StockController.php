@@ -66,6 +66,7 @@ class StockController extends Controller
         $this->db->table('stock_columns')->insert([
             'name' => $name,
             'tipo' => $tipo,
+            'bloqueado' => 0, // Columna nueva siempre desbloqueada
             'created_at' => date('Y-m-d H:i:s')
         ]);
         $colId = $this->db->insertID();
@@ -103,60 +104,103 @@ class StockController extends Controller
     }
 
     public function updateCell()
-{
-    $request = Services::request();
-    $colId = (int)$request->getPost('column_id');
-    $libroId = (int)$request->getPost('libro_id');
-    $delta = (int)$request->getPost('delta');
+    {
+        $request = Services::request();
+        $colId = (int)$request->getPost('column_id');
+        $libroId = (int)$request->getPost('libro_id');
+        $delta = (int)$request->getPost('delta');
 
-    // Leer fila actual
-    $svTable = $this->db->table('stock_values');
-    $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();
+        // 🔒 VERIFICAR SI LA COLUMNA ESTÁ BLOQUEADA
+        $columna = $this->db->table('stock_columns')->where('id', $colId)->get()->getRowArray();
+        if (!$columna) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Columna no encontrada']);
+        }
+        
+        if ($columna['bloqueado'] == 1) {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => 'Esta columna está bloqueada y no se puede modificar'
+            ]);
+        }
 
-    if (!$row) {
-        $newVal = max(0, $delta);
-        $svTable->insert([
-            'column_id' => $colId,
-            'libro_id' => $libroId,
-            'cantidad' => $newVal,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]);
-    } else {
-        $newVal = max(0, $row['cantidad'] + $delta);
-        $svTable->where('id', $row['id'])->update([
-            'cantidad' => $newVal,
-            'updated_at' => date('Y-m-d H:i:s')
+        // Leer fila actual
+        $svTable = $this->db->table('stock_values');
+        $row = $svTable->where(['column_id' => $colId, 'libro_id' => $libroId])->get()->getRowArray();
+
+        if (!$row) {
+            $newVal = max(0, $delta);
+            $svTable->insert([
+                'column_id' => $colId,
+                'libro_id' => $libroId,
+                'cantidad' => $newVal,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        } else {
+            $newVal = max(0, $row['cantidad'] + $delta);
+            $svTable->where('id', $row['id'])->update([
+                'cantidad' => $newVal,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        // Recalcular el stock total del libro
+        $nuevoStock = $this->recalcularStockTotal($libroId);
+
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'new_value' => $newVal,
+            'nuevo_stock' => $nuevoStock
         ]);
     }
 
-    // 🔥 FALTA ESTA PARTE: Recalcular el stock total del libro
-    $nuevoStock = $this->recalcularStockTotal($libroId);
+    // 🔒 NUEVA FUNCIÓN: Alternar bloqueo de columna
+    public function toggleLock()
+    {
+        $request = Services::request();
+        $columnId = (int)$request->getPost('column_id');
 
-    return $this->response->setJSON([
-        'status' => 'ok',
-        'new_value' => $newVal,
-        'nuevo_stock' => $nuevoStock  // ← Enviar el nuevo stock al frontend
-    ]);
-}
+        if (!$columnId) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'ID de columna no válido']);
+        }
 
-// 🔥 Actualizar stock en tiempo real:
-private function recalcularStockTotal($libroId)
-{
-    $sql = "SELECT GREATEST(COALESCE(SUM(
-                CASE 
-                    WHEN sc.tipo = 'ingreso' THEN sv.cantidad 
-                    WHEN sc.tipo = 'egreso' THEN -sv.cantidad 
-                    ELSE 0 
-                END
-            ), 0), 0) as stock
-            FROM stock_values sv
-            JOIN stock_columns sc ON sv.column_id = sc.id
-            WHERE sv.libro_id = ?";
-    
-    $result = $this->db->query($sql, [$libroId])->getRow();
-    return $result ? $result->stock : 0;
-}
+        // Obtener estado actual
+        $columna = $this->db->table('stock_columns')->where('id', $columnId)->get()->getRowArray();
+        
+        if (!$columna) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Columna no encontrada']);
+        }
+
+        // Alternar el estado de bloqueado
+        $nuevoBloqueado = $columna['bloqueado'] == 1 ? 0 : 1;
+        
+        $this->db->table('stock_columns')->where('id', $columnId)->update([
+            'bloqueado' => $nuevoBloqueado
+        ]);
+
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'bloqueado' => $nuevoBloqueado,
+            'message' => $nuevoBloqueado ? 'Columna bloqueada' : 'Columna desbloqueada'
+        ]);
+    }
+
+    private function recalcularStockTotal($libroId)
+    {
+        $sql = "SELECT GREATEST(COALESCE(SUM(
+                    CASE 
+                        WHEN sc.tipo = 'ingreso' THEN sv.cantidad 
+                        WHEN sc.tipo = 'egreso' THEN -sv.cantidad 
+                        ELSE 0 
+                    END
+                ), 0), 0) as stock
+                FROM stock_values sv
+                JOIN stock_columns sc ON sv.column_id = sc.id
+                WHERE sv.libro_id = ?";
+        
+        $result = $this->db->query($sql, [$libroId])->getRow();
+        return $result ? $result->stock : 0;
+    }
 
     public function getStock()
     {
@@ -186,6 +230,15 @@ private function recalcularStockTotal($libroId)
         $id = (int)$this->request->getPost('id');
         if (!$id) {
             return $this->response->setJSON(['status' => 'error', 'msg' => 'No id provided']);
+        }
+        
+        // 🔒 VERIFICAR SI LA COLUMNA ESTÁ BLOQUEADA antes de eliminar
+        $columna = $this->db->table('stock_columns')->where('id', $id)->get()->getRowArray();
+        if ($columna && $columna['bloqueado'] == 1) {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'msg' => 'No se puede eliminar una columna bloqueada. Desbloquéala primero.'
+            ]);
         }
         
         $this->db->table('stock_columns')->where('id', $id)->delete();
