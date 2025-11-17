@@ -33,7 +33,6 @@
                         </div>
                     </div>
                     <input type="file" id="fotoInput" accept="image/*" style="display: none;">
-                    <input type="hidden" id="fotoTemp" name="foto_temp">
                 </div>
             </div>
 
@@ -44,6 +43,7 @@
                     <input type="text" id="name" name="name" class="form-input"
                            value="<?= old('name', $user['name'] ?? '') ?>" 
                            placeholder="Tu nombre completo">
+                    <div id="name-error" class="form-error"></div>
                 </div>
 
                 <div class="form-group">
@@ -51,18 +51,37 @@
                     <input type="email" id="email" name="email" class="form-input"
                            value="<?= old('email', $user['email'] ?? '') ?>" 
                            placeholder="tu@email.com">
+                    <div id="email-error" class="form-error"></div>
                 </div>
 
-                <div class="form-group">
-                    <label for="password" class="form-label">Nueva Contraseña</label>
-                    <input type="password" id="password" name="password" class="form-input"
-                           placeholder="********">
+                <!-- 🔐 SECCIÓN DE CONTRASEÑAS -->
+                <div class="password-section">
+                    <div class="password-section-title">Cambiar Contraseña (Opcional)</div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Nueva Contraseña</label>
+                        <input type="password" id="password" name="password" class="form-input"
+                               placeholder="Mínimo 6 caracteres">
+                        <div id="password-error" class="form-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password_confirm" class="form-label">Confirmar Nueva Contraseña</label>
+                        <input type="password" id="password_confirm" name="password_confirm" class="form-input"
+                               placeholder="Repite la nueva contraseña">
+                        <div id="password_confirm-error" class="form-error"></div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="password_confirm" class="form-label">Confirmar Contraseña</label>
-                    <input type="password" id="password_confirm" name="password_confirm" class="form-input"
-                           placeholder="********">
+                <!-- 🔑 CONTRASEÑA ACTUAL (OBLIGATORIO PARA GUARDAR CAMBIOS) -->
+                <div class="form-group" style="margin-top: 1.5rem; border-top: 2px solid #e0e0e0; padding-top: 1.5rem;">
+                    <label for="current_password" class="form-label">
+                        Contraseña Actual
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input type="password" id="current_password" name="current_password" class="form-input"
+                           placeholder="Ingresa tu contraseña actual para confirmar los cambios">
+                    <div id="current_password-error" class="form-error"></div>
                 </div>
 
                 <div class="form-buttons">
@@ -70,7 +89,7 @@
                         Cancelar
                     </button>
                     <button type="submit" id="submitBtn" class="btn btn-submit" disabled>
-                        Guardar
+                        Guardar Cambios
                     </button>
                 </div>
             </form>
@@ -78,19 +97,17 @@
     </div>
 
     <!-- Popup de advertencia -->
-    <div id="warningPopup" class="popup-overlay" style="display: none;">
-        <div class="popup-container">
-            <div class="popup-icon warning">
-                <i class="ri-error-warning-line"></i>
-            </div>
-            <h3 class="popup-title">Cambios sin guardar</h3>
-            <p class="popup-message">Tienes cambios sin guardar. ¿Estás seguro de que quieres salir?</p>
-            <div class="popup-buttons">
-                <button type="button" class="popup-button secondary" id="cancelLeave">
-                    Seguir editando
+    <div id="warningPopup" class="popup-overlay-perfil">
+        <div class="popup-perfil warning">
+            <div class="popup-icon-perfil">⚠️</div>
+            <h3 class="popup-title-perfil">Cambios sin guardar</h3>
+            <p class="popup-message-perfil">Tienes cambios sin guardar. ¿Estás seguro de que quieres salir?</p>
+            <div class="popup-buttons-perfil">
+                <button type="button" class="popup-btn-perfil confirm" id="confirmLeave">
+                    Sí, salir
                 </button>
-                <button type="button" class="popup-button primary" id="confirmLeave">
-                    Salir sin guardar
+                <button type="button" class="popup-btn-perfil cancel" id="cancelLeave">
+                    Seguir editando
                 </button>
             </div>
         </div>
@@ -145,9 +162,18 @@ function getFormData() {
 }
 
 function setupEventListeners(elements) {
+    console.log('🎯 Configurando event listeners...');
+    
     // Detectar cambios en inputs
-    elements.form.querySelectorAll('input').forEach(input => {
+    elements.form.querySelectorAll('input:not(#current_password)').forEach(input => {
         input.addEventListener('input', handleFormChange);
+    });
+
+    // Limpiar error al escribir
+    elements.form.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', function() {
+            clearFieldError(this.id);
+        });
     });
 
     // Subida de imagen
@@ -156,12 +182,81 @@ function setupEventListeners(elements) {
 
     // Botones
     elements.form.addEventListener('submit', handleFormSubmit);
-    elements.cancelBtn.addEventListener('click', handleCancel);
-    elements.cancelLeave.addEventListener('click', hideWarningPopup);
-    elements.confirmLeave.addEventListener('click', confirmLeave);
+    
+    // 🔴 BOTÓN CANCELAR - Event listener mejorado
+    if (elements.cancelBtn) {
+        console.log('✅ Botón Cancelar encontrado, agregando listener');
+        elements.cancelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🔴 Click en botón Cancelar detectado');
+            handleCancel();
+        });
+    } else {
+        console.error('❌ Botón Cancelar NO encontrado');
+    }
+    
+    // Botones del popup de advertencia
+    if (elements.cancelLeave) {
+        console.log('✅ Botón "Seguir editando" encontrado');
+        elements.cancelLeave.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🔙 Click en Seguir editando');
+            hideWarningPopup();
+        });
+    }
+    
+    if (elements.confirmLeave) {
+        console.log('✅ Botón "Sí, salir" encontrado');
+        elements.confirmLeave.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('👋 Click en Sí, salir');
+            confirmLeave();
+        });
+    }
 
     // Prevenir salida con cambios
     window.addEventListener('beforeunload', handleBeforeUnload);
+}
+
+// 🔴 Funciones para manejo de errores
+function showFieldError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    const errorDiv = document.getElementById(`${fieldId}-error`);
+    
+    if (field && errorDiv) {
+        field.classList.add('error');
+        errorDiv.textContent = message;
+        errorDiv.classList.add('show');
+        
+        // Hacer scroll al campo con error
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function clearFieldError(fieldId) {
+    const field = document.getElementById(fieldId);
+    const errorDiv = document.getElementById(`${fieldId}-error`);
+    
+    if (field && errorDiv) {
+        field.classList.remove('error');
+        errorDiv.classList.remove('show');
+        errorDiv.textContent = '';
+    }
+}
+
+function clearAllErrors() {
+    const errorDivs = document.querySelectorAll('.form-error');
+    const errorFields = document.querySelectorAll('.form-input.error');
+    
+    errorDivs.forEach(div => {
+        div.classList.remove('show');
+        div.textContent = '';
+    });
+    
+    errorFields.forEach(field => {
+        field.classList.remove('error');
+    });
 }
 
 // Manejo de cambios en el formulario
@@ -228,13 +323,38 @@ function displayImagePreview(file) {
 // Envío del formulario
 async function handleFormSubmit(e) {
     e.preventDefault();
+    
+    // Limpiar errores previos
+    clearAllErrors();
+
+    // Validar contraseña actual
+    const currentPassword = document.getElementById('current_password').value;
+    if (!currentPassword || currentPassword.trim() === '') {
+        showFieldError('current_password', 'Debes ingresar tu contraseña actual para confirmar los cambios');
+        return;
+    }
 
     if (!validatePasswords()) return;
 
     try {
+        // Mostrar indicador de carga
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Guardando...';
+
         await submitForm();
+
+        // Restaurar botón
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
     } catch (error) {
+        console.error('Error:', error);
         showPopup('Error', 'Error al procesar la solicitud', 'error');
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Guardar Cambios';
     }
 }
 
@@ -243,9 +363,15 @@ function validatePasswords() {
     const passwordConfirm = document.getElementById('password_confirm').value;
 
     if (password && password !== passwordConfirm) {
-        showPopup('Error', 'Las contraseñas no coinciden', 'error');
+        showFieldError('password_confirm', 'Las contraseñas no coinciden');
         return false;
     }
+    
+    if (password && password.length < 6) {
+        showFieldError('password', 'La contraseña debe tener al menos 6 caracteres');
+        return false;
+    }
+    
     return true;
 }
 
@@ -274,29 +400,47 @@ function submitForm() {
 }
 
 function handleSuccess(data) {
-    showPopup('Éxito', data.message, 'success');
+    // Actualizar imagen de perfil si cambió
+    if (data.foto_perfil) {
+        const newImageUrl = '<?= base_url('ppimages/') ?>' + data.foto_perfil + '?' + new Date().getTime();
+        document.getElementById('profileImage').src = newImageUrl;
+    }
+    
+    showPopup('¡Perfil Actualizado!', data.message, 'success');
     resetFormState();
+    
+    // Limpiar contraseña actual
+    document.getElementById('current_password').value = '';
 }
 
 function handleError(data) {
-    let errorMessage = data.message;
-    
-    if (data.errors) {
-        errorMessage = Object.values(data.errors).join('\n');
+    // Mostrar error en el campo específico si se especifica
+    if (data.field) {
+        showFieldError(data.field, data.message);
+    } else {
+        showPopup('Error', data.message, 'error');
     }
-    
-    showPopup('Error', errorMessage, 'error');
 }
 
 function resetFormState() {
     profileState.hasChanges = false;
     profileState.tempImageFile = null;
+    
+    // No incluir current_password en el estado inicial
     profileState.initialData = getFormData();
+    
+    // Limpiar campos de nueva contraseña
+    document.getElementById('password').value = '';
+    document.getElementById('password_confirm').value = '';
+    
     updateSubmitButton();
 }
 
 // Manejo de navegación
 function handleCancel() {
+    console.log('🔴 handleCancel ejecutado');
+    console.log('Tiene cambios:', profileState.hasChanges);
+    
     if (profileState.hasChanges) {
         showWarningPopup();
     } else {
@@ -305,14 +449,23 @@ function handleCancel() {
 }
 
 function showWarningPopup() {
-    document.getElementById('warningPopup').style.display = 'flex';
+    console.log('⚠️ Mostrando popup de advertencia');
+    const popup = document.getElementById('warningPopup');
+    if (popup) {
+        popup.classList.add('active');
+    }
 }
 
 function hideWarningPopup() {
-    document.getElementById('warningPopup').style.display = 'none';
+    console.log('✅ Ocultando popup de advertencia');
+    const popup = document.getElementById('warningPopup');
+    if (popup) {
+        popup.classList.remove('active');
+    }
 }
 
 function confirmLeave() {
+    console.log('👋 Confirmado salir - Redirigiendo...');
     redirectToPanel();
 }
 
@@ -327,23 +480,70 @@ function handleBeforeUnload(e) {
     }
 }
 
+// Cerrar popup al hacer clic en el overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const warningPopup = document.getElementById('warningPopup');
+    if (warningPopup) {
+        warningPopup.addEventListener('click', function(e) {
+            if (e.target === warningPopup) {
+                hideWarningPopup();
+            }
+        });
+    }
+});
+
 // Utilidades
 function showPopup(title, message, type) {
+    // Definir el emoji/ícono según el tipo
+    let iconEmoji = '✓';
+    if (type === 'success') {
+        iconEmoji = '✓';
+    } else if (type === 'error') {
+        iconEmoji = '✕';
+    } else if (type === 'warning') {
+        iconEmoji = '⚠️';
+    }
+    
     const popup = document.createElement('div');
-    popup.className = 'popup-overlay';
+    popup.className = 'popup-overlay-perfil';
     popup.innerHTML = `
-        <div class="popup-container">
-            <div class="popup-icon ${type}">
-                <i class="ri-${type === 'success' ? 'check' : 'error-warning'}-line"></i>
+        <div class="popup-perfil ${type}">
+            <div class="popup-icon-perfil">${iconEmoji}</div>
+            <h3 class="popup-title-perfil">${title}</h3>
+            <p class="popup-message-perfil">${message}</p>
+            <div class="popup-buttons-perfil">
+                <button class="popup-btn-perfil confirm" onclick="this.closest('.popup-overlay-perfil').remove()">
+                    Aceptar
+                </button>
             </div>
-            <h3 class="popup-title">${title}</h3>
-            <p class="popup-message">${message}</p>
-            <button class="popup-button success" onclick="this.closest('.popup-overlay').remove()">
-                Aceptar
-            </button>
         </div>
     `;
     document.body.appendChild(popup);
+    
+    // Activar el popup con animación
+    setTimeout(() => {
+        popup.classList.add('active');
+    }, 10);
+    
+    // Auto-cerrar después de 5 segundos
+    setTimeout(() => {
+        if (popup && popup.parentNode) {
+            popup.classList.remove('active');
+            setTimeout(() => {
+                popup.remove();
+            }, 300);
+        }
+    }, 5000);
+    
+    // Cerrar al hacer clic en el overlay
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.classList.remove('active');
+            setTimeout(() => {
+                popup.remove();
+            }, 300);
+        }
+    });
 }
     </script>
 </body>
