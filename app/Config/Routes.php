@@ -118,12 +118,6 @@ $routes->get('checkout', 'CheckoutController::index');
 $routes->post('cart/checkout', 'CheckoutController::procesar');
 $routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
 
-// ===== CHECKOUT (GET) =====
-$routes->get('checkout', 'CheckoutController::index');
-$routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
-
-// ===== CART CHECKOUT (POST) =====
-$routes->post('cart/checkout', 'CheckoutController::procesar');
 
 // ===== API CHECKOUT =====
 $routes->post('api/checkout/crear', 'ApiCheckoutController::crear');
@@ -131,4 +125,4 @@ $routes->get('api/checkout/detalle/(:num)', 'ApiCheckoutController::detalle/$1')
     // -----------------------------
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------
-    $routes->get('(:any)', 'Home::index/$1');
+    // $routes->get('(:any)', 'Home::index/$1');

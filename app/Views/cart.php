@@ -98,7 +98,7 @@
                     </div>
 
                     <!-- ===== FORMULARIO DE CHECKOUT ===== -->
-<form method="post" action="<?= base_url('api/checkout') ?>" enctype="multipart/form-data" id="checkoutForm">
+<form method="post" action="<?= base_url('api/checkout/crear') ?>" enctype="multipart/form-data" id="checkoutForm">
     <?= csrf_field() ?>
 
     <!-- Input hidden para el ID de venta -->
@@ -263,7 +263,6 @@
             if (comprobante) {
                 formData.append('comprobante', comprobante);
             }
-            formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
 
             // Enviar al servidor para crear la venta
             const response = await fetch('<?= base_url('api/checkout/crear') ?>', {
