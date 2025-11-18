@@ -1,5 +1,5 @@
 <?php namespace App\Controllers;
-//Controladores de dashboard 1 (protegidos)
+//Controladores de dashboard 1 (protegidos) prueba
 
 use CodeIgniter\Controller;
 
