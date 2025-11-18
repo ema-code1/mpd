@@ -72,6 +72,16 @@
 
     $routes->post('libro/eliminar_imagen/(:num)', 'LibroController::eliminarImagen/$1', ['filter' => 'admin']);
 
+
+    // Recuperación de contraseña
+    $routes->get('password-reset', 'PasswordReset::index');
+    $routes->post('password-reset/send', 'PasswordReset::sendResetLink');
+    $routes->get('password-reset/reset/(:any)', 'PasswordReset::reset/$1');
+    $routes->post('password-reset/update', 'PasswordReset::updatePassword');
+    //reoute de prueba
+    $routes->get('test-email', 'TestEmail::send');
+
+
     // Rutas para el carrito
     $routes->get('cart', 'CartController::index');
     $routes->post('cart/add/(:num)', 'CartController::add/$1');
@@ -100,28 +110,28 @@
 
 
 
-// Movimientos - Ver listado (solo admin)
-$routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
+    // Movimientos - Ver listado (solo admin)
+    $routes->get('movimientos', 'MovimientosController::index', ['filter' => 'admin']);
 
-// Movimientos - Procesar compra (compradores)
-$routes->post('movimientos/procesarCompra', 'MovimientosController::procesarCompra');
+    // Movimientos - Procesar compra (compradores)
+    $routes->post('movimientos/procesarCompra', 'MovimientosController::procesarCompra');
 
-// Movimientos - Detalles AJAX (admin)
-$routes->get('movimientos/detalles/(:num)', 'MovimientosController::detalles/$1', ['filter' => 'admin']);
+    // Movimientos - Detalles AJAX (admin)
+    $routes->get('movimientos/detalles/(:num)', 'MovimientosController::detalles/$1', ['filter' => 'admin']);
 
-// Movimientos - Set payment method (compradores)
-$routes->post('movimientos/set_payment_method', 'MovimientosController::set_payment_method');
-
-
-// ===== CHECKOUT =====
-$routes->get('checkout', 'CheckoutController::index');
-$routes->post('cart/checkout', 'CheckoutController::procesar');
-$routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
+    // Movimientos - Set payment method (compradores)
+    $routes->post('movimientos/set_payment_method', 'MovimientosController::set_payment_method');
 
 
-// ===== API CHECKOUT =====
-$routes->post('api/checkout/crear', 'ApiCheckoutController::crear');
-$routes->get('api/checkout/detalle/(:num)', 'ApiCheckoutController::detalle/$1');
+    // ===== CHECKOUT =====
+    $routes->get('checkout', 'CheckoutController::index');
+    $routes->post('cart/checkout', 'CheckoutController::procesar');
+    $routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
+
+
+    // ===== API CHECKOUT =====
+    $routes->post('api/checkout/crear', 'ApiCheckoutController::crear');
+    $routes->get('api/checkout/detalle/(:num)', 'ApiCheckoutController::detalle/$1');
     // -----------------------------
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------
