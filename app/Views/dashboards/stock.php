@@ -162,7 +162,6 @@
     </div>
   </div>
 
-  // Bloquear botones + de egresos
   <?php 
 $esEgreso = $col['tipo'] === 'egreso';
 $stockDisponible = (int)$libro['stock'];
