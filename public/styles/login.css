@@ -267,3 +267,30 @@ body {
     font-size: 20px;
   }
 }
+
+/* 🔑 Estilos para el enlace "Olvidé mi contraseña" */
+.forgot-password-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.forgot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.forgot-link i {
+  font-size: 1rem;
+}

@@ -15,8 +15,10 @@ class PasswordReset extends Controller
      */
     public function index()
     {
-        echo view('templates/header', ['title' => 'Recuperar Contraseña']);
-        echo view('password_reset/request');
+        $data = ['title' => 'Recuperar Contraseña'];
+        
+        echo view('templates/header', $data);
+        echo view('password_reset/request', $data);
         echo view('templates/footer');
     }
 
@@ -27,21 +29,24 @@ class PasswordReset extends Controller
     {
         $email = $this->request->getPost('email');
         
+        // Validar email
         if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Por favor ingresa un email válido'
+                'message' => 'Por favor ingresa un email válido',
+                'field' => 'email'
             ]);
         }
 
-        // Verificar que el email exista
+        // Verificar que el email exista en la base de datos
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
 
         if (!$user) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'No existe una cuenta con ese email'
+                'message' => 'No existe una cuenta registrada con ese email',
+                'field' => 'email'
             ]);
         }
 
@@ -53,12 +58,12 @@ class PasswordReset extends Controller
         if ($this->sendResetEmail($email, $token, $user['name'])) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Se ha enviado un enlace de recuperación a tu email'
+                'message' => 'Se ha enviado un enlace de recuperación a tu email. Revisa tu bandeja de entrada.'
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Error al enviar el email. Intenta nuevamente.'
+                'message' => 'Error al enviar el email. Por favor, intenta nuevamente.'
             ]);
         }
     }
@@ -69,12 +74,20 @@ class PasswordReset extends Controller
     private function sendResetEmail($email, $token, $userName)
     {
         $emailService = \Config\Services::email();
-
-        $resetLink = base_url("password-reset/reset/{$token}");
-
+        
+        // Limpiar configuración previa
+        $emailService->clear();
+        
+        // Configurar como HTML
+        $emailService->setMailType('html');
+        
         $emailService->setTo($email);
         $emailService->setSubject('Recuperación de Contraseña - Movimiento de la Palabra de Dios');
 
+        // Link de recuperación
+        $resetLink = base_url("password-reset/reset/{$token}");
+
+        // Cargar template del email
         $message = view('password_reset/email_template', [
             'userName' => $userName,
             'resetLink' => $resetLink
@@ -95,9 +108,20 @@ class PasswordReset extends Controller
         $tokenData = $resetModel->validateToken($token);
 
         if (!$tokenData) {
-            return redirect()->to('/login')->with('error', 'El enlace de recuperación es inválido o ha expirado');
+            // Token inválido o expirado
+            $data = [
+                'title' => 'Enlace Inválido',
+                'error' => true,
+                'message' => 'El enlace de recuperación es inválido o ha expirado. Por favor, solicita uno nuevo.'
+            ];
+            
+            echo view('templates/header', $data);
+            echo view('password_reset/invalid_token', $data);
+            echo view('templates/footer');
+            return;
         }
 
+        // Token válido - mostrar formulario
         $data = [
             'title' => 'Nueva Contraseña',
             'token' => $token,
@@ -118,18 +142,30 @@ class PasswordReset extends Controller
         $password = $this->request->getPost('password');
         $passwordConfirm = $this->request->getPost('password_confirm');
 
-        // Validar contraseñas
-        if (strlen($password) < 6) {
+        // Validar que las contraseñas no estén vacías
+        if (empty($password) || empty($passwordConfirm)) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'La contraseña debe tener al menos 6 caracteres'
+                'message' => 'Debes completar ambos campos de contraseña',
+                'field' => 'password'
             ]);
         }
 
+        // Validar longitud mínima
+        if (strlen($password) < 6) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'La contraseña debe tener al menos 6 caracteres',
+                'field' => 'password'
+            ]);
+        }
+
+        // Validar que coincidan
         if ($password !== $passwordConfirm) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Las contraseñas no coinciden'
+                'message' => 'Las contraseñas no coinciden',
+                'field' => 'password_confirm'
             ]);
         }
 
@@ -156,13 +192,14 @@ class PasswordReset extends Controller
 
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Contraseña actualizada correctamente'
+                'message' => 'Contraseña actualizada correctamente. Serás redirigido al login...',
+                'redirect' => base_url('login')
             ]);
         }
 
         return $this->response->setJSON([
             'success' => false,
-            'message' => 'Error al actualizar la contraseña'
+            'message' => 'Error al actualizar la contraseña. Intenta nuevamente.'
         ]);
     }
 }

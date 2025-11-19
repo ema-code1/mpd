@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
-    <section>
+<section>
   <div class="wave">
     <span></span>
     <span></span>
@@ -70,6 +70,14 @@
                         <input type="password" id="password_confirm" name="password_confirm" class="form-input"
                                placeholder="Repite la nueva contraseña">
                         <div id="password_confirm-error" class="form-error"></div>
+                    </div>
+
+                    <!-- 🔑 BOTÓN OLVIDÉ MI CONTRASEÑA (IGUAL AL LOGIN) -->
+                    <div class="forgot-password-link">
+                        <a href="<?= base_url('password-reset') ?>" class="forgot-link">
+                            <i class="ri-lock-unlock-line"></i>
+                            ¿Olvidaste tu contraseña?
+                        </a>
                     </div>
                 </div>
 
