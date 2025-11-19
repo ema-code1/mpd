@@ -126,6 +126,8 @@
 $routes->post('cart/checkout', 'CheckoutController::procesar');
 $routes->get('checkout', 'CheckoutController::index');
 
+
+
     // -----------------------------
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------

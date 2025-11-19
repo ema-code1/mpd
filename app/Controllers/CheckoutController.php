@@ -232,29 +232,54 @@ class CheckoutController extends BaseController
     /**
      * Armar estructura para el stepper del checkout
      */
-    private function buildEstadoPedido(string $estado)
-    {
-        // Estado simple según tu enum: pendiente / revisado / cancelado
-        $paso1Completado = true;
-        $paso2Completado = in_array($estado, ['revisado', 'cancelado']);
-        $paso3Completado = ($estado === 'revisado');
+    /**
+ * Armar estructura para el stepper del checkout
+ * Estados: pendiente / revisado / cancelado / entregado
+ */
+private function buildEstadoPedido(string $estado)
+{
+    $estado = strtolower($estado);
 
-        return [
-            'paso1' => [
-                'titulo'     => 'Pedido realizado',
-                'status'     => 'Completado',
-                'completado' => $paso1Completado,
-            ],
-            'paso2' => [
-                'titulo'     => 'En revisión',
-                'status'     => $estado === 'pendiente' ? 'Pendiente' : ucfirst($estado),
-                'completado' => $paso2Completado,
-            ],
-            'paso3' => [
-                'titulo'     => 'Preparando / Entrega',
-                'status'     => $paso3Completado ? 'Completado' : 'Pendiente',
-                'completado' => $paso3Completado,
-            ],
-        ];
-    }
+    // Paso 1 siempre completado (si existe la venta)
+    $paso1Completado = true;
+
+    // Paso 2 completado si ya salió del estado "pendiente"
+    $paso2Completado = in_array($estado, ['revisado', 'cancelado', 'entregado'], true);
+
+    // Paso 3: "Preparando pedido" solo tiene sentido si no se canceló
+    $paso3Completado = ($estado === 'entregado');
+
+    // Paso 4: Entregado
+    $paso4Completado = ($estado === 'entregado');
+
+    return [
+        'paso1' => [
+            'titulo'     => 'Pedido realizado',
+            'status'     => 'Completado',
+            'completado' => $paso1Completado,
+        ],
+        'paso2' => [
+            'titulo'     => 'En revisión',
+            'status'     => $estado === 'pendiente'
+                ? 'Pendiente'
+                : ($estado === 'cancelado' ? 'Cancelado' : 'Completado'),
+            'completado' => $paso2Completado,
+        ],
+        'paso3' => [
+            'titulo'     => 'Preparando pedido',
+            'status'     => $estado === 'entregado'
+                ? 'Completado'
+                : ($estado === 'cancelado' ? 'No aplica' : 'Pendiente'),
+            'completado' => $paso3Completado,
+        ],
+        'paso4' => [
+            'titulo'     => 'Entregado',
+            'status'     => $estado === 'entregado'
+                ? 'Entregado'
+                : ($estado === 'cancelado' ? 'Cancelado' : 'Pendiente'),
+            'completado' => $paso4Completado,
+        ],
+    ];
+}
+
 }

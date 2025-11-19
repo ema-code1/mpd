@@ -1,21 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary: #f28c00;
-  --primary-light: #ffae47;
-  --bg: #f6f6f6;
-  --card-bg: #ffffff;
-  --radius: 18px;
-  --shadow: 0 8px 25px rgba(0,0,0,0.12);
-  --text: #333;
-  --success: #10b981;
+    --primary: #f28c00;
+    --primary-light: #ffae47;
+    --bg: #f6f6f6;
+    --card-bg: #ffffff;
+    --radius: 18px;
+    --shadow: 0 8px 25px rgba(0,0,0,0.12);
+    --text: #333;
+    --success: #10b981;
+    --danger: #dc2626;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* RESET BÁSICO SOLO PARA ESTA VISTA */
+body {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* CONTENEDOR PRINCIPAL
+   Centrado y con espacio para el header de ~150px */
 .content {
-    padding-left: calc(var(--sidebar-width) + 2rem);
-    padding-right: 2rem;
-    padding-top: 1rem;
+    min-height: 100vh;
+    padding: 1.5rem 2.5rem;  /* 150px header + respirito */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
 }
 
 /* CARD PRINCIPAL */
@@ -26,7 +38,13 @@
     box-shadow: var(--shadow);
     max-width: 1200px;
     width: 100%;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem auto;
+}
+
+/* Estado “cancelado” visual */
+.card-cancelado {
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.12);
 }
 
 /* TITULOS */
@@ -56,34 +74,83 @@
     color: var(--text);
 }
 
+/* Contiene los 4 pasos */
 .timeline {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 0.75rem;
+    position: relative;
+    padding: 0 0.5rem;
 }
 
+/* Línea de fondo */
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: calc(12.5% - 1px);  /* alineado al primer punto */
+    right: calc(12.5% - 1px); /* alineado al último */
+    height: 3px;
+    background: #e5e5e5;
+    z-index: 0;
+}
+
+/* Paso individual */
 .timeline-step {
     text-align: center;
-    width: 33%;
+    width: 25%;
+    position: relative;
+    z-index: 1;
 }
 
 .timeline-step span {
     display: block;
     margin-top: 8px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
+/* Círculo del paso */
 .circle {
     width: 28px;
     height: 28px;
     border-radius: 50%;
     border: 3px solid var(--primary);
     margin: 0 auto;
-    transition: all 0.3s ease;
+    background: #fff;
+    transition: all 0.25s ease;
 }
 
+/* Paso activo (completado) */
 .timeline-step.active .circle {
     background: var(--primary);
+}
+
+/* Texto de estado actual */
+.estado-text {
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+.estado-pendiente {
+    background: rgba(242, 140, 0, 0.08);
+    color: #92400e;
+}
+
+.estado-revisado {
+    background: rgba(16, 185, 129, 0.10);
+    color: #065f46;
+}
+
+.estado-entregado {
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+}
+
+.estado-cancelado {
+    background: rgba(220, 38, 38, 0.08);
+    color: #b91c1c;
 }
 
 /* RESUMEN DE DATOS */
@@ -105,9 +172,14 @@
 .summary-row {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     padding: 0.6rem 0;
     border-bottom: 1px solid #eee;
     font-size: 1rem;
+}
+
+.summary-row span {
+    color: #555;
 }
 
 .summary-row:last-child {
@@ -116,6 +188,7 @@
 
 .total-color {
     color: var(--success);
+    font-weight: 600;
 }
 
 .summary-comprobante {
@@ -129,6 +202,18 @@
     width: 250px;
     border-radius: 12px;
     box-shadow: var(--shadow);
+    object-fit: cover;
+}
+
+/* AVISO DE PEDIDO CANCELADO */
+.alert-cancelado {
+    margin-top: 1.2rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(220, 38, 38, 0.06);
+    border: 1px solid rgba(220, 38, 38, 0.18);
+    color: #b91c1c;
+    font-size: 0.95rem;
 }
 
 /* PRODUCTOS */
@@ -145,6 +230,7 @@
     padding: 1rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    align-items: flex-start;
 }
 
 .producto-img {
@@ -152,6 +238,13 @@
     height: 110px;
     object-fit: cover;
     border-radius: 12px;
+}
+
+/* Imágenes en gris si el pedido está cancelado */
+.card-cancelado .producto-img,
+.card-cancelado .comprobante-img {
+    filter: grayscale(1);
+    opacity: 0.75;
 }
 
 .producto-titulo {
@@ -171,6 +264,81 @@
     font-weight: 600;
 }
 
+/* ACCIONES DEL CHECKOUT (botón volver) */
+.checkout-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    border: none;
+    background: #111827;
+    color: #f9fafb;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-volver:hover {
+    background: #020617;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
+    transform: translateY(-1px);
+}
+
+/* ===================== */
+/* ESTADO CHECKOUT VACÍO */
+/* ===================== */
+
+.inner-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.checkout-vacio {
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff 0%, #fdfdfd 100%);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.checkout-vacio img {
+    width: 160px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    object-fit: contain;
+}
+
+.checkout-vacio h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.checkout-vacio p {
+    font-size: 0.98rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+/* Botón vacío reutiliza .btn-volver */
+.checkout-vacio .btn-volver {
+    width: 100%;
+}
+
 /* ANIMACIONES */
 .fade-in {
     animation: fadeIn 0.4s ease forwards;
@@ -182,20 +350,49 @@
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
     from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
+    to   { opacity: 1; transform: translateX(0); }
 }
-
 
 /* RESPONSIVE */
 @media (max-width: 820px) {
     .content {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding: 150px 1rem 2rem;
+    }
+
+    .card {
+        padding: 1.7rem 1.4rem;
+    }
+
+    .timeline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .timeline::before {
+        display: none;
+    }
+
+    .timeline-step {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .timeline-step span {
+        margin-top: 0;
+        font-size: 0.95rem;
+    }
+
+    .productos-lista {
+        gap: 0.9rem;
     }
 
     .producto-item {
@@ -207,5 +404,13 @@
     .producto-img {
         width: 120px;
         height: 150px;
+    }
+
+    .checkout-actions {
+        justify-content: center;
+    }
+
+    .checkout-vacio {
+        padding: 2rem 1.5rem;
     }
 }
