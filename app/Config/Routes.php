@@ -112,16 +112,10 @@ $routes->get('movimientos/detalles/(:num)', 'MovimientosController::detalles/$1'
 // Movimientos - Set payment method (compradores)
 $routes->post('movimientos/set_payment_method', 'MovimientosController::set_payment_method');
 
-
-// ===== CHECKOUT =====
-$routes->get('checkout', 'CheckoutController::index');
+// ===== CHECKOUT SIN API =====
 $routes->post('cart/checkout', 'CheckoutController::procesar');
-$routes->get('checkout/json/(:num)', 'CheckoutController::detalleJson/$1');
+$routes->get('checkout', 'CheckoutController::index');
 
-
-// ===== API CHECKOUT =====
-$routes->post('api/checkout/crear', 'ApiCheckoutController::crear');
-$routes->get('api/checkout/detalle/(:num)', 'ApiCheckoutController::detalle/$1');
     // -----------------------------
     // 🚨 ÚLTIMA RUTA: maneja cualquier otra URL
     // -----------------------------

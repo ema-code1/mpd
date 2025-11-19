@@ -98,7 +98,7 @@
                     </div>
 
                     <!-- ===== FORMULARIO DE CHECKOUT ===== -->
-<form method="post" action="<?= base_url('api/checkout/crear') ?>" enctype="multipart/form-data" id="checkoutForm">
+<form method="post" action="<?= base_url('cart/checkout') ?>" enctype="multipart/form-data" id="checkoutForm">
     <?= csrf_field() ?>
 
     <!-- Input hidden para el ID de venta -->
@@ -224,73 +224,91 @@
         buyBtn.disabled = !canBuy;
     }
 
-    // ===== FUNCIÓN: Crear venta y proceder al checkout =====
-    async function procederCheckout(e) {
-        e.preventDefault();
+// ===== FUNCIÓN: Crear venta y proceder al checkout =====
+async function procederCheckout(e) {
+    e.preventDefault();
 
-        const buyBtn = document.getElementById('buyBtn');
-        buyBtn.disabled = true;
-        buyBtn.textContent = 'Procesando...';
+    const buyBtn = document.getElementById('buyBtn');
+    const form   = document.getElementById('checkoutForm');
 
-        try {
-            // Recopilar items seleccionados
-            const items = [];
-            document.querySelectorAll('.cart-item.selected').forEach(item => {
-                items.push({
-                    libro_id: item.dataset.libroId,
-                    cantidad: parseInt(item.querySelector('.quantity-input').value),
-                    precio: parseFloat(item.dataset.price)
-                });
+    buyBtn.disabled = true;
+    buyBtn.textContent = 'Procesando...';
+
+    try {
+        // 1) Recopilar items seleccionados
+        const items = [];
+        document.querySelectorAll('.cart-item.selected').forEach(item => {
+            items.push({
+                libro_id: item.dataset.libroId,
+                cantidad: parseInt(item.querySelector('.quantity-input').value),
+                precio: parseFloat(item.dataset.price)
             });
+        });
 
-            if (items.length === 0) {
-                alert('Selecciona al menos un producto');
-                buyBtn.disabled = false;
-                buyBtn.textContent = 'Comprar';
-                return;
-            }
+        if (items.length === 0) {
+            alert('Selecciona al menos un producto');
+            buyBtn.disabled = false;
+            buyBtn.textContent = 'Comprar';
+            return;
+        }
 
-            // Datos del formulario
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-            const total = parseFloat(document.getElementById('summary-total').textContent.replace('$', ''));
-            const comprobante = document.getElementById('comprobante').files[0];
+        // 2) Datos del formulario
+        const paymentMethodInput = document.querySelector('input[name="payment_method"]:checked');
+        if (!paymentMethodInput) {
+            alert('Selecciona un método de pago');
+            buyBtn.disabled = false;
+            buyBtn.textContent = 'Comprar';
+            return;
+        }
 
-            // Crear FormData para enviar datos y archivo
-            const formData = new FormData();
-            formData.append('payment_method', paymentMethod);
-            formData.append('items', JSON.stringify(items));
-            formData.append('total', total);
-            if (comprobante) {
-                formData.append('comprobante', comprobante);
-            }
+        const paymentMethod = paymentMethodInput.value;
 
-            // Enviar al servidor para crear la venta
-            const response = await fetch('<?= base_url('api/checkout/crear') ?>', {
-                method: 'POST',
-                body: formData
-            });
+        const totalText = document
+            .getElementById('summary-total')
+            .textContent
+            .replace('$', '')
+            .replace(/\./g, '')
+            .replace(',', '.');
 
-            const result = await response.json();
+        const total = parseFloat(totalText) || 0;
 
-            if (result.success && result.venta_id) {
-                // Rellenar el input hidden con el ID de venta
-                document.getElementById('ventaId').value = result.venta_id;
+        // 3) Armar FormData usando el form (incluye CSRF automáticamente)
+        const formData = new FormData(form);
+        formData.set('payment_method', paymentMethod);
+        formData.set('items', JSON.stringify(items));
+        formData.set('total', total);
 
-                // Redirigir al checkout
-                window.location.href = '<?= base_url('checkout?id=') ?>' + result.venta_id;
-            } else {
-                alert('Error: ' + (result.error || 'No se pudo crear la venta'));
-                buyBtn.disabled = false;
-                buyBtn.textContent = 'Comprar';
-            }
+        // 4) Hacer fetch al endpoint normal (NO API)
+        const response = await fetch("<?= base_url('cart/checkout') ?>", {
+            method: 'POST',
+            body: formData
+        });
 
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error de conexión: ' + error.message);
+        if (!response.ok) {
+            throw new Error('Error HTTP ' + response.status);
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            const url = data.redirect_url 
+                || "<?= base_url('checkout') ?>" + '?venta=' + data.venta_id;
+
+            window.location.href = url;
+        } else {
+            alert(data.error || 'No se pudo crear la venta');
             buyBtn.disabled = false;
             buyBtn.textContent = 'Comprar';
         }
+
+    } catch (error) {
+        console.error(error);
+        alert('Error de conexión con el servidor');
+        buyBtn.disabled = false;
+        buyBtn.textContent = 'Comprar';
     }
+}
+
 
     // ===== INICIALIZACIÓN =====
     document.addEventListener('DOMContentLoaded', function() {

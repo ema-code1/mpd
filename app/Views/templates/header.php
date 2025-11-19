@@ -47,6 +47,12 @@
       <a href="<?= base_url('perfil') ?>" class="dropdown-item">
         <i class="ti ti-user-circle"></i> Cuenta
       </a>
+      <button onclick="window.location.href='<?= base_url('checkout') ?>'" class="dropdown-item">
+          <i class="fas fa-receipt"></i> Pedidos
+      </button>
+
+      <div class="dropdown-divider"></div>
+
       <div class="dropdown-divider"></div>
       <a href="<?= site_url('logout') ?>" class="dropdown-item" id="logoutBtn">
         <i class="ti ti-logout"></i> Cerrar sesión
