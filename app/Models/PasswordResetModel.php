@@ -14,16 +14,17 @@ class PasswordResetModel extends Model
 
     /**
      * Crear un nuevo token de recuperación
+     * Token válido por 12 horas
      */
     public function createToken($email)
     {
-        // Generar token único y seguro
+        // Generar token único y seguro (64 caracteres)
         $token = bin2hex(random_bytes(32));
         
-        // Token válido por 1 hora
-        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        // Token válido por 12 horas
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+12 hours'));
         
-        // Invalidar tokens anteriores del mismo email
+        // Invalidar tokens anteriores del mismo email que no se hayan usado
         $this->where('email', $email)
              ->where('used', 0)
              ->set(['used' => 1])
@@ -45,6 +46,7 @@ class PasswordResetModel extends Model
 
     /**
      * Validar token
+     * Retorna los datos del token si es válido, null si no lo es
      */
     public function validateToken($token)
     {
@@ -67,7 +69,8 @@ class PasswordResetModel extends Model
     }
 
     /**
-     * Limpiar tokens expirados (opcional - para mantenimiento)
+     * Limpiar tokens expirados (mantenimiento)
+     * Opcional: puedes programar esto con un cron job
      */
     public function cleanExpiredTokens()
     {

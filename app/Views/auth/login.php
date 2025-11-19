@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -52,6 +52,14 @@
             </div>
 
             <button class="login-btn" type="submit">Ingresar</button>
+            
+            <!-- 🔑 BOTÓN OLVIDÉ MI CONTRASEÑA -->
+            <div class="forgot-password-link">
+                <a href="<?= base_url('password-reset') ?>" class="forgot-link">
+                    <i class="ri-lock-unlock-line"></i>
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
         </form>
     </div>
 </div>
